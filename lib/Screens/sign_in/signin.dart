@@ -63,31 +63,27 @@ class _SignInState extends State<SignIn> {
                       SizedBox(
                         height: height * 0.047,
                       ),
-                      signInForm(
-                          Icons.alternate_email_rounded,
-                          emailC,
-                          "Email",
-                          false,
-                          () {},
-                          TextInputType.emailAddress,
-                          TextInputAction.next,
-                          context,
-                          Colors.orange),
+                      InputForm(
+                          icon: Icons.alternate_email_rounded,
+                          hintText: "Email",
+                          controller: emailC,
+                          action: TextInputAction.next,
+                          callback: () {},
+                          textInputType: TextInputType.emailAddress,
+                          isObsecure: false),
                       SizedBox(
                         height: height * 0.012,
                       ),
-                      signInForm(
-                          value.isObsecure
+                      InputForm(
+                          icon: value.isObsecure
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
-                          passwordC,
-                          "Password",
-                          value.isObsecure,
-                          () => controller.obsecure(),
-                          TextInputType.visiblePassword,
-                          TextInputAction.next,
-                          context,
-                          Colors.orange),
+                          controller: passwordC,
+                          hintText: "Password",
+                          isObsecure: value.isObsecure,
+                          callback: () => controller.obsecure(),
+                          textInputType: TextInputType.visiblePassword,
+                          action: TextInputAction.done),
                       SizedBox(
                         height: height * 0.016,
                       ),

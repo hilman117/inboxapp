@@ -3,17 +3,27 @@ import 'package:get/get.dart';
 
 import '../../../service/theme.dart';
 
-Widget signInForm(
-    IconData icon,
-    TextEditingController controller,
-    String hintText,
-    bool isObsecure,
-    VoidCallback callback,
-    TextInputType textInputType,
-    TextInputAction action,
-    dynamic context,
-    Color formColor) {
-  return Container(
+class InputForm extends StatelessWidget {
+  final IconData icon;
+  final TextEditingController controller;
+  final String hintText;
+  final bool isObsecure;
+  final VoidCallback callback;
+  final TextInputType textInputType;
+  final TextInputAction action;
+  const InputForm(
+      {super.key,
+      required this.icon,
+      required this.controller,
+      required this.hintText,
+      required this.isObsecure,
+      required this.callback,
+      required this.textInputType,
+      required this.action});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
     height: Get.height * 0.06,
     width: Get.width,
     decoration: BoxDecoration(
@@ -52,4 +62,5 @@ Widget signInForm(
       ],
     ),
   );
+  }
 }
