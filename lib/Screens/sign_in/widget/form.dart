@@ -14,10 +14,11 @@ Widget signInForm(
     dynamic context,
     Color formColor) {
   return Container(
-    height: Get.height * 0.045,
+    height: Get.height * 0.06,
     width: Get.width * 0.8,
     decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: mainColor, width: 0.5))),
+        color: mainColor.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -29,14 +30,6 @@ Widget signInForm(
                     borderRadius: BorderRadius.circular(15)),
                 onTap: callback,
                 child: Icon(icon, color: mainColor, size: 22))),
-        Padding(
-          padding: const EdgeInsets.only(right: 15),
-          child: Container(
-            height: double.maxFinite,
-            width: 0.5,
-            color: mainColor,
-          ),
-        ),
         Expanded(
           child: SizedBox(
               height: Get.height * 0.045,
@@ -45,13 +38,13 @@ Widget signInForm(
                 keyboardType: textInputType,
                 obscureText: isObsecure,
                 controller: controller,
-                style: TextStyle(fontSize: 18, color: mainColor),
+                style: textStyle,
                 cursorColor: mainColor,
-                cursorHeight: 18,
+                cursorHeight: 16,
                 textAlignVertical: TextAlignVertical.center,
                 decoration: InputDecoration(
                     hintText: hintText,
-                    hintStyle: TextStyle(color: mainColor),
+                    hintStyle: textStyle,
                     contentPadding: const EdgeInsets.only(bottom: 15),
                     border: InputBorder.none),
               )),

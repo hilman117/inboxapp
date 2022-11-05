@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:post/Screens/sign_in/sign_in_controller.dart';
 import 'package:provider/provider.dart';
@@ -46,19 +47,19 @@ class _SignInState extends State<SignIn> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "images/launcher.png",
+                      "images/launcher4.png",
                       width: widht * 0.50,
                       fit: BoxFit.fill,
                     ),
                     SizedBox(
-                      height: height * 0.025,
+                      height: height * 0.007,
                     ),
                     Text(
                       "Hotel Internal Messaging System",
-                      style: TextStyle(color: Colors.grey),
+                      style: GoogleFonts.poppins(fontSize: 16),
                     ),
                     SizedBox(
-                      height: height * 0.050,
+                      height: height * 0.047,
                     ),
                     signInForm(
                         Icons.alternate_email_rounded,
@@ -71,7 +72,7 @@ class _SignInState extends State<SignIn> {
                         context,
                         Colors.orange),
                     SizedBox(
-                      height: height * 0.050,
+                      height: height * 0.012,
                     ),
                     signInForm(
                         value.isObsecure
