@@ -15,7 +15,7 @@ Widget signInForm(
     Color formColor) {
   return Container(
     height: Get.height * 0.06,
-    width: Get.width * 0.8,
+    width: Get.width,
     decoration: BoxDecoration(
         color: mainColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12)),

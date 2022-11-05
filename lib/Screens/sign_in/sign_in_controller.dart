@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:post/service/theme.dart';
 import '../../main.dart';
 import '../../models/user.dart';
 import '../../service/notif.dart';
@@ -44,14 +45,14 @@ class SignInController with ChangeNotifier {
       return Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
           msg: "Email Format Not Valid",
-          textColor: Colors.red,
-          backgroundColor: Colors.grey.shade200);
+          textColor: mainColor,
+          backgroundColor: Colors.white);
     }
     if (password.isEmpty) {
       return Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
           msg: "Password Must Be Filled",
-          textColor: Colors.red,
+          textColor: mainColor,
           backgroundColor: Colors.grey.shade200);
     } else {
       try {
