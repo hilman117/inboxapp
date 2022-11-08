@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/service/theme.dart';
+import 'package:provider/provider.dart';
 
-import '../../../service/theme.dart';
-import 'icon_settings.dart';
+import '../../../main.dart';
+import '../../settings/settings.dart';
+import '../home_controller.dart';
 
 class CustomAppbar extends StatelessWidget {
   const CustomAppbar({required this.dept});
@@ -40,13 +44,51 @@ class CustomAppbar extends StatelessWidget {
           statusBarBrightness: Brightness.light,
         ),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset(
-              'images/inbox.png',
-              width: Get.width * 0.3,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  children: [
+                    Consumer<HomeController>(
+                        builder: (context, value, child) => CircleAvatar(
+                            radius: 3,
+                            backgroundColor: box!.get('dutyStatus') == true
+                                ? mainColor
+                                : Colors.grey)),
+                    SizedBox(
+                      width: Get.width * 0.01,
+                    ),
+                    Consumer<HomeController>(
+                        builder: (context, value, child) => Text(
+                              box!.get('dutyStatus') == true
+                                  ? "On Duty"
+                                  : 'Off Duty',
+                              style:
+                                  TextStyle(fontSize: 13, color: Colors.grey),
+                            )),
+                  ],
+                ),
+                Text(
+                  cUser.data.name!,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(color: Colors.black, fontSize: 13),
+                )
+              ],
             ),
-            IconSettings()
+            SizedBox(
+              width: Get.width * 0.02,
+            ),
+            GestureDetector(
+              onTap: () =>
+                  Get.to(() => Settings(), transition: Transition.rightToLeft),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://img.freepik.com/free-photo/half-profile-image-beautiful-young-woman-with-bob-hairdo-posing-gazing-with-eyes-full-reproach-suspicion-human-facial-expressions-emotions-reaction-feelings_343059-4660.jpg?w=2000'),
+              ),
+            )
           ],
         ),
         elevation: 0,
@@ -57,31 +99,23 @@ class CustomAppbar extends StatelessWidget {
         flexibleSpace: Container(
           height: double.maxFinite,
           width: double.infinity,
-          decoration: BoxDecoration(color: mainColor),
+          decoration: BoxDecoration(color: Colors.white),
         ),
         bottom: PreferredSize(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        blurRadius: 3,
-                        offset: Offset(0.5, 0.2), // Shadow position
-                      ),
-                    ]),
+                  borderRadius: BorderRadius.circular(3),
+                  color: Colors.white,
+                ),
                 height: Get.height * 0.050,
                 child: TabBar(
                     labelPadding: EdgeInsets.all(0),
-                    // isScrollable: true,
                     labelColor: mainColor,
                     indicatorColor: Colors.transparent,
-                    unselectedLabelColor:
-                        const Color.fromARGB(255, 164, 163, 163),
+                    unselectedLabelColor: Colors.grey,
                     tabs: tabs),
               ),
             ),

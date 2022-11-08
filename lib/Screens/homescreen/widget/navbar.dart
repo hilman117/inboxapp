@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/dashboard_provider.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'add_button.dart';
@@ -19,9 +20,9 @@ class NavBar extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Consumer<HomeController>(
                 builder: (context, value, child) => FloatingNavbar(
-                      elevation: 50.0,
+                      // elevation: 50.0,
                       width: Get.width * 0.85,
-                      backgroundColor: Color(0xff1E409A),
+                      backgroundColor: mainColor,
                       borderRadius: 15,
                       currentIndex: value.navIndex,
                       onTap: (int val) {
@@ -29,11 +30,11 @@ class NavBar extends StatelessWidget {
                             .changePage(val);
                         print(value.navIndex);
                       },
-                      selectedBackgroundColor: Color(0xff1E409A),
-                      selectedItemColor: Color(0xff80CBC1),
+                      selectedBackgroundColor: mainColor,
+                      selectedItemColor: Colors.white,
                       items: [
                         FloatingNavbarItem(
-                          icon: Icons.task_rounded,
+                          icon: Icons.checklist_rounded,
                           title: 'Request',
                         ),
                         FloatingNavbarItem(

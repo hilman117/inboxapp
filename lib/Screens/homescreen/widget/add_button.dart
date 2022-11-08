@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../create/create_request.dart';
@@ -19,7 +20,7 @@ Widget addButton(BuildContext context, double height, double widht) {
       height: Get.height * 0.070,
       width: Get.width * 0.15,
       child: FloatingActionButton(
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.white,
         onPressed: () async {
           Provider.of<CreateRequestController>(context, listen: false)
               .clearSelectedDept();
@@ -28,7 +29,10 @@ Widget addButton(BuildContext context, double height, double widht) {
           await Get.to(() => CreateRequest(),
               transition: Transition.rightToLeft);
         },
-        child: const Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: mainColor,
+        ),
       ),
     ),
   );
