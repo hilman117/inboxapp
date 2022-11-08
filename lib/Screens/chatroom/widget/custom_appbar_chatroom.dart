@@ -12,11 +12,14 @@ Widget chatroomAppbar(
         String title,
         String lokasi,
         String image,
+        String schedule,
         List<dynamic> assigned) =>
     Container(
       margin: EdgeInsets.only(top: Get.height * 0.04),
       height: Get.height * 0.2,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: Get.height * 0.054,
@@ -77,45 +80,70 @@ Widget chatroomAppbar(
             height: Get.height * 0.01,
           ),
           Container(
-            height: Get.height * 0.065,
             color: mainColor,
             width: Get.width,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'Title: $title',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      Container(
+                        width: Get.width * 0.45,
+                        child: Text(
+                          'Title: $title',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          overflow: TextOverflow.clip,
+                        ),
                       ),
                       SizedBox(
                         height: Get.height * 0.005,
                       ),
-                      Text(
-                        'Location: $lokasi',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      Container(
+                        width: Get.width * 0.5,
+                        child: Text(
+                          'Location: $lokasi',
+                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          overflow: TextOverflow.clip,
+                        ),
                       ),
                     ],
                   ),
                   Spacer(),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       receiver != ''
-                          ? Text(
-                              'by $receiver',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                              textAlign: TextAlign.end,
+                          ? Container(
+                              width: Get.width * 0.40,
+                              child: Text(
+                                'by $receiver',
+                                style:
+                                    TextStyle(color: secondary, fontSize: 14),
+                                overflow: TextOverflow.clip,
+                                textAlign: TextAlign.end,
+                              ),
+                            )
+                          : SizedBox(),
+                      SizedBox(
+                        height: Get.height * 0.005,
+                      ),
+                      schedule != ''
+                          ? Container(
+                              width: Get.width * 0.40,
+                              child: Text(
+                                schedule,
+                                style:
+                                    TextStyle(color: Colors.red, fontSize: 14),
+                                overflow: TextOverflow.clip,
+                                textAlign: TextAlign.end,
+                              ),
                             )
                           : SizedBox(),
                     ],
-                  ),
+                  )
                 ],
               ),
             ),

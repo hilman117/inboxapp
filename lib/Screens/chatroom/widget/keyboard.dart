@@ -59,51 +59,40 @@ Widget keyboardChat(
                   color: mainColor,
                 ),
               ),
-              // focusedBorder: OutlineInputBorder(
-              //     borderRadius: BorderRadius.circular(8),
-              //     borderSide: BorderSide(color: mainColor, width: 1)),
-              // enabledBorder: OutlineInputBorder(
-              //     borderRadius: BorderRadius.circular(8),
-              //     borderSide: BorderSide(color: mainColor, width: 1)),
             ),
           ),
         ),
+        SizedBox(
+          width: Get.width * 0.02,
+        ),
         Consumer<ChatRoomController>(
             builder: (context, value, child) => AnimatedSwitcher(
-                duration: Duration.zero,
-                switchOutCurve: Curves.easeOutSine,
-                child: value.isTypping || value.images != null
-                    ? Container(
-                        height: Get.height * 0.05,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: mainColor),
-                        padding: const EdgeInsets.all(5),
-                        child: IconButton(
-                            padding: const EdgeInsets.all(0),
-                            splashRadius: 20,
-                            onPressed: () {
-                              Provider.of<ChatRoomController>(context,
-                                      listen: false)
-                                  .sendComment(taskId, location, title, scroll,
-                                      deptSender, deptTujuan);
-                            },
-                            icon: const Icon(
-                              Icons.send,
-                              color: Colors.white,
-                              size: 25,
-                            )))
-                    : Container(
-                        height: Get.height * 0.05,
-                        padding: const EdgeInsets.all(5),
-                        child: IconButton(
-                            padding: const EdgeInsets.all(0),
-                            splashRadius: 20,
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.more_vert,
-                              color: mainColor,
-                              size: 25,
-                            )))))
+                  duration: Duration.zero,
+                  switchOutCurve: Curves.easeOutSine,
+                  child: value.isTypping || value.images != null
+                      ? GestureDetector(
+                          onTap: () {
+                            Provider.of<ChatRoomController>(context,
+                                    listen: false)
+                                .sendComment(taskId, location, title, scroll,
+                                    deptSender, deptTujuan);
+                          },
+                          child: Container(
+                              height: Get.height * 0.05,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.transparent),
+                              padding: const EdgeInsets.all(5),
+                              child: Image.asset('images/send1.png')),
+                        )
+                      : Container(
+                          height: Get.height * 0.05,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.transparent),
+                          padding: const EdgeInsets.all(5),
+                          child: Image.asset('images/send2.png')),
+                ))
       ],
     ),
   );

@@ -152,10 +152,11 @@ class _ChatroomState extends State<Chatroom>
                     "${widget.tilteTask}",
                     "${widget.location}",
                     "${widget.sendTo}",
+                    widget.schedule,
                     widget.assign);
               },
             ),
-            preferredSize: Size.fromHeight(height * 0.14)),
+            preferredSize: Size.fromHeight(height * 0.16)),
         body: SafeArea(
           child: Column(
             children: [
