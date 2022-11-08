@@ -59,6 +59,8 @@ Widget listdata(
                         emailSender: data['emailSender'],
                         jarakWaktu: runnningTime,
                         assign: data['assigned'],
+                        imageProfileSender: data['profileImageSender'],
+                        positionSender: data['positionSender'],
                       ),
                   transition: Transition.rightToLeft);
             },

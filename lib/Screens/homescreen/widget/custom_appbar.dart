@@ -85,9 +85,10 @@ class CustomAppbar extends StatelessWidget {
               onTap: () =>
                   Get.to(() => Settings(), transition: Transition.rightToLeft),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://img.freepik.com/free-photo/half-profile-image-beautiful-young-woman-with-bob-hairdo-posing-gazing-with-eyes-full-reproach-suspicion-human-facial-expressions-emotions-reaction-feelings_343059-4660.jpg?w=2000'),
-              ),
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(cUser.data.profileImage! == ''
+                      ? 'https://scontent.fcgk27-1.fna.fbcdn.net/v/t39.30808-6/314984197_5217827161655012_8963512146921511629_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeF937McIYSdTVi3_HoAAHOf9YToegKuJSf1hOh6Aq4lJ-TRMK8gevR9UQqjUG6tSX_gzDf107wjEC3d0441twh0&_nc_ohc=OJUCMD0cz8sAX929JAg&_nc_ht=scontent.fcgk27-1.fna&oh=00_AfAql1vtroWjeyiDoxvjyCe07Ajttnv48E7Z1OwCJyK8wQ&oe=636F4993'
+                      : cUser.data.profileImage!)),
             )
           ],
         ),

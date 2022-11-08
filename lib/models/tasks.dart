@@ -18,6 +18,8 @@ class TaskModel {
       this.sendTo,
       this.priority,
       this.emailSender,
+      this.profileImageSender,
+      this.positionSender,
       this.from});
 
   String? image;
@@ -30,6 +32,8 @@ class TaskModel {
   String? setTime;
   String? sender;
   String? emailSender;
+  String? profileImageSender;
+  String? positionSender;
   List<dynamic>? comment;
   List<String>? assigned;
   String? location;
@@ -47,6 +51,8 @@ class TaskModel {
       description: json["description"],
       title: json["title"],
       emailSender: json["emailSender"],
+      profileImageSender: json["profileImageSender"],
+      positionSender: json["positionSender"],
       setDate: json["setDate"],
       setTime: json["setTime"],
       sender: json["sender"],
@@ -66,6 +72,8 @@ class TaskModel {
         "receiver": receiver,
         "unread": unread,
         "emailSender": emailSender,
+        "profileImageSender": profileImageSender,
+        "positionSender": positionSender,
         "description": description,
         "title": title,
         "setDate": setDate,

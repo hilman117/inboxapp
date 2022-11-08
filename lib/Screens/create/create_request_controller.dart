@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../service/notif.dart';
@@ -236,6 +237,9 @@ class CreateRequestController with ChangeNotifier {
           .collection('tasks')
           .doc(_idTask)
           .set({
+        "positionSender": cUser.data.position,
+        "profileImageSender":
+            cUser.data.profileImage != '' ? cUser.data.profileImage : '',
         "location": location,
         "title": _selectedTitle,
         "sendTo": _selectedDept,
@@ -364,6 +368,8 @@ class CreateRequestController with ChangeNotifier {
           "statusReleased": "Keep",
           "receiveBy": "",
           "receiver": "",
+          "positionSender": cUser.data.position,
+          "profileImageSender": cUser.data.profileImage,
           "id": _idTask,
           "emailSender": senderEmail,
         });

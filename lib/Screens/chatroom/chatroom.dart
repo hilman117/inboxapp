@@ -9,13 +9,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/assign/assign_dialog.dart';
+import 'package:post/Screens/chatroom/widget/custom_appbar_chatroom.dart';
 import 'package:post/Screens/chatroom/widget/keyboard.dart';
 import 'package:post/controller/c_user.dart';
-import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import 'widget/button.dart';
 import 'widget/close_dialog.dart';
-import 'widget/custom_appbar_chatroom.dart';
 import 'widget/left_bubble.dart';
 import 'widget/right_bubble/right_bubble.dart';
 
@@ -36,11 +35,15 @@ class Chatroom extends StatefulWidget {
     required this.emailSender,
     required this.jarakWaktu,
     required this.assign,
+    required this.imageProfileSender,
+    required this.positionSender,
     // required this.image,
   });
   final String taskId;
   final List<dynamic> assign;
   final String sendTo;
+  final String imageProfileSender;
+  final String positionSender;
   final String emailSender;
   final String location;
   final String nameSender;
@@ -137,22 +140,22 @@ class _ChatroomState extends State<Chatroom>
     double widht = Get.width;
     double height = Get.height;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: mainColor,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Consumer<ChatRoomController>(
-            builder: (context, value, child) {
-              return chatroomAppbar(
-                  value.status,
-                  value.receiver,
-                  "${widget.tilteTask}",
-                  "${widget.location}",
-                  "${widget.sendTo}",
-                  widget.assign);
-            },
-          ),
-        ),
+        appBar: PreferredSize(
+            child: Consumer<ChatRoomController>(
+              builder: (context, value, child) {
+                return chatroomAppbar(
+                    widget.imageProfileSender,
+                    widget.nameSender,
+                    widget.positionSender,
+                    value.status,
+                    value.receiver,
+                    "${widget.tilteTask}",
+                    "${widget.location}",
+                    "${widget.sendTo}",
+                    widget.assign);
+              },
+            ),
+            preferredSize: Size.fromHeight(height * 0.14)),
         body: SafeArea(
           child: Column(
             children: [

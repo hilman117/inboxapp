@@ -1,99 +1,122 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/chatroom/chatroom_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:post/Screens/dasboard/widget/animated/status.dart';
+import 'package:post/service/theme.dart';
 
-import '../../dasboard/widget/animated/status.dart';
-
-Widget chatroomAppbar(String status, String receiver, String title,
-        String lokasi, String image, List<dynamic> assigned) =>
-    Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  "images/$image.png",
-                  width: Get.width * 0.05,
-                  fit: BoxFit.fill,
-                ),
-                SizedBox(width: Get.width * 0.03),
-                SizedBox(
-                  width: Get.width * 0.50,
-                  child: Text(
-                    lokasi,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            StatusWidget(
-              status: status,
-              isFading: false,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: Get.height * 0.01,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: Get.width * 0.40,
-              child: Text(
-                title,
-                style: const TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.normal),
-                overflow: TextOverflow.clip,
-              ),
-            ),
-            SizedBox(
-              width: Get.width * 0.50,
+Widget chatroomAppbar(
+        String imageProfileSender,
+        String sender,
+        String positionSender,
+        String status,
+        String receiver,
+        String title,
+        String lokasi,
+        String image,
+        List<dynamic> assigned) =>
+    Container(
+      margin: EdgeInsets.only(top: Get.height * 0.04),
+      height: Get.height * 0.2,
+      child: Column(
+        children: [
+          Container(
+            height: Get.height * 0.054,
+            // color: Colors.blue.shade50,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    (receiver == '')
-                        ? ""
-                        : (status == 'Assigned')
-                            ? "to"
-                            : 'by',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 13,
-                        color: Colors.white),
-                    textAlign: TextAlign.end,
+                  CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    foregroundImage: NetworkImage(imageProfileSender != ''
+                        ? imageProfileSender
+                        : 'https://scontent.fcgk27-1.fna.fbcdn.net/v/t39.30808-6/314984197_5217827161655012_8963512146921511629_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeF937McIYSdTVi3_HoAAHOf9YToegKuJSf1hOh6Aq4lJ-TRMK8gevR9UQqjUG6tSX_gzDf107wjEC3d0441twh0&_nc_ohc=OJUCMD0cz8sAX929JAg&_nc_ht=scontent.fcgk27-1.fna&oh=00_AfAql1vtroWjeyiDoxvjyCe07Ajttnv48E7Z1OwCJyK8wQ&oe=636F4993'),
+                    backgroundImage: AssetImage('images/nophoto.png'),
                   ),
                   SizedBox(
-                    width: Get.width * 0.01,
+                    width: Get.width * 0.02,
                   ),
-                  Consumer<ChatRoomController>(
-                      builder: (context, value, child) => Flexible(
-                            child: Text(
-                              status == 'Assigned'
-                                  ? value.receiver
-                                  : "$receiver",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 13,
-                                  color: Colors.white),
-                              textAlign: TextAlign.end,
-                              overflow: TextOverflow.clip,
-                            ),
-                          ))
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        sender,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.005,
+                      ),
+                      Text(
+                        positionSender,
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black54),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  SizedBox(
+                      height: Get.height * 0.04,
+                      child: StatusWidget(status: status, isFading: false)),
+                  SizedBox(
+                    width: Get.width * 0.02,
+                  ),
+                  Icon(
+                    Icons.more_vert,
+                    color: Colors.black54,
+                  )
                 ],
               ),
             ),
-          ],
-        ),
-      ],
+          ),
+          SizedBox(
+            height: Get.height * 0.01,
+          ),
+          Container(
+            height: Get.height * 0.065,
+            color: mainColor,
+            width: Get.width,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(color: secondary, fontSize: 16),
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.005,
+                      ),
+                      Text(
+                        lokasi,
+                        style: TextStyle(color: secondary, fontSize: 16),
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        receiver,
+                        style: TextStyle(color: secondary, fontSize: 16),
+                        textAlign: TextAlign.end,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
