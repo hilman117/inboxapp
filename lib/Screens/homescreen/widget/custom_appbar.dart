@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -84,11 +85,13 @@ class CustomAppbar extends StatelessWidget {
             GestureDetector(
               onTap: () =>
                   Get.to(() => Settings(), transition: Transition.rightToLeft),
-              child: CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  backgroundImage: NetworkImage(cUser.data.profileImage! == ''
-                      ? 'https://scontent.fcgk27-1.fna.fbcdn.net/v/t39.30808-6/314984197_5217827161655012_8963512146921511629_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeF937McIYSdTVi3_HoAAHOf9YToegKuJSf1hOh6Aq4lJ-TRMK8gevR9UQqjUG6tSX_gzDf107wjEC3d0441twh0&_nc_ohc=OJUCMD0cz8sAX929JAg&_nc_ht=scontent.fcgk27-1.fna&oh=00_AfAql1vtroWjeyiDoxvjyCe07Ajttnv48E7Z1OwCJyK8wQ&oe=636F4993'
-                      : cUser.data.profileImage!)),
+              child: Consumer<SettingProvider>(
+                builder: (context, value, child) => CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    backgroundImage: NetworkImage(box!.get('fotoProfile') == ''
+                        ? 'https://scontent.fcgk27-1.fna.fbcdn.net/v/t39.30808-6/314984197_5217827161655012_8963512146921511629_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeF937McIYSdTVi3_HoAAHOf9YToegKuJSf1hOh6Aq4lJ-TRMK8gevR9UQqjUG6tSX_gzDf107wjEC3d0441twh0&_nc_ohc=OJUCMD0cz8sAX929JAg&_nc_ht=scontent.fcgk27-1.fna&oh=00_AfAql1vtroWjeyiDoxvjyCe07Ajttnv48E7Z1OwCJyK8wQ&oe=636F4993'
+                        : box!.get('fotoProfile'))),
+              ),
             )
           ],
         ),

@@ -90,14 +90,14 @@ Widget chatroomAppbar(
                     children: [
                       Text(
                         title,
-                        style: TextStyle(color: secondary, fontSize: 16),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       SizedBox(
                         height: Get.height * 0.005,
                       ),
                       Text(
                         lokasi,
-                        style: TextStyle(color: secondary, fontSize: 16),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ],
                   ),
@@ -106,11 +106,14 @@ Widget chatroomAppbar(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        receiver,
-                        style: TextStyle(color: secondary, fontSize: 16),
-                        textAlign: TextAlign.end,
-                      ),
+                      receiver != ''
+                          ? Text(
+                              'by $receiver',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                              textAlign: TextAlign.end,
+                            )
+                          : SizedBox(),
                     ],
                   ),
                 ],

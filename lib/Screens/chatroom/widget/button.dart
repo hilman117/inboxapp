@@ -5,13 +5,13 @@ import '../../../service/theme.dart';
 
 Widget button(String buttonName, VoidCallback callback) => SizedBox(
       height: Get.height * 0.04,
-      width: Get.width * 0.3,
+      width: Get.width * 0.25,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
-          backgroundColor: mainColor,
+          backgroundColor: secondary.withOpacity(0.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15), // <-- Radius
+            borderRadius: BorderRadius.circular(8), // <-- Radius
           ),
         ),
         onPressed: callback,

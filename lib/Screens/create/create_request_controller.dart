@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/main.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../service/notif.dart';
@@ -238,8 +239,7 @@ class CreateRequestController with ChangeNotifier {
           .doc(_idTask)
           .set({
         "positionSender": cUser.data.position,
-        "profileImageSender":
-            cUser.data.profileImage != '' ? cUser.data.profileImage : '',
+        "profileImageSender": box!.get('fotoProfile'),
         "location": location,
         "title": _selectedTitle,
         "sendTo": _selectedDept,

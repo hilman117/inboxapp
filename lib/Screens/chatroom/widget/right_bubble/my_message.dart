@@ -45,8 +45,11 @@ class MyMessage extends StatelessWidget {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: mainColor,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(16),
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16)),
+                    color: secondary,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
