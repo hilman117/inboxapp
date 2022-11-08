@@ -11,13 +11,13 @@ class MyMessage extends StatelessWidget {
   final String senderMsgName;
   final String time;
   final String message;
-  final String description;
+  // final String description;
   final String image;
   const MyMessage(
       {required this.commentList,
       required this.time,
       required this.message,
-      required this.description,
+      // required this.description,
       required this.image,
       required this.senderMsgName});
 
@@ -69,15 +69,15 @@ class MyMessage extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                           overflow: TextOverflow.clip,
                         ),
-                        description.isEmpty
-                            ? SizedBox()
-                            : Text(
-                                description,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                        SizedBox(
-                          height: description == '' ? 0 : 5,
-                        ),
+                        // description.isEmpty
+                        //     ? SizedBox()
+                        //     : Text(
+                        //         description,
+                        //         style: TextStyle(color: Colors.white),
+                        //       ),
+                        // SizedBox(
+                        //   height: description == '' ? 0 : 5,
+                        // ),
                         image.isEmpty
                             ? SizedBox()
                             : GestureDetector(

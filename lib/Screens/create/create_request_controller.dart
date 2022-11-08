@@ -267,8 +267,7 @@ class CreateRequestController with ChangeNotifier {
         'comment': FieldValue.arrayUnion([
           {
             'commentId': Uuid().v4(),
-            'commentBody':
-                "has created a request for \nlocation:$location  \nTitle: $_selectedTitle",
+            'commentBody': controller.text.isEmpty ? '' : controller.text,
             'accepted': "",
             'esc': "",
             'assignTask': "",

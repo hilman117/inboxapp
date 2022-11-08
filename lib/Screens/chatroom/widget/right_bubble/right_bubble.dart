@@ -10,7 +10,7 @@ Widget rightBubble(
     String time,
     String senderMsgName,
     String message,
-    String description,
+    // String description,
     String isAccepted,
     String esc,
     String assign,
@@ -23,13 +23,14 @@ Widget rightBubble(
           ? SizedBox()
           : (assign != '')
               ? SizedBox()
-              : MyMessage(
-                  commentList: commentList,
-                  time: time,
-                  message: message,
-                  description: description,
-                  image: image,
-                  senderMsgName: senderMsgName),
+              : (message == '')
+                  ? SizedBox()
+                  : MyMessage(
+                      commentList: commentList,
+                      time: time,
+                      message: message,
+                      image: image,
+                      senderMsgName: senderMsgName),
       //widget pesan yg ditampilkan ketika status diterima............
       SizedBox(
         height: isAccepted == '' ? 0 : 10,

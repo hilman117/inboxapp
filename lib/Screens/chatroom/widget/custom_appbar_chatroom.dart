@@ -89,14 +89,14 @@ Widget chatroomAppbar(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        title,
+                        'Title: $title',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                       SizedBox(
                         height: Get.height * 0.005,
                       ),
                       Text(
-                        lokasi,
+                        'Location: $lokasi',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ],

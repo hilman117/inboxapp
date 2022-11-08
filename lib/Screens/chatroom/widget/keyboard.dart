@@ -19,46 +19,52 @@ Widget keyboardChat(
     width: double.infinity,
     child: Row(
       children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            height: 40,
-            child: TextFormField(
-              controller:
-                  Provider.of<ChatRoomController>(context, listen: false)
-                      .commentBody,
-              cursorColor: mainColor,
-              textAlignVertical: TextAlignVertical.center,
-              cursorHeight: 14,
-              onChanged: (value) {
-                Provider.of<ChatRoomController>(context, listen: false)
-                    .typing(value);
-              },
-              keyboardType: TextInputType.multiline,
-              textInputAction: TextInputAction.newline,
-              minLines: 1,
-              maxLines: 5,
-              style: const TextStyle(fontSize: 14, overflow: TextOverflow.clip),
-              decoration: InputDecoration(
-                hintText: "type here...",
-                hintStyle: const TextStyle(fontSize: 14),
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                prefixIcon: IconButton(
-                  onPressed: () {
-                    imagePicker(context, Get.height, Get.width);
-                  },
-                  icon: Icon(
-                    Icons.camera_alt_rounded,
-                    color: mainColor,
-                  ),
+        SizedBox(
+          width: Get.width * 0.024,
+        ),
+        Container(
+          decoration: BoxDecoration(
+              color: mainColor.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8)),
+          width: Get.width * 0.8,
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          height: 40,
+          child: TextFormField(
+            controller: Provider.of<ChatRoomController>(context, listen: false)
+                .commentBody,
+            cursorColor: mainColor,
+            textAlignVertical: TextAlignVertical.center,
+            cursorHeight: 14,
+            onChanged: (value) {
+              Provider.of<ChatRoomController>(context, listen: false)
+                  .typing(value);
+            },
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.newline,
+            minLines: 1,
+            maxLines: 5,
+            style: const TextStyle(fontSize: 14, overflow: TextOverflow.clip),
+            decoration: InputDecoration(
+              isDense: true,
+              border: InputBorder.none,
+              hintText: "type here...",
+              hintStyle: const TextStyle(fontSize: 14),
+              contentPadding: const EdgeInsets.symmetric(vertical: 0),
+              prefixIcon: IconButton(
+                onPressed: () {
+                  imagePicker(context, Get.height, Get.width);
+                },
+                icon: Icon(
+                  Icons.camera_alt_rounded,
+                  color: mainColor,
                 ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: mainColor, width: 1)),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide(color: mainColor, width: 1)),
               ),
+              // focusedBorder: OutlineInputBorder(
+              //     borderRadius: BorderRadius.circular(8),
+              //     borderSide: BorderSide(color: mainColor, width: 1)),
+              // enabledBorder: OutlineInputBorder(
+              //     borderRadius: BorderRadius.circular(8),
+              //     borderSide: BorderSide(color: mainColor, width: 1)),
             ),
           ),
         ),

@@ -195,8 +195,6 @@ class _ChatroomState extends State<Chatroom>
                                       snapshot.data!['comment'][index]
                                           ['commentBody'],
                                       snapshot.data!['comment'][index]
-                                          ['description'],
-                                      snapshot.data!['comment'][index]
                                           ['accepted'],
                                       snapshot.data!['comment'][index]['esc'],
                                       snapshot.data!['comment'][index]
