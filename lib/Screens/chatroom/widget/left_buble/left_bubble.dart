@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:post/Screens/chatroom/widget/accepted_bubble.dart';
 
 import '../Assign_bubble.dart';
-import 'my_message.dart';
+import 'left_message.dart';
 
-Widget rightBubble(
+Widget leftBubble(
     List<dynamic> commentList,
     BuildContext context,
     String time,
@@ -16,8 +16,8 @@ Widget rightBubble(
     String assign,
     String image) {
   return Column(
-    //buble chat yg tampil jika ada kita sbg pengirim pesan..................................
-    crossAxisAlignment: CrossAxisAlignment.end,
+    //buble chat yg tampil jika orang lain sbg pengirim pesan..................................
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       (isAccepted != '')
           ? SizedBox()
@@ -25,14 +25,12 @@ Widget rightBubble(
               ? SizedBox()
               : (message == '')
                   ? SizedBox()
-                  : (image.isEmpty)
-                      ? SizedBox()
-                      : MyMessage(
-                          commentList: commentList,
-                          time: time,
-                          message: message,
-                          image: image,
-                          senderMsgName: senderMsgName),
+                  : LeftMessage(
+                      commentList: commentList,
+                      time: time,
+                      message: message,
+                      image: image,
+                      senderMsgName: senderMsgName),
       //widget pesan yg ditampilkan ketika status diterima............
       SizedBox(
         height: isAccepted == '' ? 0 : 10,

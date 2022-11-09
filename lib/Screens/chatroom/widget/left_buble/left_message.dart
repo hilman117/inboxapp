@@ -6,14 +6,14 @@ import 'package:uuid/uuid.dart';
 import '../../../../service/theme.dart';
 import '../imageRoom.dart';
 
-class MyMessage extends StatelessWidget {
+class LeftMessage extends StatelessWidget {
   final List<dynamic> commentList;
   final String senderMsgName;
   final String time;
   final String message;
   // final String description;
   final String image;
-  const MyMessage(
+  const LeftMessage(
       {required this.commentList,
       required this.time,
       required this.message,
@@ -29,27 +29,20 @@ class MyMessage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 40,
-            child: Text(
-              time,
-              style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
-            ),
-          ),
           Expanded(
             child: Container(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.only(
-                  left: 30,
+                  right: 30,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(16),
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
-                    color: secondary,
+                    color: mainColor,
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -64,13 +57,20 @@ class MyMessage extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.009,
                         ),
-                        message.isNotEmpty
-                            ? Text(
-                                message,
-                                style: TextStyle(color: Colors.white),
-                                overflow: TextOverflow.clip,
-                              )
-                            : SizedBox(),
+                        Text(
+                          message,
+                          style: TextStyle(color: Colors.white),
+                          overflow: TextOverflow.clip,
+                        ),
+                        // description.isEmpty
+                        //     ? SizedBox()
+                        //     : Text(
+                        //         description,
+                        //         style: TextStyle(color: Colors.white),
+                        //       ),
+                        // SizedBox(
+                        //   height: description == '' ? 0 : 5,
+                        // ),
                         image.isEmpty
                             ? SizedBox()
                             : GestureDetector(
@@ -114,6 +114,13 @@ class MyMessage extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+          SizedBox(
+            width: 40,
+            child: Text(
+              time,
+              style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
             ),
           ),
         ],

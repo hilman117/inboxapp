@@ -119,7 +119,9 @@ Widget chatroomAppbar(
                           ? Container(
                               width: Get.width * 0.40,
                               child: Text(
-                                'by $receiver',
+                                status != 'Assigned'
+                                    ? 'by $receiver'
+                                    : 'to ${assigned.last}',
                                 style:
                                     TextStyle(color: secondary, fontSize: 14),
                                 overflow: TextOverflow.clip,

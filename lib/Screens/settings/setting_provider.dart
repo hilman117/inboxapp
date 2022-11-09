@@ -7,20 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:post/Screens/homescreen/home.dart';
 import 'package:post/Screens/sign_in/signin.dart';
 import 'package:post/Screens/sign_up/signup.dart';
 import 'package:post/controller/c_user.dart';
 
 import '../../main.dart';
+import '../dasboard/widget/card.dart';
 
 class SettingProvider with ChangeNotifier {
-  final cUser = Get.put(CUser());
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   final ImagePicker _picker = ImagePicker();
   File? _image;
   File? get images => _image;
-  String imageUrl = "";
+  String imageUrl = Home.imageProfile == ''
+      ? 'https://scontent.fcgk27-1.fna.fbcdn.net/v/t39.30808-6/314984197_5217827161655012_8963512146921511629_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeF937McIYSdTVi3_HoAAHOf9YToegKuJSf1hOh6Aq4lJ-TRMK8gevR9UQqjUG6tSX_gzDf107wjEC3d0441twh0&_nc_ohc=OJUCMD0cz8sAX929JAg&_nc_ht=scontent.fcgk27-1.fna&oh=00_AfAql1vtroWjeyiDoxvjyCe07Ajttnv48E7Z1OwCJyK8wQ&oe=636F4993'
+      : cUser.data.profileImage!;
   String imageName = '';
   Future<void> selectImage(ImageSource source) async {
     XFile? image = await _picker.pickImage(source: source, imageQuality: 30);
@@ -34,6 +37,7 @@ class SettingProvider with ChangeNotifier {
           "${cUser.data.hotelid}/${cUser.data.uid! + DateTime.now().toString()}.$imageExtension");
       await ref.putFile(_image!);
       imageUrl = await ref.getDownloadURL();
+      notifyListeners();
     }
     await FirebaseFirestore.instance
         .collection('users')

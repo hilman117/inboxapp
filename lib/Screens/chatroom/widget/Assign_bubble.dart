@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class IAssign extends StatelessWidget {
+import '../../../service/theme.dart';
+
+class AssignBubble extends StatelessWidget {
   final String time;
   final String assign;
-  const IAssign({super.key, required this.assign, required this.time});
+  const AssignBubble({super.key, required this.assign, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,13 @@ class IAssign extends StatelessWidget {
             alignment: Alignment.center,
             width: 250,
             child: Container(
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Colors.blue.shade50),
+                  borderRadius: BorderRadius.circular(5),
+                  color: secondary.withOpacity(0.2)),
               child: Text(
                 assign,
-                style: TextStyle(color: Colors.black87, fontSize: size * 0.009),
+                style: TextStyle(color: Colors.black87, fontSize: size * 0.01),
                 textAlign: TextAlign.start,
               ),
             ),

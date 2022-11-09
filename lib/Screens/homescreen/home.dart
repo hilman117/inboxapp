@@ -13,7 +13,9 @@ import '../../service/session_user.dart';
 import 'widget/navbar.dart';
 import 'widget/search.dart';
 
+
 class Home extends StatefulWidget {
+  static String? imageProfile;
   const Home({Key? key}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
@@ -21,16 +23,19 @@ class Home extends StatefulWidget {
 
 bool image = true;
 
+
 class _HomeState extends State<Home> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   final cUser = Get.put(CUser());
   final taskModel = Get.put(TaskModel());
+  
 
   UserDetails? userDetails;
 
   void getUser() async {
     userDetails = await SessionsUser.getUser();
+    Home.imageProfile = cUser.data.profileImage!;
     setState(() {});
   }
 
@@ -40,14 +45,13 @@ class _HomeState extends State<Home> {
     getUser();
     Provider.of<CreateRequestController>(context, listen: false)
         .getDeptartement(cUser.data.hotelid!);
-        Provider.of<CreateRequestController>(context, listen: false)
-              .getLocation(cUser.data.hotelid!);
+    Provider.of<CreateRequestController>(context, listen: false)
+        .getLocation(cUser.data.hotelid!);
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      
       length: 4,
       initialIndex: 1,
       child: Scaffold(

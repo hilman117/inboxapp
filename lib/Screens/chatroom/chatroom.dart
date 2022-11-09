@@ -15,7 +15,7 @@ import 'package:post/controller/c_user.dart';
 import 'package:provider/provider.dart';
 import 'widget/button.dart';
 import 'widget/close_dialog.dart';
-import 'widget/left_bubble.dart';
+import 'widget/left_buble/left_bubble.dart';
 import 'widget/right_bubble/right_bubble.dart';
 
 class Chatroom extends StatefulWidget {
@@ -210,8 +210,6 @@ class _ChatroomState extends State<Chatroom>
                                           ['sender'],
                                       snapshot.data!['comment'][index]
                                           ['commentBody'],
-                                      snapshot.data!['comment'][index]
-                                          ['description'],
                                       snapshot.data!['comment'][index]
                                           ['accepted'],
                                       snapshot.data!['comment'][index]['esc'],

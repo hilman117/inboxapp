@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Iaccept extends StatelessWidget {
+class AcceptedBubble extends StatelessWidget {
   final String isAccepted;
   final String time;
-  const Iaccept({required this.isAccepted, required this.time});
+  const AcceptedBubble({required this.isAccepted, required this.time});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +21,14 @@ class Iaccept extends StatelessWidget {
                 alignment: Alignment.center,
                 width: size * 0.25,
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(5),
                       color: Colors.green.shade50),
                   child: Text(
                     isAccepted,
-                    style: TextStyle(
-                        color: Colors.black87, fontSize: size * 0.009),
+                    style:
+                        TextStyle(color: Colors.black87, fontSize: size * 0.01),
                     textAlign: TextAlign.start,
                   ),
                 ),
