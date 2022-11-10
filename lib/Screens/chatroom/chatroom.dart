@@ -143,17 +143,16 @@ class _ChatroomState extends State<Chatroom>
         appBar: PreferredSize(
             child: Consumer<ChatRoomController>(
               builder: (context, value, child) {
-                return chatroomAppbar(
-                    widget.imageProfileSender,
-                    widget.nameSender,
-                    widget.positionSender,
-                    value.status,
-                    value.receiver,
-                    "${widget.tilteTask}",
-                    "${widget.location}",
-                    "${widget.sendTo}",
-                    widget.schedule,
-                    widget.assign);
+                return ChatRoomAppbar(
+                    imageProfileSender: widget.imageProfileSender,
+                    sender: widget.nameSender,
+                    positionSender: widget.positionSender,
+                    status: value.status,
+                    receiver: value.receiver,
+                    title: "${widget.tilteTask}",
+                    lokasi: "${widget.location}",
+                    schedule: widget.schedule,
+                    assigned: widget.assign);
               },
             ),
             preferredSize: Size.fromHeight(height * 0.16)),

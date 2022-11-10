@@ -25,14 +25,12 @@ Widget rightBubble(
               ? SizedBox()
               : (message == '')
                   ? SizedBox()
-                  : (image.isEmpty)
-                      ? SizedBox()
-                      : MyMessage(
-                          commentList: commentList,
-                          time: time,
-                          message: message,
-                          image: image,
-                          senderMsgName: senderMsgName),
+                  : MyMessage(
+                      commentList: commentList,
+                      time: time,
+                      message: message,
+                      image: image,
+                      senderMsgName: senderMsgName),
       //widget pesan yg ditampilkan ketika status diterima............
       SizedBox(
         height: isAccepted == '' ? 0 : 10,

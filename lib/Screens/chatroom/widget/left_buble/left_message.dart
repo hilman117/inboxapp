@@ -33,8 +33,8 @@ class LeftMessage extends StatelessWidget {
             child: Container(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 30,
+                padding: EdgeInsets.only(
+                  right: Get.width * 0.1,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
@@ -42,7 +42,7 @@ class LeftMessage extends StatelessWidget {
                         bottomRight: Radius.circular(16),
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
-                    color: mainColor,
+                    color: mainColor.withOpacity(0.2),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -52,25 +52,20 @@ class LeftMessage extends StatelessWidget {
                         Text(
                           senderMsgName,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87),
                         ),
                         SizedBox(
                           height: Get.height * 0.009,
                         ),
-                        Text(
-                          message,
-                          style: TextStyle(color: Colors.white),
-                          overflow: TextOverflow.clip,
-                        ),
-                        // description.isEmpty
-                        //     ? SizedBox()
-                        //     : Text(
-                        //         description,
-                        //         style: TextStyle(color: Colors.white),
-                        //       ),
-                        // SizedBox(
-                        //   height: description == '' ? 0 : 5,
-                        // ),
+                        message.isNotEmpty
+                            ? Text(
+                                message,
+                                style: TextStyle(color: Colors.black87),
+                                overflow: TextOverflow.clip,
+                              )
+                            : SizedBox(),
+                        SizedBox(height: image == '' ? 0 : Get.height * 0.015),
                         image.isEmpty
                             ? SizedBox()
                             : GestureDetector(
@@ -117,7 +112,7 @@ class LeftMessage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 40,
+            width: Get.width * 0.1,
             child: Text(
               time,
               style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),

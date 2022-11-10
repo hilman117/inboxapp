@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:post/Screens/homescreen/home.dart';
 import 'package:post/Screens/sign_in/signin.dart';
 import 'package:post/Screens/sign_up/signup.dart';
-import 'package:post/controller/c_user.dart';
 
 import '../../main.dart';
 import '../dasboard/widget/card.dart';

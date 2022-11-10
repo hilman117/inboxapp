@@ -30,7 +30,7 @@ class MyMessage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: 40,
+            width: Get.width * 0.1,
             child: Text(
               time,
               style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
@@ -40,8 +40,8 @@ class MyMessage extends StatelessWidget {
             child: Container(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 30,
+                padding: EdgeInsets.only(
+                  left: Get.width * 0.1,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class MyMessage extends StatelessWidget {
                         bottomLeft: Radius.circular(16),
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
-                    color: secondary,
+                    color: secondary.withOpacity(0.2),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -59,7 +59,8 @@ class MyMessage extends StatelessWidget {
                         Text(
                           senderMsgName,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87),
                         ),
                         SizedBox(
                           height: Get.height * 0.009,
@@ -67,11 +68,12 @@ class MyMessage extends StatelessWidget {
                         message.isNotEmpty
                             ? Text(
                                 message,
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(color: Colors.black87),
                                 overflow: TextOverflow.clip,
                               )
                             : SizedBox(),
-                        image.isEmpty
+                        SizedBox(height: image == '' ? 0 : Get.height * 0.015),
+                        image == ''
                             ? SizedBox()
                             : GestureDetector(
                                 onTap: () {

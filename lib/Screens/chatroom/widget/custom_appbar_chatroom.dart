@@ -3,18 +3,35 @@ import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/widget/animated/status.dart';
 import 'package:post/service/theme.dart';
 
-Widget chatroomAppbar(
-        String imageProfileSender,
-        String sender,
-        String positionSender,
-        String status,
-        String receiver,
-        String title,
-        String lokasi,
-        String image,
-        String schedule,
-        List<dynamic> assigned) =>
-    Container(
+import 'pop_up_menu.dart';
+
+class ChatRoomAppbar extends StatelessWidget {
+  final String imageProfileSender;
+  final String sender;
+  final String positionSender;
+  final String status;
+  final String receiver;
+  final String title;
+  final String lokasi;
+  // final String image;
+  final String schedule;
+  final List<dynamic> assigned;
+  const ChatRoomAppbar(
+      {super.key,
+      required this.imageProfileSender,
+      required this.sender,
+      required this.positionSender,
+      required this.status,
+      required this.receiver,
+      required this.title,
+      required this.lokasi,
+      // required this.image,
+      required this.schedule,
+      required this.assigned});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
       margin: EdgeInsets.only(top: Get.height * 0.04),
       height: Get.height * 0.2,
       child: Column(
@@ -68,9 +85,14 @@ Widget chatroomAppbar(
                   SizedBox(
                     width: Get.width * 0.02,
                   ),
-                  Icon(
-                    Icons.more_vert,
-                    color: Colors.black54,
+                  InkWell(
+                    borderRadius: BorderRadius.circular(50),
+                    radius: 20,
+                    onTap: () => showPopUpMenu(context),
+                    child: Icon(
+                      Icons.more_vert,
+                      color: Colors.black54,
+                    ),
                   )
                 ],
               ),
@@ -153,3 +175,5 @@ Widget chatroomAppbar(
         ],
       ),
     );
+  }
+}
