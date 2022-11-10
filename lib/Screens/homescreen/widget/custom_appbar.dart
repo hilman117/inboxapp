@@ -45,51 +45,64 @@ class CustomAppbar extends StatelessWidget {
           statusBarBrightness: Brightness.light,
         ),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
+            Container(
+              width: Get.width * 0.45,
+              child: Text(
+                cUser.data.hotel!,
+                style: TextStyle(color: Colors.black87, fontSize: 16),
+                overflow: TextOverflow.clip,
+              ),
+            ),
+            Spacer(),
+            Row(
               children: [
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Consumer<HomeController>(
-                        builder: (context, value, child) => CircleAvatar(
-                            radius: 3,
-                            backgroundColor: box!.get('dutyStatus') == true
-                                ? mainColor
-                                : Colors.grey)),
-                    SizedBox(
-                      width: Get.width * 0.01,
+                    Row(
+                      children: [
+                        Consumer<HomeController>(
+                            builder: (context, value, child) => CircleAvatar(
+                                radius: 3,
+                                backgroundColor: box!.get('dutyStatus') == true
+                                    ? mainColor
+                                    : Colors.grey)),
+                        SizedBox(
+                          width: Get.width * 0.01,
+                        ),
+                        Consumer<HomeController>(
+                            builder: (context, value, child) => Text(
+                                  box!.get('dutyStatus') == true
+                                      ? "On Duty"
+                                      : 'Off Duty',
+                                  style: TextStyle(
+                                      fontSize: 13, color: Colors.grey),
+                                )),
+                      ],
                     ),
-                    Consumer<HomeController>(
-                        builder: (context, value, child) => Text(
-                              box!.get('dutyStatus') == true
-                                  ? "On Duty"
-                                  : 'Off Duty',
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.grey),
-                            )),
+                    Text(
+                      cUser.data.name!,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(color: Colors.black, fontSize: 13),
+                    )
                   ],
                 ),
-                Text(
-                  cUser.data.name!,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(color: Colors.black, fontSize: 13),
-                )
+                SizedBox(
+                  width: Get.width * 0.02,
+                ),
+                GestureDetector(
+                  onTap: () => Get.to(() => Settings(),
+                      transition: Transition.rightToLeft),
+                  child: Consumer<SettingProvider>(
+                    builder: (context, value, child) => CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        backgroundImage: NetworkImage(value.imageUrl)),
+                  ),
+                ),
               ],
-            ),
-            SizedBox(
-              width: Get.width * 0.02,
-            ),
-            GestureDetector(
-              onTap: () =>
-                  Get.to(() => Settings(), transition: Transition.rightToLeft),
-              child: Consumer<SettingProvider>(
-                builder: (context, value, child) => CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    backgroundImage: NetworkImage(value.imageUrl)),
-              ),
             )
           ],
         ),

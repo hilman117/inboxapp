@@ -9,7 +9,7 @@ class HomeController with ChangeNotifier {
   // Color cardColor = const Color(0xff475D5B);
   int _navIndex = 0;
   int get navIndex => _navIndex;
-  final pages = [TaskPage(), Icon(Icons.abc), LostAndFoundList()];
+  final pages = [TaskPage(), LostAndFoundList()];
   changePage(int val) {
     _navIndex = val;
     notifyListeners();

@@ -21,22 +21,37 @@ class Settings extends StatelessWidget {
     final provider = Provider.of<SettingProvider>(context, listen: false);
     return Consumer<SettingProvider>(
         builder: (context, value, child) => Scaffold(
+              backgroundColor: Colors.white,
               appBar: AppBar(
                 elevation: 0,
                 bottom: PreferredSize(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 24),
+                      padding: EdgeInsets.only(left: Get.width * 0.08),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GestureDetector(
                             onTap: () => imagePickerProfile(context),
-                            child: CircleAvatar(
-                              child: value.isLoading
-                                  ? CircularProgressIndicator()
-                                  : SizedBox(),
-                              backgroundColor: Colors.grey,
-                              foregroundImage: NetworkImage(value.imageUrl),
-                              // backgroundImage: AssetImage('images/nophoto.png'),
+                            child: Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: Get.width * 0.070,
+                                  child: value.isLoading
+                                      ? CircularProgressIndicator()
+                                      : SizedBox(),
+                                  backgroundColor: Colors.grey,
+                                  foregroundImage: NetworkImage(value.imageUrl),
+                                  // backgroundImage: AssetImage('images/nophoto.png'),
+                                ),
+                                Positioned(
+                                    left: 33,
+                                    top: 30,
+                                    child: Icon(
+                                      Icons.camera_alt_rounded,
+                                      color: Colors.grey,
+                                      size: 15,
+                                    ))
+                              ],
                             ),
                           ),
                           SizedBox(width: Get.width * 0.02),
@@ -48,10 +63,10 @@ class Settings extends StatelessWidget {
                                 cUser.data.name!,
                                 style: TextStyle(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.w400,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 18),
                               ),
-                              SizedBox(height: 3),
+                              SizedBox(height: Get.height * 0.005),
                               Text(
                                 cUser.data.position!,
                                 overflow: TextOverflow.clip,
@@ -59,7 +74,16 @@ class Settings extends StatelessWidget {
                                     fontSize: 13,
                                     color: Colors.grey.shade400,
                                     fontWeight: FontWeight.w400),
-                              )
+                              ),
+                              SizedBox(height: Get.height * 0.005),
+                              Text(
+                                cUser.data.email!,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.grey.shade400,
+                                    fontWeight: FontWeight.w400),
+                              ),
                             ],
                           ),
                         ],
@@ -148,7 +172,7 @@ class Settings extends StatelessWidget {
                         () {},
                       ),
                       settingMenu(
-                          "Forgot Password?",
+                          "Change Password",
                           Icon(Icons.arrow_forward_ios, color: mainColor),
                           () {}),
                       settingMenu(

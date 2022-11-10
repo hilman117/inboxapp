@@ -38,8 +38,6 @@ class NavBar extends StatelessWidget {
                           title: 'Request',
                         ),
                         FloatingNavbarItem(
-                            icon: Icons.chat_bubble_outline, title: ''),
-                        FloatingNavbarItem(
                             icon: Icons.not_listed_location_rounded,
                             title: 'Lost and Found'),
                       ],
