@@ -34,7 +34,11 @@ class GeneralForm extends StatelessWidget {
                 width: Get.width * 0.25,
                 child: Text(
                   title,
-                  style: const TextStyle(color: Colors.black, fontSize: 15),
+                  style: TextStyle(
+                      color: value.isLfReport && title == 'Send this to'
+                          ? Colors.black38
+                          : Colors.black,
+                      fontSize: 15),
                 ),
               ),
               SizedBox(height: Get.height * 0.01),
@@ -66,7 +70,7 @@ class GeneralForm extends StatelessWidget {
                                                     title == 'Send this to'
                                                 ? Text(title,
                                                     style: const TextStyle(
-                                                        color: Colors.black,
+                                                        color: Colors.black38,
                                                         fontSize: 15))
                                                 : TextFormField(
                                                     controller: value.nameItem,
