@@ -8,7 +8,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
-import 'package:post/main.dart';
+import 'package:post/Screens/settings/setting_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../service/notif.dart';
@@ -239,8 +240,9 @@ class CreateRequestController with ChangeNotifier {
           .doc(_idTask)
           .set({
         "positionSender": cUser.data.position,
-        "profileImageSender": box!.get('fotoProfile') != ''
-            ? box!.get('fotoProfile')
+        "profileImageSender": Provider.of<SettingProvider>(context).imageUrl !=
+                ''
+            ? Provider.of<SettingProvider>(context).imageUrl
             : "'https://scontent.fcgk27-1.fna.fbcdn.net/v/t39.30808-6/314984197_5217827161655012_8963512146921511629_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=730e14&_nc_eui2=AeF937McIYSdTVi3_HoAAHOf9YToegKuJSf1hOh6Aq4lJ-TRMK8gevR9UQqjUG6tSX_gzDf107wjEC3d0441twh0&_nc_ohc=OJUCMD0cz8sAX929JAg&_nc_ht=scontent.fcgk27-1.fna&oh=00_AfAql1vtroWjeyiDoxvjyCe07Ajttnv48E7Z1OwCJyK8wQ&oe=636F4993'",
         "location": location,
         "title": _selectedTitle,

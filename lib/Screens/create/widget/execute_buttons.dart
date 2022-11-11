@@ -9,7 +9,8 @@ class ExecuteButton {
   Color cardColor = const Color(0xff475D5B);
   Widget sendButton(BuildContext context, double widht, VoidCallback callback) {
     return SizedBox(
-      width: widht * 0.3,
+      height: Get.height * 0.055,
+      width: Get.width,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               backgroundColor: mainColor,
@@ -24,26 +25,29 @@ class ExecuteButton {
 
   Widget imageButton(BuildContext context) {
     return SizedBox(
-      width: Get.width * 0.3,
-      child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-              side: BorderSide(color: mainColor),
-              foregroundColor: mainColor,
+      width: Get.width * 0.40,
+      height: Get.height * 0.048,
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              backgroundColor: mainColor,
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(4),
               )),
           onPressed: () {
             imagePicker(context);
           },
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(
-                Icons.attach_file,
-                size: 16,
+              const Text(
+                "Photo",
+                style: TextStyle(fontWeight: FontWeight.normal),
               ),
-              const Text("Attach"),
+              Image.asset(
+                'images/camera.png',
+                width: 20,
+              )
             ],
           )),
     );

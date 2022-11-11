@@ -5,6 +5,7 @@ import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/create/widget/appbar.dart';
 import 'package:post/Screens/create/widget/dialog_dept.dart';
 import 'package:post/Screens/create/widget/dialog_title.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import '../../controller/c_user.dart';
 import 'widget/box_description.dart';
@@ -60,7 +61,7 @@ class _CreateRequestState extends State<CreateRequest> {
             alignment: Alignment.center,
             height: height * 0.05,
             width: widht,
-            child: appBarCreateTask(context)),
+            child: CreateTaskAppBar()),
         centerTitle: true,
         titleTextStyle: const TextStyle(fontSize: 18),
         backgroundColor: Colors.white,
@@ -77,134 +78,106 @@ class _CreateRequestState extends State<CreateRequest> {
               child: Consumer<CreateRequestController>(
                 builder: (context, value, child) => Column(
                   children: [
-                    AnimatedContainer(
-                      curve: Curves.easeInOutSine,
-                      duration: Duration(milliseconds: 320),
-                      height: value.isLfReport ? height * 0.05 : height * 0.11,
-                      child: Stack(
-                        children: [
-                          GeneralForm(
-                              title: "Send this task to:",
-                              hintForm: value.selectedDept,
-                              callback: () {
-                                //form choose department....
-                                sendToOption(context);
-                              },
-                              icons: Icons.arrow_drop_down_rounded),
-                          AnimatedPadding(
-                              curve: Curves.easeInOutSine,
-                              padding: EdgeInsets.only(
-                                  top: value.isLfReport
-                                      ? height * 0.0
-                                      : height * 0.06),
-                              duration: Duration(milliseconds: 300),
-                              child:
-                                  inputLocation(widht, height, () {}, context)),
-                        ],
-                      ),
+                    GeneralForm(
+                        title: "Send this to",
+                        hintForm: value.selectedDept,
+                        callback: () {
+                          //form choose department....
+                          sendToOption(context);
+                        },
+                        icons: Icons.arrow_drop_down_rounded,
+                        colors: value.isLfReport ? Colors.grey : mainColor),
+                    SizedBox(height: height * 0.010),
+                    InputLocation(
+                      callback: () {},
                     ),
                     SizedBox(height: height * 0.010),
                     GeneralForm(
-                        title:
-                            value.isLfReport ? 'Name of Item:  ' : "Title:   ",
+                        title: value.isLfReport ? 'Name of Item  ' : "Title   ",
                         hintForm: value.selectedtitle,
                         callback: () async {
                           // // form choose title.....
                           provider.clearSearchTitle();
                           titleList(context);
                         },
-                        icons: Icons.list),
+                        icons: Icons.arrow_drop_down_rounded,
+                        colors: mainColor),
                     SizedBox(height: height * 0.010),
-                    boxDescription(
-                        Provider.of<CreateRequestController>(context)
-                            .descriptionController,
-                        height,
-                        "Description..."),
+                    BoxDescription(
+                      controller: Provider.of<CreateRequestController>(context)
+                          .descriptionController,
+                    ),
                     SizedBox(height: height * 0.025),
-                    AnimatedContainer(
-                        height: value.isLfReport ? height * 0.1 : height * 0.15,
-                        duration: Duration(milliseconds: 300),
-                        child: Stack(
-                          children: [
-                            AnimatedOpacity(
-                                duration: Duration(milliseconds: 200),
-                                opacity: value.isLfReport ? 0.0 : 1.0,
-                                child: schedulePicker(context, height, widht)),
-                            AnimatedPadding(
-                              duration: Duration(milliseconds: 300),
-                              padding: EdgeInsets.only(
-                                  top: value.isLfReport
-                                      ? height * 0.0
-                                      : height * 0.1),
-                              child: Container(
-                                color: Colors.white,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                    SchedulePicker(),
+                    SizedBox(height: height * 0.010),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
+                      alignment: Alignment.centerLeft,
+                      color: Colors.white,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Attachment',
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 15)),
+                          Provider.of<CreateRequestController>(context)
+                                      .images ==
+                                  null
+                              ? ExecuteButton().imageButton(context)
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Provider.of<CreateRequestController>(
-                                                    context)
-                                                .images ==
-                                            null
-                                        ? ExecuteButton().imageButton(context)
-                                        : Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                height: height * 0.1,
-                                                width: widht * 0.2,
-                                                child: Image.file(
-                                                    Provider.of<CreateRequestController>(
-                                                            context)
-                                                        .images!,
-                                                    fit: BoxFit.cover),
-                                              ),
-                                              CloseButton(
-                                                color: Colors.grey,
-                                                onPressed: () => Provider.of<
-                                                            CreateRequestController>(
-                                                        context,
-                                                        listen: false)
-                                                    .clearImage(),
-                                              )
-                                            ],
-                                          ),
-                                    ExecuteButton().sendButton(
-                                      context,
-                                      widht,
-                                      () {
-                                        if (value.isCreateRequest) {
+                                    Container(
+                                      height: height * 0.1,
+                                      width: widht * 0.2,
+                                      child: Image.file(
+                                          Provider.of<CreateRequestController>(
+                                                  context)
+                                              .images!,
+                                          fit: BoxFit.cover),
+                                    ),
+                                    CloseButton(
+                                      color: Colors.grey,
+                                      onPressed: () =>
                                           Provider.of<CreateRequestController>(
                                                   context,
                                                   listen: false)
-                                              .tasks(
-                                                  context,
-                                                  cUser.data.hotelid!,
-                                                  cUser.data.uid!,
-                                                  value.descriptionController,
-                                                  cUser.data.name!,
-                                                  cUser.data.department!,
-                                                  cUser.data.email!,
-                                                  value.selectedLocation.text);
-                                        } else {
-                                          provider.lfReport(
-                                              context,
-                                              cUser.data.hotelid!,
-                                              cUser.data.uid!,
-                                              value.descriptionController,
-                                              cUser.data.name!,
-                                              cUser.data.email!,
-                                              value.selectedLocation.text);
-                                        }
-                                      },
+                                              .clearImage(),
                                     )
                                   ],
                                 ),
-                              ),
-                            )
-                          ],
-                        )),
+                          SizedBox(height: height * 0.010),
+                          ExecuteButton().sendButton(
+                            context,
+                            widht,
+                            () {
+                              if (value.isCreateRequest) {
+                                Provider.of<CreateRequestController>(context,
+                                        listen: false)
+                                    .tasks(
+                                        context,
+                                        cUser.data.hotelid!,
+                                        cUser.data.uid!,
+                                        value.descriptionController,
+                                        cUser.data.name!,
+                                        cUser.data.department!,
+                                        cUser.data.email!,
+                                        value.selectedLocation.text);
+                              } else {
+                                provider.lfReport(
+                                    context,
+                                    cUser.data.hotelid!,
+                                    cUser.data.uid!,
+                                    value.descriptionController,
+                                    cUser.data.name!,
+                                    cUser.data.email!,
+                                    value.selectedLocation.text);
+                              }
+                            },
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               )),
