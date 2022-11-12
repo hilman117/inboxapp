@@ -5,8 +5,7 @@ import 'package:post/Screens/homescreen/pages/task_page.dart';
 import '../../main.dart';
 
 class HomeController with ChangeNotifier {
-  // Color themeColor = const Color(0xffF8CCA5);
-  // Color cardColor = const Color(0xff475D5B);
+  //changing pages in navigation bar
   int _navIndex = 0;
   int get navIndex => _navIndex;
   final pages = [TaskPage(), LostAndFoundList()];
@@ -15,6 +14,7 @@ class HomeController with ChangeNotifier {
     notifyListeners();
   }
 
+  // to collapsing the search button
   bool _isCollaps = false;
   bool get isCollapse => _isCollaps;
   void changeValue() async {
@@ -22,6 +22,7 @@ class HomeController with ChangeNotifier {
     notifyListeners();
   }
 
+  // update status duty
   bool _isOnduty = true;
   bool get isOnduty => _isOnduty;
   void changeDutyStatus(bool value) {
@@ -29,4 +30,6 @@ class HomeController with ChangeNotifier {
     box!.putAll({'dutyStatus': value});
     notifyListeners();
   }
+
+  
 }

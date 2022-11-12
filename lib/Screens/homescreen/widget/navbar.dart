@@ -20,9 +20,10 @@ class NavBar extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Consumer<HomeController>(
                 builder: (context, value, child) => FloatingNavbar(
+
                       // elevation: 50.0,
                       width: Get.width * 0.85,
-                      backgroundColor: mainColor,
+                      backgroundColor: Colors.white54,
                       borderRadius: 15,
                       currentIndex: value.navIndex,
                       onTap: (int val) {
@@ -30,8 +31,10 @@ class NavBar extends StatelessWidget {
                             .changePage(val);
                         print(value.navIndex);
                       },
-                      selectedBackgroundColor: mainColor,
-                      selectedItemColor: Colors.white,
+                      elevation: 60,
+                      unselectedItemColor: Colors.grey,
+                      selectedBackgroundColor: Colors.white,
+                      selectedItemColor: mainColor,
                       items: [
                         FloatingNavbarItem(
                           icon: Icons.checklist_rounded,

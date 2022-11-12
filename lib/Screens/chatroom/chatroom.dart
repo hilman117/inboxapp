@@ -265,8 +265,6 @@ class _ChatroomState extends State<Chatroom>
                                           widget.sendTo);
                                     })
                                   : button("Assign", () async {
-                                      await provider.getDeptartement();
-                                      await provider.getNames();
                                       assign(
                                           context,
                                           widget.taskId,
@@ -274,6 +272,7 @@ class _ChatroomState extends State<Chatroom>
                                           widget.location,
                                           widget.tilteTask,
                                           scrollController);
+                                      await provider.getDeptartementAndNames();
                                     }),
                               value.status == "Close"
                                   ? SizedBox()
@@ -284,7 +283,7 @@ class _ChatroomState extends State<Chatroom>
                                               backgroundColor: Colors.white,
                                               msg:
                                                   "You have received this request")
-                                          : provider.accept(
+                                          : provider.accept(context,
                                               widget.taskId,
                                               widget.emailSender,
                                               widget.location,

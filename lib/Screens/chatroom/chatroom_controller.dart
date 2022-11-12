@@ -125,7 +125,6 @@ class ChatRoomController with ChangeNotifier {
       await ref.putFile(_image!);
       imageUrl = await ref.getDownloadURL();
     }
-
     await FirebaseFirestore.instance
         .collection('Hotel List')
         .doc(cUser.data.hotel)
@@ -178,13 +177,59 @@ class ChatRoomController with ChangeNotifier {
       scroll.animateTo(position,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }
-    changeValueOfFading(taskId);
+    Future.delayed(
+      Duration(seconds: 4),
+      () async {
+        FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(cUser.data.hotel)
+            .collection('tasks')
+            .doc(taskId)
+            .update({'isFading': false});
+        notifyListeners();
+      },
+    );
     notifyListeners();
   }
 
 //funtion untuk terima....................................................
-  void accept(String taskId, String emailSender, String location, String title,
-      ScrollController scroll, String deptTujuan) async {
+  //to update how many requests are accepted by this user
+  int _acceptedTotal = 0;
+  int get acceptedTotal => _acceptedTotal;
+  int _closeTotal = 0;
+  int get closeTotal => _closeTotal;
+  getTotalAcceptedAndClose() async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(auth.currentUser!.email)
+        .get();
+    _closeTotal = userDoc['closeRequest'];
+    _acceptedTotal = userDoc['acceptRequest'];
+    print('this is total request are accepted by this user $_acceptedTotal');
+    print('this is total request are close by this user $_closeTotal');
+    notifyListeners();
+  }
+
+  int? _newTotalAccepted;
+  int? get newTotalAccepted => _newTotalAccepted;
+  addNewAcceptedTotal(BuildContext context, int addOne) {
+    if (_newTotalAccepted == null) {
+      _newTotalAccepted = _acceptedTotal + addOne;
+      notifyListeners();
+    } else {
+      _newTotalAccepted = (newTotalAccepted! + addOne);
+      notifyListeners();
+    }
+  }
+
+  void accept(
+      BuildContext context,
+      String taskId,
+      String emailSender,
+      String location,
+      String title,
+      ScrollController scroll,
+      String deptTujuan) async {
     if (imageName != '') {
       String imageExtension = imageName.split('.').last;
       final ref = FirebaseStorage.instance.ref(
@@ -220,8 +265,24 @@ class ChatRoomController with ChangeNotifier {
     if (deptTujuan != cUser.data.department) {
       Notif().saveTopic(taskId);
     }
+    addNewAcceptedTotal(context, 1);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(cUser.data.email)
+        .update({'acceptRequest': _newTotalAccepted});
     changeStatus("Accepted", cUser.data.name!);
-    changeValueOfFading(taskId);
+    Future.delayed(
+      Duration(seconds: 4),
+      () async {
+        FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(cUser.data.hotel)
+            .collection('tasks')
+            .doc(taskId)
+            .update({'isFading': false});
+        notifyListeners();
+      },
+    );
     var result = await FirebaseFirestore.instance
         .collection('users')
         .doc(emailSender)
@@ -285,26 +346,6 @@ class ChatRoomController with ChangeNotifier {
   bool _isSwitchedEmpolyee = false;
   bool get isSwitchedEmpolyee => _isSwitchedEmpolyee;
 
-  getNames() async {
-    var result = await FirebaseFirestore.instance
-        .collection("users")
-        .where("hotelid", isEqualTo: cUser.data.hotelid)
-        .get();
-    Set listName = result.docs.map((e) => e.data()['name']).toSet();
-    Set listemail = result.docs.map((e) => e.data()['email']).toSet();
-    List statusDuty = result.docs.map((e) => e.data()['isOnDuty']).toList();
-    List<String> list = List.castFrom(listName.toList());
-    List<String> listEmail = List.castFrom(listemail.toList());
-    List<bool> listStatusDuty = List.castFrom(statusDuty.toList());
-    names.addAll(list);
-    emailList.addAll(listEmail);
-    boolLlistemployee = List.filled(list.length, false);
-    statusDutyList.addAll(listStatusDuty);
-    print(
-        "$statusDutyList status duty nyaaaaaaaaa-------------------------------------");
-    notifyListeners();
-  }
-
   void selectFucntionEmployee(bool value, int index) {
     boolLlistemployee![index] = value;
     if (boolLlistemployee![index]) {
@@ -326,16 +367,35 @@ class ChatRoomController with ChangeNotifier {
   }
 
   List<bool>? boolLlistGroup;
-  getDeptartement() async {
-    var result = await FirebaseFirestore.instance
+  getDeptartementAndNames() async {
+    _isLoading = true;
+    notifyListeners();
+    //get the list of employees name
+    var resultName = await FirebaseFirestore.instance
+        .collection("users")
+        .where("hotelid", isEqualTo: cUser.data.hotelid)
+        .get();
+    Set listName = resultName.docs.map((e) => e.data()['name']).toSet();
+    Set listemail = resultName.docs.map((e) => e.data()['email']).toSet();
+    List statusDuty = resultName.docs.map((e) => e.data()['isOnDuty']).toList();
+    List<String> listNames = List.castFrom(listName.toList());
+    List<String> listEmail = List.castFrom(listemail.toList());
+    List<bool> listStatusDuty = List.castFrom(statusDuty.toList());
+    names.addAll(listNames);
+    emailList.addAll(listEmail);
+    boolLlistemployee = List.filled(listNames.length, false);
+    statusDutyList.addAll(listStatusDuty);
+    //get the list of departments
+    var resultDept = await FirebaseFirestore.instance
         .collection("users")
         .where("hotelid", isEqualTo: cUser.data.hotelid)
         .get();
     Set listDepartement =
-        result.docs.map((e) => e.data()['department']).toSet();
-    List<String> list = List.castFrom(listDepartement.toList());
-    departments.addAll(list);
-    boolLlistGroup = List.filled(list.length, false);
+        resultDept.docs.map((e) => e.data()['department']).toSet();
+    List<String> listDept = List.castFrom(listDepartement.toList());
+    departments.addAll(listDept);
+    boolLlistGroup = List.filled(listDept.length, false);
+    _isLoading = false;
     notifyListeners();
   }
 
@@ -413,7 +473,18 @@ class ChatRoomController with ChangeNotifier {
       ])
     });
     changeStatus("Assigned", departmentsAndNamesSelected.last);
-    changeValueOfFading(taskId);
+    Future.delayed(
+      Duration(seconds: 4),
+      () async {
+        FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(cUser.data.hotel)
+            .collection('tasks')
+            .doc(taskId)
+            .update({'isFading': false});
+        notifyListeners();
+      },
+    );
     if (listEmail.isNotEmpty) {
       listEmail.forEach((element) async {
         print(
@@ -457,6 +528,18 @@ class ChatRoomController with ChangeNotifier {
   }
 
   //function untuk close task....
+  int? _newTotalClose;
+  int? get newTotalClose => _newTotalClose;
+  addNewCloseTotal(BuildContext context, int addOne) {
+    if (_newTotalClose == null) {
+      _newTotalClose = _closeTotal + addOne;
+      notifyListeners();
+    } else {
+      _newTotalClose = (newTotalClose! + addOne);
+      notifyListeners();
+    }
+  }
+
   Future<void> close(
       BuildContext context,
       String taskId,
@@ -498,7 +581,23 @@ class ChatRoomController with ChangeNotifier {
       ])
     });
     changeStatus("Close", cUser.data.name!);
-    changeValueOfFading(taskId);
+    addNewCloseTotal(context, 1);
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(cUser.data.email)
+        .update({'closeRequest': newTotalClose});
+    Future.delayed(
+      Duration(seconds: 4),
+      () async {
+        FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(cUser.data.hotel)
+            .collection('tasks')
+            .doc(taskId)
+            .update({'isFading': false});
+        notifyListeners();
+      },
+    );
     if (deptTujuan != cUser.data.department) {
       Notif().saveTopic(taskId);
     }
@@ -558,7 +657,18 @@ class ChatRoomController with ChangeNotifier {
       ])
     });
     changeStatus("Reopen", cUser.data.name!);
-    changeValueOfFading(taskId);
+    Future.delayed(
+      Duration(seconds: 4),
+      () async {
+        FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(cUser.data.hotel)
+            .collection('tasks')
+            .doc(taskId)
+            .update({'isFading': false});
+        notifyListeners();
+      },
+    );
     if (deptTujuan != cUser.data.department) {
       Notif().saveTopic(taskId);
     }

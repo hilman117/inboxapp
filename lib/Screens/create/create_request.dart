@@ -31,7 +31,9 @@ class _CreateRequestState extends State<CreateRequest> {
       Duration.zero,
       () {
         Provider.of<CreateRequestController>(context, listen: false)
-            .clearSelectedDept();
+            .clearData();
+        Provider.of<CreateRequestController>(context, listen: false)
+            .clearImage();
       },
     );
   }
@@ -120,6 +122,7 @@ class _CreateRequestState extends State<CreateRequest> {
                           Text('Attachment',
                               style: const TextStyle(
                                   color: Colors.black, fontSize: 15)),
+                          SizedBox(height: height * 0.010),
                           Provider.of<CreateRequestController>(context)
                                       .images ==
                                   null

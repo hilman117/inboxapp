@@ -20,16 +20,18 @@ class AnimatedReceiver extends StatefulWidget {
 
 class _AnimatedReceiverState extends State<AnimatedReceiver>
     with SingleTickerProviderStateMixin {
-  Animatable<Color?> bgColor = TweenSequence<Color?>([
-    TweenSequenceItem(
-        tween: ColorTween(begin: Colors.white, end: Colors.blue), weight: 1.0),
-    TweenSequenceItem(
-        tween: ColorTween(begin: Colors.blue, end: Colors.white), weight: 1.0),
-    TweenSequenceItem(
-        tween: ColorTween(begin: Colors.white, end: Colors.blue), weight: 1.0),
-    TweenSequenceItem(
-        tween: ColorTween(begin: Colors.blue, end: Colors.white), weight: 1.0),
-  ]);
+  Animatable<Color?> bgColor(Color color) {
+    return TweenSequence<Color?>([
+      TweenSequenceItem(
+          tween: ColorTween(begin: Colors.white, end: color), weight: 1.0),
+      TweenSequenceItem(
+          tween: ColorTween(begin: color, end: Colors.white), weight: 1.0),
+      TweenSequenceItem(
+          tween: ColorTween(begin: Colors.white, end: color), weight: 1.0),
+      TweenSequenceItem(
+          tween: ColorTween(begin: color, end: Colors.white), weight: 1.0),
+    ]);
+  }
 
   late AnimationController _controller;
 
@@ -56,7 +58,9 @@ class _AnimatedReceiverState extends State<AnimatedReceiver>
               width: Get.width * 0.40,
               child: Container(
                 color: widget.isFading == true
-                    ? bgColor
+                    ? bgColor(widget.status != 'Accepted'
+                            ? Colors.blue
+                            : Colors.green)
                         .evaluate(AlwaysStoppedAnimation(_controller.value))
                     : Colors.white,
                 child: Text(

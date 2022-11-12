@@ -7,6 +7,9 @@ class UserDetails {
   String? profileImage;
   String? department;
   String? uid;
+  int? acceptRequest;
+  int? closeRequest;
+  int? createRequest;
   bool? notifyWhenAccepted;
   bool? receiveNotifWhenClose;
   String? hotelid;
@@ -14,6 +17,9 @@ class UserDetails {
   UserDetails(
       {this.email,
       this.uid,
+      this.acceptRequest,
+      this.closeRequest,
+      this.createRequest,
       this.hotelid,
       this.name,
       this.position,
@@ -29,6 +35,9 @@ class UserDetails {
         name: json['name'],
         hotelid: json['hotelid'],
         uid: json['uid'],
+        acceptRequest: json['acceptRequest'],
+        closeRequest: json['closeRequest'],
+        createRequest: json['createRequest'],
         position: json['position'],
         hotel: json['hotel'],
         location: json['location'],
@@ -43,6 +52,9 @@ class UserDetails {
         'name': name,
         'hotelid': hotelid,
         'uid': uid,
+        'acceptRequest': acceptRequest,
+        'closeRequest': closeRequest,
+        'createRequest': createRequest,
         'position': position,
         'hotel': hotel,
         'location': location,

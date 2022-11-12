@@ -23,7 +23,7 @@ Widget addButton(BuildContext context, double height, double widht) {
         backgroundColor: Colors.white,
         onPressed: () async {
           Provider.of<CreateRequestController>(context, listen: false)
-              .clearSelectedDept();
+              .clearData();
           Provider.of<CreateRequestController>(context, listen: false)
               .getLocation(cUser.data.hotelid!);
           await Get.to(() => CreateRequest(),

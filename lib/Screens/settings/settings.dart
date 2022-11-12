@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:post/Screens/homescreen/home.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/settings/widget/log_out_dialog.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
@@ -40,7 +41,8 @@ class Settings extends StatelessWidget {
                                       ? CircularProgressIndicator()
                                       : SizedBox(),
                                   backgroundColor: Colors.grey,
-                                  foregroundImage: NetworkImage(value.imageUrl),
+                                  foregroundImage:
+                                      NetworkImage(Home.imageProfile!),
                                   // backgroundImage: AssetImage('images/nophoto.png'),
                                 ),
                                 Positioned(
@@ -102,87 +104,94 @@ class Settings extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   child: Column(
                     children: [
-                      settingMenu(
-                        "Do you want to be notified when your requests are accepted?",
-                        Consumer<SettingProvider>(
-                            builder: (context, value, child) => Switch(
-                                  activeColor: mainColor,
-                                  activeTrackColor: mainColor,
-                                  inactiveTrackColor: Colors.orange,
-                                  onChanged: (bool bool) async {
-                                    await provider.accepted(bool);
-                                  },
-                                  value: box!.get('ReceiveNotifWhenAccepted') ==
-                                          null
-                                      ? true
-                                      : box!.get('ReceiveNotifWhenAccepted'),
-                                )),
-                        () {},
-                      ),
-                      settingMenu(
-                        "Do you want to be notified when your requests are closed?",
-                        Consumer<SettingProvider>(
-                            builder: (context, value, child) => Switch(
-                                  activeColor: mainColor,
-                                  activeTrackColor: mainColor,
-                                  inactiveTrackColor: Colors.orange,
-                                  onChanged: (bool bool) {
-                                    provider.close(bool);
-                                  },
-                                  value:
-                                      box!.get('ReceiveNotifWhenClose') == null
-                                          ? true
-                                          : box!.get('ReceiveNotifWhenClose'),
-                                )),
-                        () {},
-                      ),
-                      settingMenu(
-                        "Do yo want to send notification when you update a chat?",
-                        Consumer<SettingProvider>(
-                            builder: (context, value, child) => Switch(
-                                  activeColor: mainColor,
-                                  activeTrackColor: mainColor,
-                                  inactiveTrackColor: Colors.orange,
-                                  onChanged: (bool bool) {
-                                    provider.sendNotif(bool);
-                                  },
-                                  value: box!.get('sendNotification') == null
-                                      ? true
-                                      : box!.get('sendNotification'),
-                                )),
-                        () {},
-                      ),
-                      settingMenu(
-                        "On Duty?",
-                        Consumer<SettingProvider>(
-                            builder: (context, value, child) => Switch(
-                                  activeColor: mainColor,
-                                  activeTrackColor: mainColor,
-                                  inactiveTrackColor: Colors.orange,
-                                  onChanged: (bool bool) async {
-                                    provider.onDuty(bool);
-                                    Provider.of<HomeController>(context,
-                                            listen: false)
-                                        .changeDutyStatus(box!.get('isOnDuty'));
-                                  },
-                                  value: box!.get('isOnDuty') == null
-                                      ? true
-                                      : box!.get('isOnDuty'),
-                                )),
-                        () {},
-                      ),
-                      settingMenu(
-                          "Change Password",
-                          Icon(Icons.arrow_forward_ios, color: mainColor),
-                          () {}),
-                      settingMenu(
-                          "Log out",
-                          Icon(
+                      SettingMenu(
+                          callback: () {},
+                          menuName:
+                              "Do you want to be notified when your requests are accepted?",
+                          widget: Consumer<SettingProvider>(
+                              builder: (context, value, child) =>
+                                  Switch.adaptive(
+                                    activeColor: mainColor,
+                                    activeTrackColor: mainColor,
+                                    inactiveTrackColor: Colors.orange,
+                                    onChanged: (bool bool) async {
+                                      await provider.accepted(bool);
+                                    },
+                                    value: box!.get(
+                                                'ReceiveNotifWhenAccepted') ==
+                                            null
+                                        ? true
+                                        : box!.get('ReceiveNotifWhenAccepted'),
+                                  ))),
+                      SettingMenu(
+                          callback: () {},
+                          menuName:
+                              "Do you want to be notified when your requests are closed?",
+                          widget: Consumer<SettingProvider>(
+                              builder: (context, value, child) =>
+                                  Switch.adaptive(
+                                    activeColor: mainColor,
+                                    activeTrackColor: mainColor,
+                                    inactiveTrackColor: Colors.orange,
+                                    onChanged: (bool bool) {
+                                      provider.close(bool);
+                                    },
+                                    value: box!.get('ReceiveNotifWhenClose') ==
+                                            null
+                                        ? true
+                                        : box!.get('ReceiveNotifWhenClose'),
+                                  ))),
+                      SettingMenu(
+                          callback: () {},
+                          menuName:
+                              "Do yo want to send notification when you update a chat?",
+                          widget: Consumer<SettingProvider>(
+                              builder: (context, value, child) =>
+                                  Switch.adaptive(
+                                    activeColor: mainColor,
+                                    activeTrackColor: mainColor,
+                                    inactiveTrackColor: Colors.orange,
+                                    onChanged: (bool bool) {
+                                      provider.sendNotif(bool);
+                                    },
+                                    value: box!.get('sendNotification') == null
+                                        ? true
+                                        : box!.get('sendNotification'),
+                                  ))),
+                      SettingMenu(
+                          callback: () {},
+                          menuName: "On Duty?",
+                          widget: Consumer<SettingProvider>(
+                              builder: (context, value, child) =>
+                                  Switch.adaptive(
+                                    activeColor: mainColor,
+                                    activeTrackColor: mainColor,
+                                    inactiveTrackColor: Colors.orange,
+                                    onChanged: (bool bool) async {
+                                      provider.onDuty(bool);
+                                      Provider.of<HomeController>(context,
+                                              listen: false)
+                                          .changeDutyStatus(
+                                              box!.get('isOnDuty'));
+                                    },
+                                    value: box!.get('isOnDuty') == null
+                                        ? true
+                                        : box!.get('isOnDuty'),
+                                  ))),
+                      SettingMenu(
+                          callback: () {},
+                          menuName: "Change Password",
+                          widget:
+                              Icon(Icons.arrow_forward_ios, color: mainColor)),
+                      SettingMenu(
+                          callback: () {
+                            logoutDialog(context);
+                          },
+                          menuName: "Log out",
+                          widget: Icon(
                             Icons.logout_rounded,
                             color: mainColor,
-                          ), () {
-                        logoutDialog(context);
-                      }),
+                          )),
                       Spacer(),
                       Text(
                         "${cUser.data.hotelid}",
