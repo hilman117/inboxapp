@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../service/theme.dart';
@@ -101,9 +100,7 @@ class MyMessage extends StatelessWidget {
                                   height: 80,
                                   child: Hero(
                                     tag: idImage,
-                                    child: image.isEmpty
-                                        ? Lottie.asset("images/loader.json")
-                                        : Image.network(
+                                    child:  Image.network(
                                             image,
                                             width: 170,
                                             fit: BoxFit.cover,

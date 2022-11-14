@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:post/Screens/dasboard/widget/timer.dart';
 import '../../../controller/c_user.dart';
 import '../../../models/tasks.dart';
@@ -147,9 +146,7 @@ Widget listdata(
                                   ? Container(
                                       alignment: Alignment.centerRight,
                                       width: width * 0.40,
-                                      child: Container(
-                                          child: Lottie.asset("images/esc.json",
-                                              width: 20)),
+                                      child: Container(),
                                     )
                                   : AnimatedReceiver(
                                       receiver: data['receiver'],

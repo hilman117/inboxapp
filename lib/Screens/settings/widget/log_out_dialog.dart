@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
 void logoutDialog(context) {
@@ -24,79 +26,35 @@ void logoutDialog(context) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text("Cancel"),
-                      style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          foregroundColor: Colors.orange),
+                    SizedBox(
+                      width: Get.width * 0.2,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("Cancel"),
+                        style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4)),
+                            foregroundColor: mainColor),
+                      ),
                     ),
-                    SizedBox(width: 30),
-                    ElevatedButton(
-                      onPressed: () {
-                        Provider.of<SettingProvider>(context, listen: false)
-                            .signOut(context);
-                      },
-                      child: Text("Yes"),
-                      style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Colors.orange),
+                    // SizedBox(width: 30),
+                    SizedBox(
+                      width: Get.width * 0.2,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Provider.of<SettingProvider>(context, listen: false)
+                              .signOut(context);
+                        },
+                        child: Text("Yes"),
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(4)),
+                            backgroundColor: mainColor),
+                      ),
                     ),
-                    // Container(
-                    //   width: 90,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(20),
-                    //   ),
-                    //   child: ElevatedButton(
-                    //       style: ElevatedButton.styleFrom(
-                    //           primary: Color(0xff007dff),
-                    //           shape: RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(20))),
-                    //       onPressed: () {
-                    //         Navigator.pop(context);
-                    //       },
-                    //       child: Text(
-                    //         "Cancel",
-                    //         style: TextStyle(
-                    //             fontWeight: FontWeight.normal,
-                    //             color: Colors.white),
-                    //       )),
-                    // ),
-                    // Container(
-                    //   width: 90,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(20),
-                    //   ),
-                    //   child: ElevatedButton(
-                    //       style: ElevatedButton.styleFrom(
-                    //           primary: Colors.white,
-                    //           side: BorderSide(
-                    //             color: Color(0xff007dff),
-                    //           ),
-                    //           shape: RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(20))),
-                    //       onPressed: () {
-                    //         _auth.signOut();
-                    //         Navigator.pushAndRemoveUntil(
-                    //           context,
-                    //           PageTransition(
-                    //               child: SignIn(),
-                    //               type: PageTransitionType.rightToLeft),
-                    //           (Route<dynamic> route) => false,
-                    //         );
-                    //       },
-                    //       child: Text(
-                    //         "Yes",
-                    //         style: TextStyle(
-                    //           fontWeight: FontWeight.normal,
-                    //           color: Color(0xff007dff),
-                    //         ),
-                    //       )),
-                    // ),
                   ],
                 )
               ],

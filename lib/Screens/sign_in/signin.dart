@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/sign_in/sign_in_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +66,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       InputForm(
                           icon: Icons.alternate_email_rounded,
-                          hintText: "Email",
+                          hintText: AppLocalizations.of(context)!.email,
                           controller: emailC,
                           action: TextInputAction.next,
                           callback: () {},
@@ -79,7 +80,7 @@ class _SignInState extends State<SignIn> {
                               ? Icons.visibility_off_outlined
                               : Icons.visibility_outlined,
                           controller: passwordC,
-                          hintText: "Password",
+                          hintText: AppLocalizations.of(context)!.password,
                           isObsecure: value.isObsecure,
                           callback: () => controller.obsecure(),
                           textInputType: TextInputType.visiblePassword,
@@ -122,7 +123,9 @@ class _SignInState extends State<SignIn> {
                                       ),
                                     ),
                                     SizedBox(width: width * 0.03),
-                                    Text("Always remember me",
+                                    Text(
+                                        AppLocalizations.of(context)!
+                                            .alwaysRememberMe,
                                         style: GoogleFonts.poppins(
                                             color: Colors.black))
                                   ],
@@ -144,7 +147,7 @@ class _SignInState extends State<SignIn> {
                             onPressed: () =>
                                 controller.signIn(emailC.text, passwordC.text),
                             child: Text(
-                              "Login",
+                              AppLocalizations.of(context)!.login,
                               style: GoogleFonts.poppins(color: Colors.white),
                             )),
                       ),
@@ -152,7 +155,7 @@ class _SignInState extends State<SignIn> {
                         height: height * 0.050,
                       ),
                       Text(
-                        "Register your property by contact us at support@post.com",
+                        AppLocalizations.of(context)!.register,
                         style: GoogleFonts.poppins(
                             fontSize: 13, color: Colors.grey),
                         textAlign: TextAlign.center,

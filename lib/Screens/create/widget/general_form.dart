@@ -33,7 +33,9 @@ class GeneralForm extends StatelessWidget {
               Container(
                 width: Get.width * 0.25,
                 child: Text(
-                  title,
+                  value.isLfReport && title == 'Send this to'
+                      ? '- - - - - - '
+                      : title,
                   style: TextStyle(
                       color: value.isLfReport && title == 'Send this to'
                           ? Colors.black38
@@ -68,7 +70,8 @@ class GeneralForm extends StatelessWidget {
                                         child: Container(
                                             child: value.isLfReport &&
                                                     title == 'Send this to'
-                                                ? Text(title,
+                                                ? Text(
+                                                    '- - - - - - - - - - - - - - - - - - -',
                                                     style: const TextStyle(
                                                         color: Colors.black38,
                                                         fontSize: 15))
@@ -98,16 +101,16 @@ class GeneralForm extends StatelessWidget {
                                             color: Colors.black45),
                                       ),
                                 value.isLfReport ? SizedBox() : Spacer(),
-                                Icon(
-                                  value.isLfReport && title == 'Send this to'
-                                      ? Icons.cancel
-                                      : icons,
-                                  color: value.isLfReport &&
-                                          title == 'Send this to'
-                                      ? Colors.grey
-                                      : secondary,
-                                  size: 20,
-                                ),
+                                value.isLfReport && title == 'Send this to'
+                                    ? SizedBox()
+                                    : Icon(
+                                        icons,
+                                        color: value.isLfReport &&
+                                                title == 'Send this to'
+                                            ? Colors.grey
+                                            : secondary,
+                                        size: 20,
+                                      ),
                               ],
                             ),
                           )),

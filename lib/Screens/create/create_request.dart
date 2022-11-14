@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../controller/c_user.dart';
 import 'widget/box_description.dart';
 import 'widget/execute_buttons.dart';
-import 'widget/form.dart';
+import 'widget/general_form.dart';
 import 'widget/input_locaton.dart';
 import 'widget/schedule.dart';
 
@@ -121,7 +121,7 @@ class _CreateRequestState extends State<CreateRequest> {
                         children: [
                           Text('Attachment',
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 15)),
+                                  color: Colors.black54, fontSize: 15)),
                           SizedBox(height: height * 0.010),
                           Provider.of<CreateRequestController>(context)
                                       .images ==

@@ -10,10 +10,12 @@ void sendToOption(BuildContext context) {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Color(0xffE3F5F2),
           alignment: Alignment.center,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           content: Container(
+            color: Color(0xffE3F5F2),
             // height: 500,
             width: 500,
             child: Consumer<CreateRequestController>(

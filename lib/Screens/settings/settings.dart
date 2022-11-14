@@ -195,7 +195,7 @@ class Settings extends StatelessWidget {
                       Spacer(),
                       Text(
                         "${cUser.data.hotelid}",
-                        style: TextStyle(fontSize: 16, color: mainColor),
+                        style: TextStyle(fontSize: 16, color: Colors.black),
                       )
                     ],
                   ),

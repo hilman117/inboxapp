@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class CustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> tabs = [
       Tab(
-        child: Text("My Post",
+        child: Text(AppLocalizations.of(context)!.myPost,
             textAlign: TextAlign.center,
             style: const TextStyle(fontWeight: FontWeight.normal)),
       ),
@@ -28,12 +29,12 @@ class CustomAppbar extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.normal)),
       ),
       Tab(
-        child: Text("Other",
+        child: Text(AppLocalizations.of(context)!.others,
             textAlign: TextAlign.center,
             style: const TextStyle(fontWeight: FontWeight.normal)),
       ),
       Tab(
-        child: Text("Close",
+        child: Text(AppLocalizations.of(context)!.closed,
             textAlign: TextAlign.center,
             style: const TextStyle(fontWeight: FontWeight.normal)),
       ),

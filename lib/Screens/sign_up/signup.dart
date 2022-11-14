@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconly/iconly.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:post/Screens/sign_up/select_hotel_name.dart';
 import 'package:post/Screens/sign_in/signin.dart';
 import 'package:post/models/user.dart';
@@ -80,11 +78,7 @@ class _SignUpState extends State<SignUp> {
           "createdAt": DateTime.now()
         });
         Get.snackbar('Register', 'Register New Account Has Succeed');
-        Navigator.pushAndRemoveUntil(
-          context,
-          PageTransition(child: SignIn(), type: PageTransitionType.rightToLeft),
-          (Route<dynamic> route) => false,
-        );
+        Get.to(() => SignIn(), transition: Transition.leftToRight);
 
         final CollectionReference userData = FirebaseFirestore.instance
             .collection('Hotel List')
@@ -190,7 +184,7 @@ class _SignUpState extends State<SignUp> {
                                   nameC,
                                   'Name',
                                   Icon(
-                                    IconlyLight.profile,
+                                    Icons.person,
                                     color: primaryColor,
                                   ),
                                   TextInputType.name),
@@ -198,7 +192,7 @@ class _SignUpState extends State<SignUp> {
                                   positionC,
                                   'Position',
                                   Icon(
-                                    IconlyLight.star,
+                                    Icons.star,
                                     color: primaryColor,
                                   ),
                                   TextInputType.text),
@@ -214,7 +208,7 @@ class _SignUpState extends State<SignUp> {
                                   locationC,
                                   'Location',
                                   Icon(
-                                    IconlyLight.location,
+                                    Icons.pin_drop,
                                     color: primaryColor,
                                   ),
                                   TextInputType.streetAddress),
@@ -222,7 +216,7 @@ class _SignUpState extends State<SignUp> {
                                   emailC,
                                   'Email',
                                   Icon(
-                                    IconlyLight.message,
+                                    Icons.message,
                                     color: primaryColor,
                                   ),
                                   TextInputType.emailAddress),
@@ -247,7 +241,7 @@ class _SignUpState extends State<SignUp> {
                                           TextInputType.visiblePassword,
                                       decoration: InputDecoration(
                                           prefixIcon: Icon(
-                                            IconlyLight.password,
+                                            Icons.password,
                                             color: primaryColor,
                                           ),
                                           errorBorder: UnderlineInputBorder(
@@ -263,9 +257,9 @@ class _SignUpState extends State<SignUp> {
                                       });
                                     },
                                     child: isObsecure
-                                        ? Icon(IconlyLight.hide,
+                                        ? Icon(Icons.visibility_off_rounded,
                                             color: primaryColor)
-                                        : Icon(IconlyLight.show,
+                                        : Icon(Icons.visibility,
                                             color: primaryColor),
                                   ),
                                 ],

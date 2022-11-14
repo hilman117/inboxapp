@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:post/Screens/sign_up/signup.dart';
@@ -591,7 +590,7 @@ class _Keyboard2State extends State<Keyboard2> {
                       height: 40,
                       child: Row(
                         children: [
-                          Icon(IconlyBold.camera),
+                          Icon(Icons.camera_alt_rounded),
                           SizedBox(width: 5),
                           Text("Camera")
                         ],
@@ -609,7 +608,7 @@ class _Keyboard2State extends State<Keyboard2> {
                       height: 40,
                       child: Row(
                         children: [
-                          Icon(IconlyBold.image),
+                          Icon(Icons.image),
                           SizedBox(width: 5),
                           Text("Gallery")
                         ],

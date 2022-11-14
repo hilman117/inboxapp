@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 class AnimatedReceiver extends StatefulWidget {
@@ -65,10 +66,10 @@ class _AnimatedReceiverState extends State<AnimatedReceiver>
                     : Colors.white,
                 child: Text(
                   (widget.status == "Assigned")
-                      ? "to ${widget.assigned.last}"
+                      ? "${AppLocalizations.of(context)!.to} ${widget.assigned.last}"
                       : (widget.receiver == '')
                           ? ''
-                          : "by ${widget.receiver}",
+                          : "${AppLocalizations.of(context)!.by} ${widget.receiver}",
                   style: TextStyle(fontSize: 12),
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.end,

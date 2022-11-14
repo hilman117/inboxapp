@@ -189,6 +189,9 @@ class CreateRequestController with ChangeNotifier {
 
   void clearImage() {
     _image = null;
+    nameItem.clear();
+    _isLfReport = false;
+    _isCreateRequest = true;
     notifyListeners();
   }
 

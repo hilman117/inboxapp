@@ -70,16 +70,7 @@ class Notif {
             body: body,
             notificationLayout: NotificationLayout.Inbox,
             bigPicture: image,
-            category: NotificationCategory.Message),
-        actionButtons: <NotificationActionButton>[
-          NotificationActionButton(
-              key: "Open", label: "Open", enabled: true, color: Colors.blue),
-          NotificationActionButton(
-              key: "Accept",
-              label: "Accept",
-              enabled: true,
-              color: Colors.blue),
-        ]);
+            category: NotificationCategory.Message));
   }
 
   foreground() {

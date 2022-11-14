@@ -1,4 +1,5 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/dashboard_provider.dart';
@@ -20,7 +21,6 @@ class NavBar extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Consumer<HomeController>(
                 builder: (context, value, child) => FloatingNavbar(
-
                       // elevation: 50.0,
                       width: Get.width * 0.85,
                       backgroundColor: Colors.white54,
@@ -38,7 +38,7 @@ class NavBar extends StatelessWidget {
                       items: [
                         FloatingNavbarItem(
                           icon: Icons.checklist_rounded,
-                          title: 'Request',
+                          title: AppLocalizations.of(context)!.request,
                         ),
                         FloatingNavbarItem(
                             icon: Icons.not_listed_location_rounded,

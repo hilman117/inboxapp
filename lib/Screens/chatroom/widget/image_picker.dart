@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
-import 'package:post/Screens/create/widget/form.dart';
+import 'package:post/Screens/create/widget/general_form.dart';
 import 'package:provider/provider.dart';
 
 Future imagePicker(BuildContext context, double height, double widht) {

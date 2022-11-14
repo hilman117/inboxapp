@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class StatusWidget extends StatefulWidget {
@@ -41,7 +42,9 @@ class _StatusWidgetState extends State<StatusWidget>
   Widget build(BuildContext context) {
     return Consumer<ChatRoomController>(
         builder: (context, value, child) => FadeTransition(
-              opacity: widget.isFading == true ? _animation : notTrue,
+              opacity: widget.isFading == true || widget.status == 'ESC'
+                  ? _animation
+                  : notTrue,
               child: Container(
                 alignment: Alignment.center,
                 // height: 23,
@@ -54,7 +57,7 @@ class _StatusWidgetState extends State<StatusWidget>
                           : (widget.status == 'Resume')
                               ? Colors.green.shade50
                               : (widget.status == 'ESC')
-                                  ? Colors.orange.shade50
+                                  ? Colors.orange.shade100
                                   : (widget.status == 'Close')
                                       ? Colors.grey.shade300
                                       : (widget.status == 'On Hold')
@@ -85,7 +88,18 @@ class _StatusWidgetState extends State<StatusWidget>
                   padding:
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                   child: Text(
-                    widget.status,
+                    (widget.status == 'New')
+                        ? AppLocalizations.of(context)!.newStatus
+                        : (widget.status == 'Accepted')
+                            ? AppLocalizations.of(context)!.accepted
+                            : (widget.status == 'Assigned')
+                                ? AppLocalizations.of(context)!.assigned
+                                : (widget.status == 'Reopen')
+                                    ? AppLocalizations.of(context)!.reopen
+                                    : (widget.status == 'ESC')
+                                        ? AppLocalizations.of(context)!
+                                            .escalation
+                                        : AppLocalizations.of(context)!.close,
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 14,
@@ -96,7 +110,7 @@ class _StatusWidgetState extends State<StatusWidget>
                               : (widget.status == 'Resume')
                                   ? Colors.green.shade400
                                   : (widget.status == 'ESC')
-                                      ? Colors.orange.shade400
+                                      ? Colors.orange.shade900
                                       : (widget.status == 'Close' ||
                                               widget.status == 'Claimed')
                                           ? Colors.grey.shade500

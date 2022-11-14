@@ -10,6 +10,7 @@ import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/lf/lf_controller.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/Screens/sign_in/sign_in_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/session_user.dart';
 import 'package:provider/provider.dart';
 import 'Screens/chatroom/chatroom_controller.dart';
@@ -56,10 +57,22 @@ void main() async {
       ChangeNotifierProvider(create: (context) => DashboardProvider()),
       ChangeNotifierProvider(create: (context) => ReportLFController()),
     ],
-    builder: (context, child) =>
-        GetMaterialApp(
-          
-          debugShowCheckedModeBanner: false, home: MyApp()),
+    builder: (context, child) => GetMaterialApp(
+        // locale: Locale('zh'),
+        localeResolutionCallback: (
+          locale,
+          supportedLocales,
+        ) {
+          if (supportedLocales.contains(Locale(locale!.languageCode))) {
+            return locale;
+          } else {
+            return const Locale('en', '');
+          }
+        },
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        debugShowCheckedModeBanner: false,
+        home: MyApp()),
   ));
 }
 
