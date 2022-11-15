@@ -145,7 +145,7 @@ class ChatRoomAppbar extends StatelessWidget {
                           ? Container(
                               width: Get.width * 0.40,
                               child: Text(
-                                (status == "Assigned")
+                                (status == "Assigned") 
                                     ? "${applications.to} $assignTo"
                                     : (receiver == '')
                                         ? ""

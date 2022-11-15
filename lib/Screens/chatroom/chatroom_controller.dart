@@ -470,6 +470,7 @@ class ChatRoomController with ChangeNotifier {
       ])
     });
     changeStatus("Assigned", "", departmentsAndNamesSelected.last);
+    notifyListeners();
     Future.delayed(
       Duration(seconds: 4),
       () async {
