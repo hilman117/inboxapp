@@ -4,9 +4,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../service/theme.dart';
 
 class AssignBubbleLeft extends StatelessWidget {
-  final String assignMessage;
+  final String assignTo;
+  final String assignSender;
   final String time;
-  const AssignBubbleLeft({required this.assignMessage, required this.time});
+  const AssignBubbleLeft(
+      {required this.assignSender,
+      required this.time,
+      required this.assignTo});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class AssignBubbleLeft extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "$assignMessage ${AppLocalizations.of(context)!.hasAssignThisRequestTo}",
+                    "$assignSender ${AppLocalizations.of(context)!.hasAssignThisRequestTo} $assignTo",
                     style: TextStyle(
                         color: Colors.black87, fontSize: size * 0.012),
                     textAlign: TextAlign.start,

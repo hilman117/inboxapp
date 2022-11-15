@@ -13,7 +13,8 @@ Widget leftBubble(
     // String description,
     String isAccepted,
     String esc,
-    String assign,
+    String assignSender,
+    String assignTo,
     String image) {
   return Column(
     //buble chat yg tampil jika orang lain sbg pengirim pesan..................................
@@ -21,9 +22,9 @@ Widget leftBubble(
     children: [
       (isAccepted != '')
           ? SizedBox()
-          : (assign != '')
+          : (assignSender != '')
               ? SizedBox()
-              : (message == '')
+              : (message.isEmpty && image.isEmpty)
                   ? SizedBox()
                   : LeftMessage(
                       commentList: commentList,
@@ -37,21 +38,22 @@ Widget leftBubble(
       ),
       (isAccepted == '')
           ? SizedBox()
-          : (assign != '')
+          : (assignSender != '')
               ? SizedBox()
               : AcceptedBubbleLeft(time: time, isAccepted: isAccepted),
       SizedBox(
         height: isAccepted == '' ? 0 : 10,
       ),
-      // widget yg ditampilkan ketika kita assign request ke user lain.......................
+      // widget yg ditampilkan ketika kita assignSender request ke user lain.......................
       SizedBox(
-        height: assign == '' ? 0 : 10,
+        height: assignSender == '' ? 0 : 10,
       ),
-      assign == ''
+      assignSender == ''
           ? SizedBox()
-          : AssignBubbleLeft(assignMessage: assign, time: time),
+          : AssignBubbleLeft(
+              assignSender: assignSender, time: time, assignTo: assignTo),
       SizedBox(
-        height: assign == '' ? 0 : 10,
+        height: assignSender == '' ? 0 : 10,
       ),
       // status esc................................
       SizedBox(

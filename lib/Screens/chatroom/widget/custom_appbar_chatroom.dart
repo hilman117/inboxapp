@@ -104,7 +104,7 @@ class ChatRoomAppbar extends StatelessWidget {
             height: Get.height * 0.01,
           ),
           Container(
-            color: mainColor,
+            color: mainColor.withOpacity(0.2),
             width: Get.width,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -119,7 +119,7 @@ class ChatRoomAppbar extends StatelessWidget {
                         width: Get.width * 0.45,
                         child: Text(
                           '${applications!.title}: $title',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          style: TextStyle(color: secondary, fontSize: 14),
                           overflow: TextOverflow.clip,
                         ),
                       ),
@@ -130,7 +130,7 @@ class ChatRoomAppbar extends StatelessWidget {
                         width: Get.width * 0.5,
                         child: Text(
                           '${applications.location}: $lokasi',
-                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          style: TextStyle(color: secondary, fontSize: 14),
                           overflow: TextOverflow.clip,
                         ),
                       ),
@@ -143,9 +143,11 @@ class ChatRoomAppbar extends StatelessWidget {
                           ? Container(
                               width: Get.width * 0.40,
                               child: Text(
-                                status != applications.assigned
-                                    ? '${applications.by} $receiver'
-                                    : '${applications.to} ${assigned.last}',
+                                (status == "Assigned")
+                                    ? "${applications.to} ${assigned.last}"
+                                    : (receiver == '')
+                                        ? ""
+                                        : "${applications.by} $receiver",
                                 style:
                                     TextStyle(color: secondary, fontSize: 14),
                                 overflow: TextOverflow.clip,

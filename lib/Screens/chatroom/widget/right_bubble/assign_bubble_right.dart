@@ -4,9 +4,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../service/theme.dart';
 
 class AssignBubnleRight extends StatelessWidget {
-  final String assignMessage;
+  final String assignSender;
+  final String assignTo;
   final String time;
-  const AssignBubnleRight({required this.assignMessage, required this.time});
+  const AssignBubnleRight(
+      {required this.assignSender, required this.time, required this.assignTo});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class AssignBubnleRight extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "$assignMessage ${AppLocalizations.of(context)!.hasAssignThisRequestTo}",
+                    "$assignSender ${AppLocalizations.of(context)!.hasAssignThisRequestTo} $assignTo",
                     style: TextStyle(
                         color: Colors.black87, fontSize: size * 0.012),
                     textAlign: TextAlign.end,

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../dasboard/widget/card.dart';
 import '../chatroom_controller.dart';
 
 void closeDialog(context, String taskId, String location, String title,
@@ -60,7 +59,7 @@ void closeDialog(context, String taskId, String location, String title,
                           },
                           child: Text(
                             app.no,
-                            style: TextStyle(color: cardColor),
+                            style: TextStyle(color: mainColor),
                           )),
                     ),
                     SizedBox(

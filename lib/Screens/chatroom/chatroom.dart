@@ -13,6 +13,7 @@ import 'package:post/Screens/chatroom/widget/custom_appbar_chatroom.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/chatroom/widget/keyboard.dart';
 import 'package:post/controller/c_user.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import 'widget/button.dart';
 import 'widget/close_dialog.dart';
@@ -202,6 +203,8 @@ class _ChatroomState extends State<Chatroom>
                                       snapshot.data!['comment'][index]
                                           ['assignTask'],
                                       snapshot.data!['comment'][index]
+                                          ['assignTo'],
+                                      snapshot.data!['comment'][index]
                                           ['imageComment'])
                                   : leftBubble(
                                       commentList,
@@ -216,6 +219,8 @@ class _ChatroomState extends State<Chatroom>
                                       snapshot.data!['comment'][index]['esc'],
                                       snapshot.data!['comment'][index]
                                           ['assignTask'],
+                                      snapshot.data!['comment'][index]
+                                          ['assignTo'],
                                       snapshot.data!['comment'][index]
                                           ['imageComment']),
                             ],
@@ -340,7 +345,7 @@ class _ChatroomState extends State<Chatroom>
                                             left: 15,
                                             bottom: 7,
                                             child: CircularProgressIndicator(
-                                              color: Colors.orange,
+                                              color: mainColor,
                                             ))
                                         : SizedBox(),
                                   ],

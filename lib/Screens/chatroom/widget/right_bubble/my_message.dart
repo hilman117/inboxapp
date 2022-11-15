@@ -72,7 +72,7 @@ class MyMessage extends StatelessWidget {
                               )
                             : SizedBox(),
                         SizedBox(height: image == '' ? 0 : Get.height * 0.015),
-                        image == ''
+                        image.isEmpty
                             ? SizedBox()
                             : GestureDetector(
                                 onTap: () {

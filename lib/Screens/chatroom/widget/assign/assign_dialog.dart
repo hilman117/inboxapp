@@ -29,7 +29,7 @@ Future assign(BuildContext context, String taskId, String emailSender,
                             child: SingleChildScrollView(
                               child: Dialog(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16)),
+                                      borderRadius: BorderRadius.circular(10)),
                                   child: AnimatedContainer(
                                     duration: Duration(milliseconds: 2000),
                                     decoration: BoxDecoration(
@@ -58,8 +58,9 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                               height: 35,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                    BorderRadius.circular(20),
-                                                color: mainColor,
+                                                    BorderRadius.circular(4),
+                                                color:
+                                                    mainColor.withOpacity(0.2),
                                               ),
                                               child: Row(
                                                 children: [
@@ -198,9 +199,8 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                   child:
                                                                       Container(
                                                                     decoration: BoxDecoration(
-                                                                        color: Colors
-                                                                            .orange
-                                                                            .shade50,
+                                                                        color: mainColor.withOpacity(
+                                                                            0.2),
                                                                         borderRadius:
                                                                             BorderRadius.circular(16)),
                                                                     child: ListView.builder(
@@ -232,9 +232,8 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                   child:
                                                                       Container(
                                                                     decoration: BoxDecoration(
-                                                                        color: Colors
-                                                                            .orange
-                                                                            .shade50,
+                                                                        color: mainColor.withOpacity(
+                                                                            0.2),
                                                                         borderRadius:
                                                                             BorderRadius.circular(16)),
                                                                     child: ListView.builder(
@@ -286,9 +285,11 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          16)),
+                                                                          4)),
                                                           foregroundColor:
-                                                              mainColor),
+                                                              secondary
+                                                                  .withOpacity(
+                                                                      0.5)),
                                                       onPressed: () async {
                                                         Navigator.pop(context);
                                                         provider
@@ -296,8 +297,7 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                       },
                                                       child: Text("Cancel")),
                                                   Consumer<ChatRoomController>(
-                                                      builder: (context, value,
-                                                              child) =>
+                                                      builder: (context, value, child) =>
                                                           ElevatedButton(
                                                               style: ElevatedButton.styleFrom(
                                                                   elevation: 0,
@@ -309,10 +309,10 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                   shape: RoundedRectangleBorder(
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              16)),
+                                                                              4)),
                                                                   backgroundColor:
-                                                                      Colors
-                                                                          .orange),
+                                                                      secondary.withOpacity(
+                                                                          0.5)),
                                                               onPressed: () {
                                                                 if (value
                                                                     .departmentsAndNamesSelected
@@ -337,7 +337,8 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                 }
                                                               },
                                                               child: Text(
-                                                                  "Assign")))
+                                                                  AppLocalizations.of(context)!
+                                                                      .assign)))
                                                 ],
                                               ),
                                             ),

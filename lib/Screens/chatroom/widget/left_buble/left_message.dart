@@ -93,11 +93,11 @@ class LeftMessage extends StatelessWidget {
                                   height: 80,
                                   child: Hero(
                                     tag: idImage,
-                                    child:  Image.network(
-                                            image,
-                                            width: 170,
-                                            fit: BoxFit.cover,
-                                          ),
+                                    child: Image.network(
+                                      image,
+                                      width: 170,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               )

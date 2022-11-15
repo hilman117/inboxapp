@@ -12,6 +12,7 @@ import 'package:post/Screens/homescreen/home.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../service/notif.dart';
+import '../../service/theme.dart';
 import '../sign_up/signup.dart';
 
 class CreateRequestController with ChangeNotifier {
@@ -235,21 +236,22 @@ class CreateRequestController with ChangeNotifier {
       String senderEmail,
       String location) async {
     // try {
+    final application = AppLocalizations.of(context);
     if (_selectedDept == 'Choose Department') {
       Fluttertoast.showToast(
-          msg: "No departement selected",
+          msg: application!.noDepartementSelected,
           backgroundColor: Colors.white,
-          textColor: Colors.red);
+          textColor: mainColor);
     } else if (location.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Choose specific location",
+          msg: application!.chooseSpecificLocation,
           backgroundColor: Colors.white,
-          textColor: Colors.red);
+          textColor: mainColor);
     } else if (_selectedTitle == 'Input Title') {
       Fluttertoast.showToast(
-          msg: "Title is empty",
+          msg: application!.titleIsEmpty,
           backgroundColor: Colors.white,
-          textColor: Colors.red);
+          textColor: mainColor);
     } else {
       _isLoading = true;
       _idTask = Uuid().v4();
@@ -300,6 +302,7 @@ class CreateRequestController with ChangeNotifier {
             'accepted': "",
             'esc': "",
             'assignTask': "",
+            'assignTo': "",
             'sender': senderName,
             'description': controller.text,
             'senderemail': senderEmail,
@@ -353,21 +356,22 @@ class CreateRequestController with ChangeNotifier {
       String senderName,
       String senderEmail,
       String location) async {
+    final applcation = AppLocalizations.of(context);
     if (location.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Choose specific location",
+          msg: applcation!.chooseSpecificLocation,
           backgroundColor: Colors.white,
-          textColor: Colors.red);
+          textColor: mainColor);
     } else if (nameItem.text.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Name of item should be filled",
+          msg: applcation!.nameOfItemShouldBeFilled,
           backgroundColor: Colors.white,
-          textColor: Colors.red);
+          textColor: mainColor);
     } else if (imageName.isEmpty) {
       Fluttertoast.showToast(
-          msg: "Should attach an image",
+          msg: applcation!.shouldAttachAnImage,
           backgroundColor: Colors.white,
-          textColor: Colors.red);
+          textColor: mainColor);
     } else {
       try {
         _isLoading = true;
@@ -425,8 +429,8 @@ class CreateRequestController with ChangeNotifier {
         Fluttertoast.showToast(
             backgroundColor: Colors.white,
             toastLength: Toast.LENGTH_SHORT,
-            textColor: Colors.black,
-            msg: "Ups! Something Wrong");
+            textColor: mainColor,
+            msg: applcation!.upsSomethingWrong);
         print(e);
       }
     }
