@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 void showPopUpMenu(BuildContext context) async {
+  final app = AppLocalizations.of(context);
   double size = Get.height + Get.width;
   await showMenu(
       elevation: 0,
@@ -13,13 +15,13 @@ void showPopUpMenu(BuildContext context) async {
           child: Row(
             children: [
               Icon(
-                Icons.edit,
+                Icons.schedule,
                 color: Colors.grey.shade400,
               ),
               SizedBox(
                 width: 10,
               ),
-              Text("Edit Due Date"),
+              Text(app!.editDueDate),
             ],
           ),
           value: 'Edit Due Date',
@@ -35,7 +37,7 @@ void showPopUpMenu(BuildContext context) async {
               SizedBox(
                 width: 10,
               ),
-              Text("Delete Due Date"),
+              Text(app.deleteDueDate),
             ],
           ),
           value: 'Delete Due Date',
@@ -51,7 +53,7 @@ void showPopUpMenu(BuildContext context) async {
               SizedBox(
                 width: 10,
               ),
-              Text("Add Due Date"),
+              Text(app.addDueDate),
             ],
           ),
           value: 'Add Due Date',
@@ -67,7 +69,7 @@ void showPopUpMenu(BuildContext context) async {
               SizedBox(
                 width: 10,
               ),
-              Text("On Hold"),
+              Text(app.onHold),
             ],
           ),
           value: 'On Hold',
@@ -83,7 +85,7 @@ void showPopUpMenu(BuildContext context) async {
               SizedBox(
                 width: 10,
               ),
-              Text("Edit title"),
+              Text(app.editTitle),
             ],
           ),
           value: 'Edit title',
@@ -99,7 +101,7 @@ void showPopUpMenu(BuildContext context) async {
               SizedBox(
                 width: 10,
               ),
-              Text("Edit location"),
+              Text(app.editLocation),
             ],
           ),
           value: 'Edit location',

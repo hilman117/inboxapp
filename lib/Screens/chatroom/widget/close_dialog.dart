@@ -51,7 +51,8 @@ void closeDialog(context, String taskId, String location, String title,
                       width: Get.width * 0.25,
                       child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: mainColor),
+                              side:
+                                  BorderSide(color: secondary.withOpacity(0.5)),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4))),
                           onPressed: () {
@@ -59,7 +60,7 @@ void closeDialog(context, String taskId, String location, String title,
                           },
                           child: Text(
                             app.no,
-                            style: TextStyle(color: mainColor),
+                            style: TextStyle(color: secondary.withOpacity(0.5)),
                           )),
                     ),
                     SizedBox(
@@ -67,7 +68,7 @@ void closeDialog(context, String taskId, String location, String title,
                       width: Get.width * 0.25,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: mainColor,
+                              backgroundColor: secondary.withOpacity(0.5),
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4))),

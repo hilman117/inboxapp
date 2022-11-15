@@ -7,6 +7,7 @@ import 'package:post/service/theme.dart';
 import 'pop_up_menu.dart';
 
 class ChatRoomAppbar extends StatelessWidget {
+  final String assignTo;
   final String imageProfileSender;
   final String sender;
   final String positionSender;
@@ -28,7 +29,8 @@ class ChatRoomAppbar extends StatelessWidget {
       required this.lokasi,
       // required this.image,
       required this.schedule,
-      required this.assigned});
+      required this.assigned,
+      required this.assignTo});
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +146,7 @@ class ChatRoomAppbar extends StatelessWidget {
                               width: Get.width * 0.40,
                               child: Text(
                                 (status == "Assigned")
-                                    ? "${applications.to} ${assigned.last}"
+                                    ? "${applications.to} $assignTo"
                                     : (receiver == '')
                                         ? ""
                                         : "${applications.by} $receiver",

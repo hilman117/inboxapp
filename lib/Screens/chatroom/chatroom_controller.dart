@@ -84,9 +84,13 @@ class ChatRoomController with ChangeNotifier {
   String get status => _status;
   String _receiver = "";
   String get receiver => _receiver;
-  void changeStatus(String newStatus, String newReceiver) {
+  String _assignTo = "";
+  String get assignTo => _assignTo;
+  void changeStatus(
+      String newStatus, String newReceiver, String newAssignmentTarget) {
     _status = newStatus;
     _receiver = newReceiver;
+    _assignTo = newAssignmentTarget;
     notifyListeners();
   }
 
@@ -272,7 +276,7 @@ class ChatRoomController with ChangeNotifier {
         .collection('users')
         .doc(cUser.data.email)
         .update({'acceptRequest': _newTotalAccepted});
-    changeStatus("Accepted", cUser.data.name!);
+    changeStatus("Accepted", cUser.data.name!, '');
     Future.delayed(
       Duration(seconds: 4),
       () async {
@@ -440,15 +444,6 @@ class ChatRoomController with ChangeNotifier {
 
   Future<void> assign(BuildContext context, String taskId, String emailSender,
       String location, String title, ScrollController scroll) async {
-    if (imageName != '') {
-      _isLoading = true;
-      notifyListeners();
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image!);
-      imageUrl = await ref.getDownloadURL();
-    }
     await FirebaseFirestore.instance
         .collection('Hotel List')
         .doc(cUser.data.hotel)
@@ -469,12 +464,12 @@ class ChatRoomController with ChangeNotifier {
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
+          'imageComment': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
     });
-    changeStatus("Assigned", departmentsAndNamesSelected.last);
+    changeStatus("Assigned", "", departmentsAndNamesSelected.last);
     Future.delayed(
       Duration(seconds: 4),
       () async {
@@ -551,13 +546,6 @@ class ChatRoomController with ChangeNotifier {
       String reason,
       String email,
       String deptTujuan) async {
-    if (imageName != '') {
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image!);
-      imageUrl = await ref.getDownloadURL();
-    }
     await FirebaseFirestore.instance
         .collection('Hotel List')
         .doc(cUser.data.hotel)
@@ -578,12 +566,12 @@ class ChatRoomController with ChangeNotifier {
           'sender': cUser.data.name,
           'description': "$reason",
           'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
+          'imageComment': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
     });
-    changeStatus("Close", cUser.data.name!);
+    changeStatus("Close", cUser.data.name!, "");
     addNewCloseTotal(context, 1);
     FirebaseFirestore.instance
         .collection('users')
@@ -628,13 +616,6 @@ class ChatRoomController with ChangeNotifier {
   //reopen task.....
   Future<void> reopen(BuildContext context, String taskId, String location,
       String title, ScrollController scroll, String deptTujuan) async {
-    if (imageName != '') {
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image!);
-      imageUrl = await ref.getDownloadURL();
-    }
     await FirebaseFirestore.instance
         .collection('Hotel List')
         .doc(cUser.data.hotel)
@@ -655,12 +636,12 @@ class ChatRoomController with ChangeNotifier {
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
+          'imageComment': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
     });
-    changeStatus("Reopen", cUser.data.name!);
+    changeStatus("Reopen", cUser.data.name!, "");
     Future.delayed(
       Duration(seconds: 4),
       () async {

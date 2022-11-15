@@ -120,8 +120,8 @@ class _ChatroomState extends State<Chatroom>
     Future.delayed(
       Duration.zero,
       () {
-        Provider.of<ChatRoomController>(context, listen: false)
-            .changeStatus(widget.statusTask, widget.penerimaTask);
+        Provider.of<ChatRoomController>(context, listen: false).changeStatus(
+            widget.statusTask, widget.penerimaTask, widget.assign.last);
         print(Provider.of<ChatRoomController>(context, listen: false).status);
       },
     );
@@ -147,6 +147,7 @@ class _ChatroomState extends State<Chatroom>
             child: Consumer<ChatRoomController>(
               builder: (context, value, child) {
                 return ChatRoomAppbar(
+                    assignTo: value.assignTo,
                     imageProfileSender: widget.imageProfileSender,
                     sender: widget.nameSender,
                     positionSender: widget.positionSender,
@@ -249,9 +250,9 @@ class _ChatroomState extends State<Chatroom>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              value.status == app!.closed
+                              value.status == "Close"
                                   ? SizedBox()
-                                  : button(app.close, () {
+                                  : button(app!.close, () {
                                       closeDialog(
                                           context,
                                           widget.taskId,
@@ -260,9 +261,9 @@ class _ChatroomState extends State<Chatroom>
                                           scrollController,
                                           widget.emailSender,
                                           widget.sendTo);
-                                    }),
-                              value.status == app.closed
-                                  ? button(app.reopen, () {
+                                    }, widget.statusTask),
+                              value.status == "Close"
+                                  ? button(app!.reopen, () {
                                       provider.reopen(
                                           context,
                                           widget.taskId,
@@ -270,8 +271,8 @@ class _ChatroomState extends State<Chatroom>
                                           widget.tilteTask,
                                           scrollController,
                                           widget.sendTo);
-                                    })
-                                  : button(app.assign, () async {
+                                    }, widget.statusTask)
+                                  : button(app!.assign, () async {
                                       assign(
                                           context,
                                           widget.taskId,
@@ -280,8 +281,8 @@ class _ChatroomState extends State<Chatroom>
                                           widget.tilteTask,
                                           scrollController);
                                       await provider.getDeptartementAndNames();
-                                    }),
-                              value.status == app.closed
+                                    }, widget.statusTask),
+                              value.status == "Close"
                                   ? SizedBox()
                                   : button(app.accept, () {
                                       value.receiver == cUser.data.name
@@ -298,12 +299,12 @@ class _ChatroomState extends State<Chatroom>
                                               widget.tilteTask,
                                               scrollController,
                                               widget.sendTo);
-                                    }),
+                                    }, widget.statusTask),
                             ],
                           ),
                         ),
                         SizedBox(height: 10),
-                        value.status == app.closed
+                        value.status == "Close"
                             ? SizedBox()
                             : Padding(
                                 padding: const EdgeInsets.only(bottom: 10),
