@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/assign/assign_dialog.dart';
 import 'package:post/Screens/chatroom/widget/custom_appbar_chatroom.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/chatroom/widget/keyboard.dart';
 import 'package:post/controller/c_user.dart';
 import 'package:provider/provider.dart';
@@ -137,6 +138,7 @@ class _ChatroomState extends State<Chatroom>
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<ChatRoomController>(context, listen: false);
+    final app = AppLocalizations.of(context);
     double widht = Get.width;
     double height = Get.height;
     return Scaffold(
@@ -242,9 +244,9 @@ class _ChatroomState extends State<Chatroom>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              value.status == "Close"
+                              value.status == app!.closed
                                   ? SizedBox()
-                                  : button("Close", () {
+                                  : button(app.close, () {
                                       closeDialog(
                                           context,
                                           widget.taskId,
@@ -254,8 +256,8 @@ class _ChatroomState extends State<Chatroom>
                                           widget.emailSender,
                                           widget.sendTo);
                                     }),
-                              value.status == "Close"
-                                  ? button("Reopen", () {
+                              value.status == app.closed
+                                  ? button(app.reopen, () {
                                       provider.reopen(
                                           context,
                                           widget.taskId,
@@ -264,7 +266,7 @@ class _ChatroomState extends State<Chatroom>
                                           scrollController,
                                           widget.sendTo);
                                     })
-                                  : button("Assign", () async {
+                                  : button(app.assign, () async {
                                       assign(
                                           context,
                                           widget.taskId,
@@ -274,16 +276,17 @@ class _ChatroomState extends State<Chatroom>
                                           scrollController);
                                       await provider.getDeptartementAndNames();
                                     }),
-                              value.status == "Close"
+                              value.status == app.closed
                                   ? SizedBox()
-                                  : button("Accept", () {
+                                  : button(app.accept, () {
                                       value.receiver == cUser.data.name
                                           ? Fluttertoast.showToast(
                                               textColor: Colors.black,
                                               backgroundColor: Colors.white,
                                               msg:
                                                   "You have received this request")
-                                          : provider.accept(context,
+                                          : provider.accept(
+                                              context,
                                               widget.taskId,
                                               widget.emailSender,
                                               widget.location,
@@ -295,7 +298,7 @@ class _ChatroomState extends State<Chatroom>
                           ),
                         ),
                         SizedBox(height: 10),
-                        value.status == "Close"
+                        value.status == app.closed
                             ? SizedBox()
                             : Padding(
                                 padding: const EdgeInsets.only(bottom: 10),

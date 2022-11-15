@@ -5,7 +5,7 @@ import '../../../service/theme.dart';
 
 Widget button(String buttonName, VoidCallback callback) => SizedBox(
       height: Get.height * 0.04,
-      width: Get.width * 0.25,
+      width: Get.width * 0.30,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,

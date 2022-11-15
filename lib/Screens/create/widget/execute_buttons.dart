@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/create/widget/bottom_sheet_image_picker.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 
 class ExecuteButton {
@@ -19,7 +19,7 @@ class ExecuteButton {
                 borderRadius: BorderRadius.circular(10),
               )),
           onPressed: callback,
-          child: const Text("Send")),
+          child: Text(AppLocalizations.of(context)!.send)),
     );
   }
 
@@ -40,8 +40,8 @@ class ExecuteButton {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Photo",
+              Text(
+                AppLocalizations.of(context)!.photo,
                 style: TextStyle(fontWeight: FontWeight.normal),
               ),
               Image.asset(

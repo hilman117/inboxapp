@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -40,18 +41,19 @@ class SignInController with ChangeNotifier {
 
   List<String> listToken = [];
 
-  Future signIn(String email, String password) async {
+  Future signIn(BuildContext context, String email, String password) async {
+    final applications = AppLocalizations.of(context);
     if (email.isEmpty || !email.contains("@")) {
       return Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
-          msg: "Email Format Not Valid",
+          msg: applications!.emailFormatNotValid,
           textColor: mainColor,
-          backgroundColor: Colors.white);
+          backgroundColor: Colors.grey.shade200);
     }
     if (password.isEmpty) {
       return Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
-          msg: "Password Must Be Filled",
+          msg: applications!.passwordMustBeFilled,
           textColor: mainColor,
           backgroundColor: Colors.grey.shade200);
     } else {
@@ -92,9 +94,15 @@ class SignInController with ChangeNotifier {
               .update({"token": listToken});
           Fluttertoast.showToast(
               toastLength: Toast.LENGTH_LONG,
-              msg: "You are sign in as ${userDetails!.name}",
+              msg: "${applications!.youAreSignInAs} ${userDetails!.name}",
               textColor: Colors.black,
               backgroundColor: Colors.grey.shade50);
+          _isLoading = false;
+          await Future.delayed(Duration(milliseconds: 4000), () {
+            Get.off(() => Home(),
+                transition: Transition.rightToLeft,
+                duration: Duration(milliseconds: 700));
+          });
         }
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
@@ -102,8 +110,8 @@ class SignInController with ChangeNotifier {
           notifyListeners();
           Fluttertoast.showToast(
               toastLength: Toast.LENGTH_LONG,
-              msg: "No user found for that email",
-              textColor: Colors.red,
+              msg: applications!.noUserFoundForThatEmail,
+              textColor: mainColor,
               backgroundColor: Colors.grey.shade200);
           print('No user found for that email.');
         } else if (e.code == 'wrong-password') {
@@ -111,19 +119,13 @@ class SignInController with ChangeNotifier {
           notifyListeners();
           Fluttertoast.showToast(
               toastLength: Toast.LENGTH_LONG,
-              msg: "Wrong password provided for that user",
-              textColor: Colors.red,
+              msg: applications!.wrongPasswordProvidedForThatUser,
+              textColor: mainColor,
               backgroundColor: Colors.grey.shade200);
           _isLoading = false;
           notifyListeners();
         }
       }
-      _isLoading = false;
-      await Future.delayed(Duration(milliseconds: 2000), () {
-        Get.off(() => Home(),
-            transition: Transition.rightToLeft,
-            duration: Duration(milliseconds: 700));
-      });
     }
   }
 }

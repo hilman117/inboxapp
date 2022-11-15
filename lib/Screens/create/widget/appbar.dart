@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 import '../create_request_controller.dart';
 
@@ -29,7 +29,7 @@ class CreateTaskAppBar extends StatelessWidget {
                           },
                         ),
                         Text(
-                          "Create Request",
+                          AppLocalizations.of(context)!.createRequest,
                           style: TextStyle(
                               color: value.isCreateRequest
                                   ? secondary

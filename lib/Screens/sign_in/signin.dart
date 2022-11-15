@@ -145,7 +145,7 @@ class _SignInState extends State<SignIn> {
                                 side: BorderSide(color: mainColor, width: 0.5),
                                 backgroundColor: mainColor),
                             onPressed: () =>
-                                controller.signIn(emailC.text, passwordC.text),
+                                controller.signIn(context ,emailC.text, passwordC.text),
                             child: Text(
                               AppLocalizations.of(context)!.login,
                               style: GoogleFonts.poppins(color: Colors.white),

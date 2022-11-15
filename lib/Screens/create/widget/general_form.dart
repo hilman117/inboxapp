@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 
 Color themeColor = const Color(0xffF8CCA5);
@@ -33,11 +33,11 @@ class GeneralForm extends StatelessWidget {
               Container(
                 width: Get.width * 0.25,
                 child: Text(
-                  value.isLfReport && title == 'Send this to'
+                  value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
                       ? '- - - - - - '
                       : title,
                   style: TextStyle(
-                      color: value.isLfReport && title == 'Send this to'
+                      color: value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
                           ? Colors.black38
                           : Colors.black,
                       fontSize: 15),
@@ -53,7 +53,7 @@ class GeneralForm extends StatelessWidget {
                   children: [
                     Expanded(
                       child: InkWell(
-                          onTap: value.isLfReport && title == 'Send this to'
+                          onTap: value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
                               ? null
                               : callback,
                           child: Container(
@@ -69,7 +69,7 @@ class GeneralForm extends StatelessWidget {
                                     ? Expanded(
                                         child: Container(
                                             child: value.isLfReport &&
-                                                    title == 'Send this to'
+                                                    title == AppLocalizations.of(context)!.sendThisTo
                                                 ? Text(
                                                     '- - - - - - - - - - - - - - - - - - -',
                                                     style: const TextStyle(
@@ -101,12 +101,12 @@ class GeneralForm extends StatelessWidget {
                                             color: Colors.black45),
                                       ),
                                 value.isLfReport ? SizedBox() : Spacer(),
-                                value.isLfReport && title == 'Send this to'
+                                value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
                                     ? SizedBox()
                                     : Icon(
                                         icons,
                                         color: value.isLfReport &&
-                                                title == 'Send this to'
+                                                title == AppLocalizations.of(context)!.sendThisTo
                                             ? Colors.grey
                                             : secondary,
                                         size: 20,

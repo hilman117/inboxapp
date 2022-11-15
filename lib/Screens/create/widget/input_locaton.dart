@@ -3,7 +3,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 
 class InputLocation extends StatelessWidget {
@@ -28,7 +28,7 @@ class InputLocation extends StatelessWidget {
             Container(
               width: Get.width * 0.25,
               child: Text(
-                "Location:   ",
+                "${AppLocalizations.of(context)!.location}:   ",
                 style: TextStyle(color: Colors.black, fontSize: 15),
               ),
             ),

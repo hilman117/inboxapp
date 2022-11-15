@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,9 @@ class SchedulePicker extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      value.isLfReport ? '- - - - ' : "Set Schedule",
+                      value.isLfReport
+                          ? '- - - - '
+                          : AppLocalizations.of(context)!.setSchedule,
                       style: TextStyle(
                           color: value.isLfReport ? Colors.grey : Colors.black),
                     ),
@@ -58,7 +61,9 @@ class SchedulePicker extends StatelessWidget {
                           children: [
                             value.datePicked == ''
                                 ? Text(
-                                    value.isLfReport ? '- - - -' : 'dd/mm/yyyy',
+                                    value.isLfReport
+                                        ? '- - - -'
+                                        : AppLocalizations.of(context)!.date,
                                     style: TextStyle(color: Colors.black38),
                                   )
                                 : Text(value.datePicked,

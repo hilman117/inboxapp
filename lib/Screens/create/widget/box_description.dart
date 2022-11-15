@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 
 class BoxDescription extends StatelessWidget {
@@ -14,7 +14,7 @@ class BoxDescription extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Description",
+          Text(AppLocalizations.of(context)!.description,
               style: const TextStyle(color: Colors.black, fontSize: 15)),
           SizedBox(height: Get.height * 0.01),
           Container(
@@ -35,7 +35,7 @@ class BoxDescription extends StatelessWidget {
                 minLines: 1,
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(left: 8),
-                    hintText: 'Type here',
+                    hintText: AppLocalizations.of(context)!.typeHere,
                     hintStyle: const TextStyle(overflow: TextOverflow.clip),
                     border: InputBorder.none),
               ),

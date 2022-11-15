@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:post/Screens/homescreen/home.dart';
 import 'package:uuid/uuid.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../service/notif.dart';
 import '../sign_up/signup.dart';
 

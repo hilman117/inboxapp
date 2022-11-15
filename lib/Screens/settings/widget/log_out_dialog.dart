@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,7 @@ void logoutDialog(context) {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text("Cancel"),
+                        child: Text(AppLocalizations.of(context)!.no),
                         style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(4)),
@@ -47,7 +48,7 @@ void logoutDialog(context) {
                           Provider.of<SettingProvider>(context, listen: false)
                               .signOut(context);
                         },
-                        child: Text("Yes"),
+                        child: Text(AppLocalizations.of(context)!.yes),
                         style: ElevatedButton.styleFrom(
                             elevation: 0,
                             shape: RoundedRectangleBorder(

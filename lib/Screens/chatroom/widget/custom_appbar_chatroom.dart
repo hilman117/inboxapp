@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/widget/animated/status.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 
 import 'pop_up_menu.dart';
@@ -31,6 +32,7 @@ class ChatRoomAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final applications = AppLocalizations.of(context);
     return Container(
       margin: EdgeInsets.only(top: Get.height * 0.04),
       height: Get.height * 0.2,
@@ -116,7 +118,7 @@ class ChatRoomAppbar extends StatelessWidget {
                       Container(
                         width: Get.width * 0.45,
                         child: Text(
-                          'Title: $title',
+                          '${applications!.title}: $title',
                           style: TextStyle(color: Colors.white, fontSize: 14),
                           overflow: TextOverflow.clip,
                         ),
@@ -127,7 +129,7 @@ class ChatRoomAppbar extends StatelessWidget {
                       Container(
                         width: Get.width * 0.5,
                         child: Text(
-                          'Location: $lokasi',
+                          '${applications.location}: $lokasi',
                           style: TextStyle(color: Colors.white, fontSize: 14),
                           overflow: TextOverflow.clip,
                         ),
@@ -141,9 +143,9 @@ class ChatRoomAppbar extends StatelessWidget {
                           ? Container(
                               width: Get.width * 0.40,
                               child: Text(
-                                status != 'Assigned'
-                                    ? 'by $receiver'
-                                    : 'to ${assigned.last}',
+                                status != applications.assigned
+                                    ? '${applications.by} $receiver'
+                                    : '${applications.to} ${assigned.last}',
                                 style:
                                     TextStyle(color: secondary, fontSize: 14),
                                 overflow: TextOverflow.clip,

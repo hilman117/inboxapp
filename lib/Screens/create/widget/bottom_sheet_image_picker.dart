@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 import '../../dasboard/widget/card.dart';
 import '../create_request_controller.dart';
@@ -41,7 +41,7 @@ Future imagePicker(BuildContext context) {
                   child: OutlinedButton.icon(
                     icon: Icon(Icons.camera, color: mainColor),
                     label: Text(
-                      "Pick from camera",
+                      AppLocalizations.of(context)!.camera,
                       style: TextStyle(color: mainColor),
                     ),
                     style: OutlinedButton.styleFrom(
@@ -63,7 +63,7 @@ Future imagePicker(BuildContext context) {
                   child: OutlinedButton.icon(
                     icon: Icon(Icons.image, color: mainColor),
                     label: Text(
-                      "Pick from galery",
+                      AppLocalizations.of(context)!.fromGalery,
                       style: TextStyle(color: mainColor),
                     ),
                     style: OutlinedButton.styleFrom(

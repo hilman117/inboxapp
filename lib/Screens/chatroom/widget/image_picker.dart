@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/create/widget/general_form.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
 Future imagePicker(BuildContext context, double height, double widht) {
+  final app = AppLocalizations.of(context);
   return showModalBottomSheet(
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(16), topRight: Radius.circular(16))),
       context: context,
       builder: (context) => Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
@@ -36,13 +39,13 @@ Future imagePicker(BuildContext context, double height, double widht) {
                   height: height * 0.055,
                   width: widht * 0.7,
                   child: OutlinedButton.icon(
-                    icon: const Icon(Icons.camera, color: Colors.orange),
-                    label: const Text(
-                      "Pick from camera",
-                      style: const TextStyle(color: Colors.orange),
+                    icon: Icon(Icons.camera, color: mainColor),
+                    label: Text(
+                      app!.camera,
+                      style: TextStyle(color: mainColor),
                     ),
                     style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.orange,
+                        foregroundColor: mainColor,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
@@ -57,13 +60,13 @@ Future imagePicker(BuildContext context, double height, double widht) {
                   height: height * 0.055,
                   width: widht * 0.7,
                   child: OutlinedButton.icon(
-                    icon: Icon(Icons.image, color: Colors.orange),
-                    label: const Text(
-                      "Pick from galery",
-                      style: const TextStyle(color: Colors.orange),
+                    icon: Icon(Icons.image, color: mainColor),
+                    label: Text(
+                      app.fromGalery,
+                      style: TextStyle(color: mainColor),
                     ),
                     style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.orange,
+                        foregroundColor: mainColor,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),

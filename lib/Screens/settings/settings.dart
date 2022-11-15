@@ -5,6 +5,7 @@ import 'package:post/Screens/homescreen/home.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/settings/widget/log_out_dialog.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/controller/c_user.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
@@ -106,8 +107,8 @@ class Settings extends StatelessWidget {
                     children: [
                       SettingMenu(
                           callback: () {},
-                          menuName:
-                              "Do you want to be notified when your requests are accepted?",
+                          menuName: AppLocalizations.of(context)!
+                              .doYouWantToAcceptNotificationWhenYourRequestAreAccepted,
                           widget: Consumer<SettingProvider>(
                               builder: (context, value, child) =>
                                   Switch.adaptive(
@@ -125,8 +126,8 @@ class Settings extends StatelessWidget {
                                   ))),
                       SettingMenu(
                           callback: () {},
-                          menuName:
-                              "Do you want to be notified when your requests are closed?",
+                          menuName: AppLocalizations.of(context)!
+                              .doYouWantToAcceptNotificationWhenYourRequestAreClose,
                           widget: Consumer<SettingProvider>(
                               builder: (context, value, child) =>
                                   Switch.adaptive(
@@ -143,8 +144,8 @@ class Settings extends StatelessWidget {
                                   ))),
                       SettingMenu(
                           callback: () {},
-                          menuName:
-                              "Do yo want to send notification when you update a chat?",
+                          menuName: AppLocalizations.of(context)!
+                              .doYouWantToSendNotificationWhenYouUpdateChat,
                           widget: Consumer<SettingProvider>(
                               builder: (context, value, child) =>
                                   Switch.adaptive(
@@ -160,7 +161,7 @@ class Settings extends StatelessWidget {
                                   ))),
                       SettingMenu(
                           callback: () {},
-                          menuName: "On Duty?",
+                          menuName: "${AppLocalizations.of(context)!.onDuty}?",
                           widget: Consumer<SettingProvider>(
                               builder: (context, value, child) =>
                                   Switch.adaptive(
@@ -180,14 +181,15 @@ class Settings extends StatelessWidget {
                                   ))),
                       SettingMenu(
                           callback: () {},
-                          menuName: "Change Password",
+                          menuName:
+                              AppLocalizations.of(context)!.changePassword,
                           widget:
                               Icon(Icons.arrow_forward_ios, color: mainColor)),
                       SettingMenu(
                           callback: () {
                             logoutDialog(context);
                           },
-                          menuName: "Log out",
+                          menuName: AppLocalizations.of(context)!.logOut,
                           widget: Icon(
                             Icons.logout_rounded,
                             color: mainColor,

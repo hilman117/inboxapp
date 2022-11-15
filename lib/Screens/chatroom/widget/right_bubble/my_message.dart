@@ -48,7 +48,7 @@ class MyMessage extends StatelessWidget {
                         bottomLeft: Radius.circular(16),
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
-                    color: secondary.withOpacity(0.2),
+                    color: mainColor.withOpacity(0.2),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -100,11 +100,11 @@ class MyMessage extends StatelessWidget {
                                   height: 80,
                                   child: Hero(
                                     tag: idImage,
-                                    child:  Image.network(
-                                            image,
-                                            width: 170,
-                                            fit: BoxFit.cover,
-                                          ),
+                                    child: Image.network(
+                                      image,
+                                      width: 170,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               )

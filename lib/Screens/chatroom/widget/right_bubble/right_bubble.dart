@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:post/Screens/chatroom/widget/accepted_bubble.dart';
+import 'package:post/Screens/chatroom/widget/right_bubble/accepted_bubble.dart';
 
-import '../Assign_bubble.dart';
+import 'assign_bubble_right.dart';
 import 'my_message.dart';
 
 Widget rightBubble(
@@ -39,7 +39,7 @@ Widget rightBubble(
           ? SizedBox()
           : (assign != '')
               ? SizedBox()
-              : AcceptedBubble(time: time, isAccepted: isAccepted),
+              : AcceptedBubbleRight(time: time, isAccepted: isAccepted),
       SizedBox(
         height: isAccepted == '' ? 0 : 10,
       ),
@@ -49,10 +49,7 @@ Widget rightBubble(
       ),
       assign == ''
           ? SizedBox()
-          : AssignBubble(
-              assign: assign,
-              time: time,
-            ),
+          : AssignBubnleRight(assignMessage: assign, time: time),
       SizedBox(
         height: assign == '' ? 0 : 10,
       ),

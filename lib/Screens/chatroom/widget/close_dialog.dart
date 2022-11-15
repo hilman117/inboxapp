@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../dasboard/widget/card.dart';
 import '../chatroom_controller.dart';
 
 void closeDialog(context, String taskId, String location, String title,
     ScrollController scroll, String email, String deptTujuan) {
+  final app = AppLocalizations.of(context);
   TextEditingController closetext = TextEditingController();
   showDialog(
       context: context,
@@ -20,8 +22,8 @@ void closeDialog(context, String taskId, String location, String title,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Text(
-                  "Are you sure want to close this task?",
+                Text(
+                  app!.areYouSureWantToCloseThisRequest,
                   style: TextStyle(fontSize: 14),
                 ),
                 Container(
@@ -33,10 +35,10 @@ void closeDialog(context, String taskId, String location, String title,
                       borderRadius: BorderRadius.circular(10)),
                   child: TextFormField(
                     controller: closetext,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                         isDense: true,
                         hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
-                        hintText: "type here the reason...",
+                        hintText: app.typeHere,
                         border: InputBorder.none,
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 5, vertical: 5)),
@@ -50,14 +52,14 @@ void closeDialog(context, String taskId, String location, String title,
                       width: Get.width * 0.25,
                       child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
-                              side: BorderSide(color: Colors.orange),
+                              side: BorderSide(color: mainColor),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16))),
+                                  borderRadius: BorderRadius.circular(4))),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
                           child: Text(
-                            "No",
+                            app.no,
                             style: TextStyle(color: cardColor),
                           )),
                     ),
@@ -66,17 +68,17 @@ void closeDialog(context, String taskId, String location, String title,
                       width: Get.width * 0.25,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange,
+                              backgroundColor: mainColor,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16))),
+                                  borderRadius: BorderRadius.circular(4))),
                           onPressed: () {
                             Provider.of<ChatRoomController>(context,
                                     listen: false)
                                 .close(context, taskId, location, title, scroll,
                                     closetext.text, email, deptTujuan);
                           },
-                          child: const Text("Yes")),
+                          child: Text(app.yes)),
                     ),
                   ],
                 )

@@ -5,6 +5,7 @@ import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/create/widget/appbar.dart';
 import 'package:post/Screens/create/widget/dialog_dept.dart';
 import 'package:post/Screens/create/widget/dialog_title.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import '../../controller/c_user.dart';
@@ -72,7 +73,7 @@ class _CreateRequestState extends State<CreateRequest> {
       body: ModalProgressHUD(
         inAsyncCall: Provider.of<CreateRequestController>(context).isLodaing,
         progressIndicator: CircularProgressIndicator(
-          color: Colors.orange,
+          color: secondary,
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -81,8 +82,10 @@ class _CreateRequestState extends State<CreateRequest> {
                 builder: (context, value, child) => Column(
                   children: [
                     GeneralForm(
-                        title: "Send this to",
-                        hintForm: value.selectedDept,
+                        title: AppLocalizations.of(context)!.sendThisTo,
+                        hintForm: value.selectedDept == 'Choose Department'
+                            ? AppLocalizations.of(context)!.chooseDepartment
+                            : value.selectedDept,
                         callback: () {
                           //form choose department....
                           sendToOption(context);
@@ -95,8 +98,12 @@ class _CreateRequestState extends State<CreateRequest> {
                     ),
                     SizedBox(height: height * 0.010),
                     GeneralForm(
-                        title: value.isLfReport ? 'Name of Item  ' : "Title   ",
-                        hintForm: value.selectedtitle,
+                        title: value.isLfReport
+                            ? 'Name of Item  '
+                            : "${AppLocalizations.of(context)!.title}   ",
+                        hintForm: value.selectedtitle == 'Input Title'
+                            ? AppLocalizations.of(context)!.inputTitle
+                            : value.selectedtitle,
                         callback: () async {
                           // // form choose title.....
                           provider.clearSearchTitle();
@@ -119,7 +126,7 @@ class _CreateRequestState extends State<CreateRequest> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Attachment',
+                          Text(AppLocalizations.of(context)!.attachment,
                               style: const TextStyle(
                                   color: Colors.black54, fontSize: 15)),
                           SizedBox(height: height * 0.010),

@@ -77,8 +77,8 @@ class CustomAppbar extends StatelessWidget {
                         Consumer<HomeController>(
                             builder: (context, value, child) => Text(
                                   box!.get('dutyStatus') == true
-                                      ? "On Duty"
-                                      : 'Off Duty',
+                                      ? AppLocalizations.of(context)!.onDuty
+                                      : AppLocalizations.of(context)!.offDuty,
                                   style: TextStyle(
                                       fontSize: 13, color: Colors.grey),
                                 )),

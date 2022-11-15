@@ -6,7 +6,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'group_list.dart';
 import 'list_employee.dart';
 
@@ -45,7 +45,8 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                             CrossAxisAlignment.start,
                                         children: [
                                           SizedBox(height: 25),
-                                          Text("Assign To:",
+                                          Text(
+                                              "${AppLocalizations.of(context)!.assign} ${AppLocalizations.of(context)!.to}:",
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   color: mainColor)),
