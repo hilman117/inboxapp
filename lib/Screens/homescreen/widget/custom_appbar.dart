@@ -94,15 +94,35 @@ class CustomAppbar extends StatelessWidget {
                 SizedBox(
                   width: Get.width * 0.02,
                 ),
-                GestureDetector(
-                  onTap: () => Get.to(() => Settings(),
-                      transition: Transition.rightToLeft),
-                  child: Consumer<SettingProvider>(
-                    builder: (context, value, child) => CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        backgroundImage: NetworkImage(value.imageUrl)),
-                  ),
-                ),
+                Consumer<HomeController>(
+                  builder: (context, value, child) => GestureDetector(
+                      onTap: () {
+                        Provider.of<SettingProvider>(context, listen: false)
+                            .changeImageProfile(value.getFoto);
+                        Get.to(() => Settings(),
+                            transition: Transition.rightToLeft);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Container(
+                          width: Get.width * 0.1,
+                          height: Get.height * 0.07,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: Provider.of<HomeController>(context)
+                                          .getFoto ==
+                                      ''
+                                  ? DecorationImage(
+                                      image: AssetImage('images/nophoto.png'),
+                                      fit: BoxFit.cover)
+                                  : DecorationImage(
+                                      image: NetworkImage(
+                                          Provider.of<SettingProvider>(context)
+                                              .imageUrl),
+                                      fit: BoxFit.cover)),
+                        ),
+                      )),
+                )
               ],
             )
           ],

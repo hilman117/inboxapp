@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
-import 'package:post/Screens/homescreen/home.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../service/notif.dart';
@@ -139,9 +138,7 @@ class CreateRequestController with ChangeNotifier {
 
   String _datePicked = '';
   String get datePicked => _datePicked;
-  String _timePicked = '';
-  String get timePicked => _timePicked;
-  dateTimePicker(BuildContext context) async {
+  dateTimPicker(BuildContext context) async {
     var resultDate = await showDatePicker(
         confirmText: "Set",
         context: context,
@@ -154,23 +151,37 @@ class CreateRequestController with ChangeNotifier {
                 : DateTime.now().year,
             DateTime.now().month == 12 ? 1 : DateTime.now().month + 1,
             DateTime.now().day));
-    if (resultDate != null) {
-      var resultTime =
-          await showTimePicker(context: context, initialTime: TimeOfDay.now());
-      if (resultTime != null) {
-        var setDate =
-            DateTime(resultDate.year, resultDate.month, resultDate.day);
-        var setTime = DateTime(resultDate.hour);
-        _datePicked = DateFormat('MMM d, h:mm a').format(setDate);
-        _timePicked = DateFormat('h:mm a').format(setTime);
+    if (resultDate == null) {
+      _datePicked = '';
+      notifyListeners();
+    } else {
+      var setDate = DateTime(resultDate.year, resultDate.month, resultDate.day);
+      _datePicked = DateFormat('EEEE, MMM d').format(setDate);
+      notifyListeners();
+      print(_datePicked);
+    }
+  }
+
+  String _selectedTime = '';
+  String get selectedTime => _selectedTime;
+  TimeOfDay currentTime = TimeOfDay.now();
+  timePIcker(BuildContext context) async {
+    return showTimePicker(context: context, initialTime: currentTime)
+        .then((value) {
+      if (value != null) {
+        currentTime = value;
+        _selectedTime = value.format(context).toString();
+        notifyListeners();
+      } else {
+        _selectedTime = '';
         notifyListeners();
       }
-    }
+    });
   }
 
   void clearSchedule() {
     _datePicked = '';
-    _timePicked = '';
+    _selectedTime = '';
     notifyListeners();
   }
 
@@ -226,7 +237,7 @@ class CreateRequestController with ChangeNotifier {
   String _idTask = '';
   String get idTask => _idTask;
   TextEditingController descriptionTask = TextEditingController();
-  Future<void> tasks(
+  Future<void> tasks(String imageSender,
       BuildContext context,
       String hotelId,
       String userId,
@@ -270,13 +281,13 @@ class CreateRequestController with ChangeNotifier {
           .doc(_idTask)
           .set({
         "positionSender": cUser.data.position,
-        "profileImageSender": Home.imageProfile,
+        "profileImageSender": imageSender,
         "location": location,
         "title": _selectedTitle,
         "sendTo": _selectedDept,
         "assigned": [_selectedDept],
         'setDate': _datePicked,
-        'setTime': _timePicked,
+        'setTime': _selectedTime,
         "description": controller.text,
         "time": DateTime.now().toString(),
         "sender": senderName,

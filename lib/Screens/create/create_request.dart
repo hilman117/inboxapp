@@ -6,6 +6,7 @@ import 'package:post/Screens/create/widget/appbar.dart';
 import 'package:post/Screens/create/widget/dialog_dept.dart';
 import 'package:post/Screens/create/widget/dialog_title.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import '../../controller/c_user.dart';
@@ -118,6 +119,13 @@ class _CreateRequestState extends State<CreateRequest> {
                     ),
                     SizedBox(height: height * 0.025),
                     SchedulePicker(),
+                    // InkWell(
+                    //     onTap: () => DateAndTimePicker().setDate(context),
+                    //     child: Text(value.selectedDate != ''
+                    //         ? DateFormat('E, d MMM y')
+                    //             .format(value.currentTime)
+                    //             .toString()
+                    //         : "pick schedule")),
                     SizedBox(height: height * 0.010),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -165,6 +173,8 @@ class _CreateRequestState extends State<CreateRequest> {
                                 Provider.of<CreateRequestController>(context,
                                         listen: false)
                                     .tasks(
+                                        Provider.of<SettingProvider>(context, listen: false)
+                                            .imageUrl,
                                         context,
                                         cUser.data.hotelid!,
                                         cUser.data.uid!,

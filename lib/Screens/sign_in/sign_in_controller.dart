@@ -12,8 +12,6 @@ import '../../service/session_user.dart';
 import '../homescreen/home.dart';
 
 class SignInController with ChangeNotifier {
-  Color themeColor = Colors.orange;
-  Color cardColor = const Color(0xff475D5B);
   FirebaseAuth auth = FirebaseAuth.instance;
   bool _isLoading = false;
   bool get isLoading => _isLoading;

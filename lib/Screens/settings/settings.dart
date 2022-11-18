@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:post/Screens/homescreen/home.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/settings/widget/log_out_dialog.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
@@ -36,22 +35,36 @@ class Settings extends StatelessWidget {
                             onTap: () => imagePickerProfile(context),
                             child: Stack(
                               children: [
-                                CircleAvatar(
-                                  radius: Get.width * 0.070,
-                                  child: value.isLoading
-                                      ? CircularProgressIndicator()
-                                      : SizedBox(),
-                                  backgroundColor: Colors.grey,
-                                  foregroundImage:
-                                      NetworkImage(Home.imageProfile!),
-                                  // backgroundImage: AssetImage('images/nophoto.png'),
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: Get.width * 0.13,
+                                    height: Get.height * 0.08,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: value.imageUrl == ''
+                                            ? DecorationImage(
+                                                image: AssetImage(
+                                                    'images/nophoto.png'),
+                                                fit: BoxFit.cover)
+                                            : DecorationImage(
+                                                image: NetworkImage(
+                                                    value.imageUrl),
+                                                fit: BoxFit.cover)),
+                                    child: value.isLoading
+                                        ? CircularProgressIndicator(
+                                            color: secondary,
+                                          )
+                                        : SizedBox(),
+                                  ),
                                 ),
                                 Positioned(
                                     left: 33,
-                                    top: 30,
+                                    top: 37,
                                     child: Icon(
                                       Icons.camera_alt_rounded,
-                                      color: Colors.grey,
+                                      color: secondary,
                                       size: 15,
                                     ))
                               ],

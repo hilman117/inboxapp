@@ -25,6 +25,8 @@ Widget addButton(BuildContext context, double height, double widht) {
           Provider.of<CreateRequestController>(context, listen: false)
               .clearData();
           Provider.of<CreateRequestController>(context, listen: false)
+              .clearSchedule();
+          Provider.of<CreateRequestController>(context, listen: false)
               .getLocation(cUser.data.hotelid!);
           await Get.to(() => CreateRequest(),
               transition: Transition.rightToLeft);

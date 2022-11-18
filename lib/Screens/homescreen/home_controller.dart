@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:post/Screens/example/general_widget.dart';
 import 'package:post/Screens/homescreen/pages/lost_and_found.dart';
 import 'package:post/Screens/homescreen/pages/task_page.dart';
+import 'package:post/Screens/settings/setting_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../main.dart';
 
@@ -31,5 +35,17 @@ class HomeController with ChangeNotifier {
     notifyListeners();
   }
 
-  
+  String _getFoto = '';
+  String get getFoto => _getFoto;
+  getPhotoProfile(BuildContext context) async {
+    var fotoUser = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(cUser.data.email)
+        .get();
+    _getFoto = fotoUser['profileImage'];
+    Provider.of<SettingProvider>(context, listen: false)
+        .changeImageProfile(fotoUser['profileImage']);
+    notifyListeners();
+    print(_getFoto);
+  }
 }

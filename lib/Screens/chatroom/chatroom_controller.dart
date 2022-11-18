@@ -86,7 +86,7 @@ class ChatRoomController with ChangeNotifier {
   String get receiver => _receiver;
   String _assignTo = "";
   String get assignTo => _assignTo;
-  void changeStatus(
+  changeStatus(
       String newStatus, String newReceiver, String newAssignmentTarget) {
     _status = newStatus;
     _receiver = newReceiver;
@@ -469,7 +469,7 @@ class ChatRoomController with ChangeNotifier {
         }
       ])
     });
-    changeStatus("Assigned", "", departmentsAndNamesSelected.last);
+    changeStatus("Assigned", '', departmentsAndNamesSelected.last.toString());
     notifyListeners();
     Future.delayed(
       Duration(seconds: 4),

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/dasboard/widget/animated/status.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
+import 'package:provider/provider.dart';
 
 import 'pop_up_menu.dart';
 
 class ChatRoomAppbar extends StatelessWidget {
-  final String assignTo;
   final String imageProfileSender;
   final String sender;
   final String positionSender;
-  final String status;
-  final String receiver;
   final String title;
   final String lokasi;
   // final String image;
@@ -23,14 +22,11 @@ class ChatRoomAppbar extends StatelessWidget {
       required this.imageProfileSender,
       required this.sender,
       required this.positionSender,
-      required this.status,
-      required this.receiver,
       required this.title,
       required this.lokasi,
       // required this.image,
       required this.schedule,
-      required this.assigned,
-      required this.assignTo});
+      required this.assigned});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +34,7 @@ class ChatRoomAppbar extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(top: Get.height * 0.04),
       height: Get.height * 0.2,
-      child: Column(
+      child: Consumer<ChatRoomController>(builder: (context, value, child) => Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -85,7 +81,7 @@ class ChatRoomAppbar extends StatelessWidget {
                   Spacer(),
                   SizedBox(
                       height: Get.height * 0.04,
-                      child: StatusWidget(status: status, isFading: false)),
+                      child: StatusWidget(status: value.status, isFading: false)),
                   SizedBox(
                     width: Get.width * 0.02,
                   ),
@@ -140,46 +136,53 @@ class ChatRoomAppbar extends StatelessWidget {
                   ),
                   Spacer(),
                   Column(
-                    children: [
-                      receiver != ''
-                          ? Container(
-                              width: Get.width * 0.40,
-                              child: Text(
-                                (status == "Assigned") 
-                                    ? "${applications.to} $assignTo"
-                                    : (receiver == '')
-                                        ? ""
-                                        : "${applications.by} $receiver",
-                                style:
-                                    TextStyle(color: secondary, fontSize: 14),
-                                overflow: TextOverflow.clip,
-                                textAlign: TextAlign.end,
+                            children: [
+                              (value.status == 'Accepted')
+                                  ? Container(
+                                      width: Get.width * 0.40,
+                                      child: Text(
+                                        "${applications.by} ${value.receiver}",
+                                        style: TextStyle(
+                                            color: secondary, fontSize: 14),
+                                        overflow: TextOverflow.clip,
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    )
+                                  : (value.status == "Assigned")
+                                      ? Container(
+                                          width: Get.width * 0.40,
+                                          child: Text(
+                                            "${applications.to} ${value.assignTo}",
+                                            style: TextStyle(
+                                                color: secondary, fontSize: 14),
+                                            overflow: TextOverflow.clip,
+                                            textAlign: TextAlign.end,
+                                          ),
+                                        )
+                                      : SizedBox(),
+                              SizedBox(
+                                height: Get.height * 0.005,
                               ),
-                            )
-                          : SizedBox(),
-                      SizedBox(
-                        height: Get.height * 0.005,
-                      ),
-                      schedule != ''
-                          ? Container(
-                              width: Get.width * 0.40,
-                              child: Text(
-                                schedule,
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 14),
-                                overflow: TextOverflow.clip,
-                                textAlign: TextAlign.end,
-                              ),
-                            )
-                          : SizedBox(),
-                    ],
-                  )
+                              schedule != ''
+                                  ? Container(
+                                      width: Get.width * 0.40,
+                                      child: Text(
+                                        schedule,
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 14),
+                                        overflow: TextOverflow.clip,
+                                        textAlign: TextAlign.end,
+                                      ),
+                                    )
+                                  : SizedBox(),
+                            ],
+                          )
                 ],
               ),
             ),
           )
         ],
-      ),
+      ),)
     );
   }
 }
