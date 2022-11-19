@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:post/Screens/sign_up/select_hotel_name.dart';
-import 'package:post/Screens/sign_in/signin.dart';
 import 'package:post/models/user.dart';
 import 'package:post/Screens/example/general_widget.dart';
 import 'package:post/Screens/example/global_method.dart';
@@ -81,7 +80,7 @@ class _SignUpState extends State<SignUp> {
           "createdAt": DateTime.now()
         });
         Get.snackbar('Register', 'Register New Account Has Succeed');
-        Get.to(() => SignIn(), transition: Transition.leftToRight);
+        // Get.to(() => SignIn(), transition: Transition.leftToRight);
 
         final CollectionReference userData = FirebaseFirestore.instance
             .collection('Hotel List')

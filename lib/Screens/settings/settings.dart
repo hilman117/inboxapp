@@ -39,8 +39,8 @@ class Settings extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(50),
                                   child: Container(
                                     alignment: Alignment.center,
-                                    width: Get.width * 0.13,
-                                    height: Get.height * 0.08,
+                                    width: Get.width * 0.16,
+                                    height: Get.height * 0.1,
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: value.imageUrl == ''
@@ -60,8 +60,8 @@ class Settings extends StatelessWidget {
                                   ),
                                 ),
                                 Positioned(
-                                    left: 33,
-                                    top: 37,
+                                    left: Get.width * 0.12,
+                                    top: Get.height * 0.07,
                                     child: Icon(
                                       Icons.camera_alt_rounded,
                                       color: secondary,
@@ -75,12 +75,15 @@ class Settings extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                cUser.data.name!,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                              Container(
+                                width: Get.width * 0.7,
+                                child: Text(
+                                  cUser.data.name!,
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
                               ),
                               SizedBox(height: Get.height * 0.005),
                               Text(
@@ -105,7 +108,7 @@ class Settings extends StatelessWidget {
                         ],
                       ),
                     ),
-                    preferredSize: Size.fromHeight(15)),
+                    preferredSize: Size.fromHeight(Get.height * 0.03)),
                 backgroundColor: Colors.white,
               ),
               body: ModalProgressHUD(

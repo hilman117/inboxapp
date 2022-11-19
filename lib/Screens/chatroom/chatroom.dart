@@ -147,16 +147,19 @@ class _ChatroomState extends State<Chatroom>
             child: Consumer<ChatRoomController>(
               builder: (context, value, child) {
                 return ChatRoomAppbar(
-                    imageProfileSender: widget.imageProfileSender,
-                    sender: widget.nameSender,
-                    positionSender: widget.positionSender,
-                    title: "${widget.tilteTask}",
-                    lokasi: "${widget.location}",
-                    schedule: widget.schedule,
-                    assigned: widget.assign);
+                  imageProfileSender: widget.imageProfileSender,
+                  sender: widget.nameSender,
+                  positionSender: widget.positionSender,
+                  title: "${widget.tilteTask}",
+                  lokasi: "${widget.location}",
+                  schedule: widget.schedule,
+                  assigned: widget.assign,
+                  sendTo: widget.sendTo,
+                  timeCreated: widget.time,
+                );
               },
             ),
-            preferredSize: Size.fromHeight(height * 0.16)),
+            preferredSize: Size.fromHeight(height * 0.165)),
         body: SafeArea(
           child: Column(
             children: [

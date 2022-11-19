@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "Ada yang tak kena!",
     "areYouSureWantToCloseThisRequest" : "Adakah anda pasti mahu menutup permintaan ini?",
     "camera" : "Kamera",
-    "fromGalery" : "Dari galeri"
+    "fromGalery" : "Dari galeri",
+    "justNow": "tadi",
+    "minuteAgo": "minit yang lalu",
+    "minutesAgo": "minit yang lalu",
+    "oneHourAgo": "jam yang lalu",
+    "hours": "beberapa jam yang lalu",
+    "oneDayAgo": "hari yang lalu",
+    "daysAgo": "hari yang lalu",
+    "cancel": "Batal",
+    "search": "Cari",
+    "nameOfItem": "Nama Barang",
+    "typeLocation": "Jenis lokasi",
+    "logOutDialog": "Adakah anda pasti mahu log keluar?",
+    "week": "seminggu yang lalu",
+    "weeks": "weeks ago",
+    "requestStatus": "Permintaan dihantar"
 }

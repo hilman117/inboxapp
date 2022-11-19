@@ -63,6 +63,18 @@ class CustomAppbar extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    Container(
+                      width: Get.width * 0.33,
+                      child: Text(
+                        cUser.data.name!,
+                        textAlign: TextAlign.end,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(color: Colors.black, fontSize: 13),
+                      ),
+                    ),
+                    SizedBox(
+                      height: Get.height * 0.005,
+                    ),
                     Row(
                       children: [
                         Consumer<HomeController>(
@@ -84,11 +96,6 @@ class CustomAppbar extends StatelessWidget {
                                 )),
                       ],
                     ),
-                    Text(
-                      cUser.data.name!,
-                      textAlign: TextAlign.end,
-                      style: TextStyle(color: Colors.black, fontSize: 13),
-                    )
                   ],
                 ),
                 SizedBox(
@@ -97,8 +104,8 @@ class CustomAppbar extends StatelessWidget {
                 Consumer<HomeController>(
                   builder: (context, value, child) => GestureDetector(
                       onTap: () {
-                        Provider.of<SettingProvider>(context, listen: false)
-                            .changeImageProfile(value.getFoto);
+                        // Provider.of<SettingProvider>(context, listen: false)
+                        //     .changeImageProfile(value.getFoto);
                         Get.to(() => Settings(),
                             transition: Transition.rightToLeft);
                       },
@@ -109,9 +116,9 @@ class CustomAppbar extends StatelessWidget {
                           height: Get.height * 0.07,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              image: Provider.of<HomeController>(context)
-                                          .getFoto ==
-                                      ''
+                              image: (Provider.of<SettingProvider>(context)
+                                          .imageUrl ==
+                                      '')
                                   ? DecorationImage(
                                       image: AssetImage('images/nophoto.png'),
                                       fit: BoxFit.cover)

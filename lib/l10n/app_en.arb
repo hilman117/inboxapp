@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "Ups! Something wrong",
     "areYouSureWantToCloseThisRequest" : "Are you sure want to close this request?",
     "camera" : "camera",
-    "fromGalery" : "From galery"
+    "fromGalery" : "From galery",
+    "justNow": "just now",
+    "minuteAgo": "min ago",
+    "minutesAgo": "mins ago",
+    "oneHourAgo": "hour ago",
+    "hours": "hours ago",
+    "oneDayAgo": "day ago",
+    "daysAgo": "days ago",
+    "cancel": "Cancel",
+    "search": "Search",
+    "nameOfItem": "Name Of Item",
+    "typeLocation": "Type location",
+    "logOutDialog": "Are you sure want to log out",
+    "week": "a week ago",
+    "weeks": "weeks ago",
+    "requestStatus": "Request sent"
 }

@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "يو بي إس! هل هناك خطب ما",
     "areYouSureWantToCloseThisRequest" : "هل أنت متأكد من أنك تريد إغلاق هذا الطلب؟",
     "camera" : "كاميرا",
-    "fromGalery" : "من المعرض"
+    "fromGalery" : "من المعرض",
+    "justNow": "الآن",
+    "minuteAgo": "منذ دقيقة",
+    "minutesAgo": "دقائق مضت",
+    "oneHourAgo": "منذ ساعة",
+    "hours": "منذ ساعات",
+    "oneDayAgo": "منذ يوم",
+    "daysAgo": "أيام مضت",
+    "cancel": "إلغاء",
+    "search": "بحث",
+    "nameOfItem": "اسم العنصر",
+    "typeLocation": "اكتب الموقع",
+    "logOutDialog": "هل أنت متأكد من أنك تريد تسجيل الخروج",
+    "week": "منذ أسبوع",
+    "weeks": "منذ أسابيع",
+    "requestStatus": "تم ارسال الطلب"
 }

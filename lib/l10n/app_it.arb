@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "UPS! Qualcosa non va",
     "areYouSureWantToCloseThisRequest" : "Sei sicuro di voler chiudere?",
     "camera" : "Telecamera",
-    "fromGalery" : "Dalla galleria"
+    "fromGalery" : "Dalla galleria",
+    "justNow": "proprio adesso",
+    "minuteAgo": "minuti fa",
+    "minutesAgo": "minuti fa",
+    "oneHourAgo": "ore fa",
+    "hours": "ore fa",
+    "oneDayAgo": "giorno fa",
+    "daysAgo": "giorni fa",
+    "cancel": "Annulla",
+    "search": "Ricerca",
+    "nameOfItem": "Nome dell'articolo",
+    "typeLocation": "Tipo di posizione",
+    "logOutDialog": "Sei sicuro di voler uscire?",
+    "week": "una settimana fa",
+    "weeks": "settimane fa",
+    "requestStatus": "Richiesta inviata"
 }

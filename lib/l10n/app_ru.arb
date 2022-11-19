@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "Что-то не так",
     "areYouSureWantToCloseThisRequest" : "Вы уверены, что хотите закрыть этот запрос?",
     "camera" : "камера",
-    "fromGalery" : "Из галереи"
+    "fromGalery" : "Из галереи",
+    "justNow": "прямо сейчас",
+    "minuteAgo": "минут назад",
+    "minutesAgo": "минут назад",
+    "oneHourAgo": "час назад",
+    "hours": "несколько часов назад",
+    "oneDayAgo": "день назад",
+    "daysAgo": "дней назад",
+    "cancel": "Отмена",
+    "search": "Поиск",
+    "nameOfItem": "Название предмета",
+    "typeLocation": "Введите местоположение",
+    "logOutDialog": "Вы уверены, что хотите выйти?",
+    "week": "неделю назад",
+    "weeks": "недели назад",
+    "requestStatus": "Запрос отправлен"
 }

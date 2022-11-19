@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "¡UPS! Ocurre algo",
     "areYouSureWantToCloseThisRequest" : "¿Está seguro de querer cerrar esta solicitud?",
     "camera" : "Cámara",
-    "fromGalery" : "de la galería"
+    "fromGalery" : "de la galería",
+    "justNow": "En este momento",
+    "minuteAgo": "hace un minuto",
+    "minutesAgo": "hace minutos",
+    "oneHourAgo": "hace una hora",
+    "hours": "horas atras",
+    "oneDayAgo": "hace un dia",
+    "daysAgo": "hace días",
+    "cancel": "Cancelar",
+    "search": "Búsqueda",
+    "nameOfItem": "Nombre del artículo",
+    "typeLocation": "Escriba la ubicación",
+    "logOutDialog": "¿Estás seguro de que quieres cerrar sesión?",
+    "week": "Hace una semana",
+    "weeks": "hace semanas",
+    "requestStatus": "Solicitud enviada"
 }

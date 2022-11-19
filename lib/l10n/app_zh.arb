@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "UPS! 有問題",
     "areYouSureWantToCloseThisRequest" : "您確定要關閉此請求嗎？",
     "camera" : "相機",
-    "fromGalery" : "從畫廊"
+    "fromGalery" : "從畫廊",
+    "justNow": "現在",
+    "minuteAgo": "幾分鐘前",
+    "minutesAgo": "幾分鐘前",
+    "oneHourAgo": "一個小時前",
+    "hours": "小時前",
+    "oneDayAgo": "幾天前",
+    "daysAgo": "幾天前",
+    "cancel": "取消",
+    "search": "搜索",
+    "nameOfItem": "物品名稱",
+    "typeLocation": "類型位置",
+    "logOutDialog": "您確定要退出嗎",
+    "week": "一星期前",
+    "weeks": "幾週前",
+    "requestStatus": "請求已發送"
 }

@@ -16,6 +16,7 @@ void closeDialog(context, String taskId, String location, String title,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Container(
+            width: Get.width,
             alignment: Alignment.center,
             height: Get.height * 0.15,
             child: Column(

@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "UPS! Stimmt etwas nicht",
     "areYouSureWantToCloseThisRequest" : "Sind Sie sicher, dass Sie diese Anfrage schließen möchten?",
     "camera" : "Kamera",
-    "fromGalery" : "aus Galerie"
+    "fromGalery" : "aus Galerie",
+    "justNow": "Net nu",
+    "minuteAgo": "minuut geleden",
+    "minutesAgo": "minuten geleden",
+    "oneHourAgo": "uur geleden",
+    "hours": "uren geleden",
+    "oneDayAgo": "een dag geleden",
+    "daysAgo": "dagen geleden",
+    "cancel": "annuleren",
+    "search": "Zoeken",
+    "nameOfItem": "Naam van artikel",
+    "typeLocation": "Typ locatie",
+    "logOutDialog": "Weet u zeker dat u wilt uitloggen",
+    "week": "een week geleden",
+    "weeks": "weken geleden",
+    "requestStatus": "Verzoek verzonden"
 }

@@ -17,6 +17,7 @@ double width = Get.width;
 // final cAccepted = Get.put(CAccepted());
 
 Widget listdata(
+  BuildContext context,
   Map<String, dynamic> data,
   TaskModel taskModel,
   Color? animationColor,
@@ -200,9 +201,10 @@ Widget listdata(
                                 if (taskModel.setDate! != '' ||
                                     taskModel.setTime! != '')
                                   Container(
-                                    width: width * 0.20,
+                                    width: width * 0.23,
                                     child: Text(
-                                      remainingDateTime(taskModel.time!),
+                                      remainingDateTime(
+                                          context, taskModel.time!),
                                       textAlign: TextAlign.end,
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.blue),
@@ -242,9 +244,10 @@ Widget listdata(
                                 if (taskModel.setDate! == '' ||
                                     taskModel.setTime! == '')
                                   Container(
-                                    width: width * 0.20,
+                                    width: width * 0.23,
                                     child: Text(
-                                      remainingDateTime(taskModel.time!),
+                                      remainingDateTime(
+                                          context, taskModel.time!),
                                       textAlign: TextAlign.end,
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.blue),

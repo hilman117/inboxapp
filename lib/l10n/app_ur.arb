@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "یو پی ایس! کچھ گڑبڑ",
     "areYouSureWantToCloseThisRequest" : "کیا آپ واقعی اس درخواست کو بند کرنا چاہتے ہیں؟",
     "camera" : "کیمرے",
-    "fromGalery" : "گیلری سے"
+    "fromGalery" : "گیلری سے",
+    "justNow": "ابھی ابھی",
+    "minuteAgo": "کچھ لمحے قبل",
+    "minutesAgo": "کچھ لمحے قبل",
+    "oneHourAgo": "گھنٹوں پہلے",
+    "hours": "گھنٹوں پہلے",
+    "oneDayAgo": "دنوں پہلے",
+    "daysAgo": "دنوں پہلے",
+    "cancel": "منسوخ کریں۔",
+    "search": "تلاش کریں۔",
+    "nameOfItem": "آئٹم کا نام",
+    "typeLocation": "مقام ٹائپ کریں۔",
+    "logOutDialog": "کیا آپ واقعی لاگ آؤٹ کرنا چاہتے ہیں؟",
+     "week": "ایک ہفتے پہلے",
+    "weeks": "ہفتوں پہلے",
+    "requestStatus": "درخواست بھیج دی گئی ہے"
 }

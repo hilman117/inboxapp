@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/image_picker.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
 
 Widget keyboardChat(
@@ -47,7 +47,7 @@ Widget keyboardChat(
             decoration: InputDecoration(
               isDense: true,
               border: InputBorder.none,
-              hintText: "type here...",
+              hintText: AppLocalizations.of(context)!.typeHere,
               hintStyle: const TextStyle(fontSize: 14),
               contentPadding: const EdgeInsets.symmetric(vertical: 0),
               prefixIcon: IconButton(

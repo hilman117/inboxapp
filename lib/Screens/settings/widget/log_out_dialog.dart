@@ -18,8 +18,11 @@ void logoutDialog(context) {
             child: Column(
               children: [
                 Text(
-                  "Are you sure want to log out?",
-                  style: TextStyle(fontSize: 15, color: Colors.grey),
+                  "${AppLocalizations.of(context)!.logOutDialog}?",
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 15,

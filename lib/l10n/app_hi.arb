@@ -69,5 +69,20 @@
     "upsSomethingWrong" : "यूपीएस! कुछ गड़बड़ है क्या",
     "areYouSureWantToCloseThisRequest" : "क्या आप वाकई इस अनुरोध को बंद करना चाहते हैं?",
     "camera" : "कैमरा",
-    "fromGalery" : "गैलरी से"
+    "fromGalery" : "गैलरी से",
+    "justNow": "अभी",
+    "minuteAgo": "कुछ मिनट पहले",
+    "minutesAgo": "कुछ मिनट पहले",
+    "oneHourAgo": "घंटो पहले",
+    "hours": "घंटो पहले",
+    "oneDayAgo": "दिन पहले",
+    "daysAgo": "दिन पहले",
+    "cancel": "रद्द करना",
+    "search": "खोज",
+    "nameOfItem": "वस्तु का नाम",
+    "typeLocation": "स्थान का प्रकार",
+    "logOutDialog": "क्या आप लॉग आउट करना चाहते हैं?",
+    "week": "एक हफ्ते पहले",
+    "weeks": "कई सप्ताह पहले",
+    "requestStatus": "निमंत्रण भेजा गया"
 }

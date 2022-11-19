@@ -175,7 +175,7 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                           fontStyle: FontStyle
                                                                               .italic),
                                                                       hintText:
-                                                                          "Search",
+                                                                          AppLocalizations.of(context)!.search,
                                                                       contentPadding:
                                                                           EdgeInsets.only(
                                                                               bottom: 15)),
@@ -295,7 +295,7 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                         provider
                                                             .clearListAssign();
                                                       },
-                                                      child: Text("Cancel")),
+                                                      child: Text(AppLocalizations.of(context)!.cancel)),
                                                   Consumer<ChatRoomController>(
                                                       builder: (context, value, child) =>
                                                           ElevatedButton(

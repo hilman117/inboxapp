@@ -70,5 +70,20 @@
     "upsSomethingWrong" : "อัพ! บางสิ่งผิดปกติ",
     "areYouSureWantToCloseThisRequest" : "คุณแน่ใจหรือไม่ว่าต้องการปิดคำขอนี้",
     "camera" : "กล้อง",
-    "fromGalery" : "จากแกลเลอรี่"
+    "fromGalery" : "จากแกลเลอรี่",
+    "justNow": "ตอนนี้",
+    "minuteAgo": "นาทีที่ผ่านมา",
+    "minutesAgo": "นาทีที่ผ่านมา",
+    "oneHourAgo": "ชั่วโมงที่แล้ว",
+    "hours": "ชั่วโมงที่ผ่านมา",
+    "oneDayAgo": "วันที่ผ่านมา",
+    "daysAgo": "วันที่ผ่านมา",
+    "cancel": "ยกเลิก",
+    "search": "ค้นหา",
+    "nameOfItem": "ชื่อรายการ",
+    "typeLocation": "พิมพ์ตำแหน่ง",
+    "logOutDialog": "คุณแน่ใจหรือไม่ว่าต้องการออกจากระบบ",
+    "week": "неделю назад",
+    "weeks": "недели назад",
+    "requestStatus": "ส่งคำร้อง"
 }
