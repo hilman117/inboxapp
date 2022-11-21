@@ -20,6 +20,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     final cUser = Get.put(CUser());
     final provider = Provider.of<SettingProvider>(context, listen: false);
+    Size size = MediaQuery.of(context).size;
     return Consumer<SettingProvider>(
         builder: (context, value, child) => Scaffold(
               backgroundColor: Colors.white,
@@ -108,7 +109,7 @@ class Settings extends StatelessWidget {
                         ],
                       ),
                     ),
-                    preferredSize: Size.fromHeight(Get.height * 0.03)),
+                    preferredSize: Size.fromHeight(size.height * 0.03)),
                 backgroundColor: Colors.white,
               ),
               body: ModalProgressHUD(

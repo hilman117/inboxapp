@@ -70,11 +70,12 @@ class CreateRequestController with ChangeNotifier {
   String get selectedtitle => _selectedTitle;
   getTitle(String hotelid, String selectedDept) async {
     _title.clear();
+    notifyListeners();
     var result = await FirebaseFirestore.instance
         .collection("Hotel List")
         .doc(hotelid)
         .collection("Department")
-        .doc(selectedDept)
+        .doc(_selectedDept)
         .get();
     print(result.data()!['title'].runtimeType);
     List<String> list = List.castFrom(result.data()!['title']);
@@ -200,6 +201,8 @@ class CreateRequestController with ChangeNotifier {
   }
 
   void clearImage() {
+    imageName = '';
+    imageUrl = '';
     _image = null;
     nameItem.clear();
     _isLfReport = false;
@@ -332,7 +335,8 @@ class CreateRequestController with ChangeNotifier {
       Notif().sendNotif(
           _selectedDept.removeAllWhitespace,
           "$_selectedDept New Request",
-          '$senderName send a request: ${_selectedLocation.text} - "$_selectedTitle" ${controller.text}');
+          '$senderName send a request: ${_selectedLocation.text} - "$_selectedTitle" ${controller.text}',
+          imageUrl);
       _isLoading = false;
       notifyListeners();
       Fluttertoast.showToast(
@@ -423,8 +427,11 @@ class CreateRequestController with ChangeNotifier {
           "emailSender": senderEmail,
         });
         Notif().saveTopic(_idTask);
-        Notif().sendNotif("Housekeeping".removeAllWhitespace, "New Report",
-            '$senderName found: ${nameItem.text} - "${_selectedLocation.text}" ${controller.text}');
+        Notif().sendNotif(
+            "Housekeeping".removeAllWhitespace,
+            "New Report",
+            '$senderName found: ${nameItem.text} - "${_selectedLocation.text}" ${controller.text}',
+            imageUrl);
         _isLoading = false;
         Fluttertoast.showToast(
             backgroundColor: Colors.white,

@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:post/Screens/dasboard/dashboard_provider.dart';
-import 'package:post/service/notif.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../../controller/c_new.dart';
@@ -99,7 +98,7 @@ class _ListOfRequestState extends State<ListOfRequest>
         }
       ])
     });
-    Notif().sendNotif(topic, '$location - "$title"', bodyMessage);
+    // Notif().sendNotif(topic, '$location - "$title"', bodyMessage);
     // cAccepted.setData("ESC");
     // cAccepted.setSender(cUser.data.name!);
   }

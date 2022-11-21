@@ -31,13 +31,7 @@ class Notif {
               importance: NotificationImportance.High,
               channelDescription: 'Notification channel for basic tests',
               defaultColor: Colors.orange,
-              ledColor: Colors.white)
-        ],
-        // Channel groups are only visual and are not required
-        channelGroups: [
-          NotificationChannelGroup(
-              channelGroupkey: 'basic_channel_group',
-              channelGroupName: 'Basic notifications')
+              ledColor: Colors.white),
         ],
         debug: true);
   }
@@ -59,35 +53,51 @@ class Notif {
     });
   }
 
-  createNotification(String title, String body, String image) {
+  createNotificationForegroundWithImage(String title, String body, String image) {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
-            summary: 'summary',
-            id: (1 + Random().nextInt(1000)),
-            groupKey: 'message',
-            channelKey: 'basic_channel',
-            title: title,
-            body: body,
-            notificationLayout: NotificationLayout.Inbox,
-            bigPicture: image,
-            category: NotificationCategory.Message));
+      largeIcon: image,
+      id: (1 + Random().nextInt(1000)),
+      channelKey: 'basic_channel',
+      title: title,
+      body: body,
+      notificationLayout: NotificationLayout.BigPicture,
+      bigPicture: image,
+    ));
+  }
+  createNotificationForeground(String title, String body) {
+    AwesomeNotifications().createNotification(
+        content: NotificationContent(
+      id: (1 + Random().nextInt(1000)),
+      channelKey: 'basic_channel',
+      notificationLayout: NotificationLayout.Default,
+      title: title,
+      body: body,
+    ));
   }
 
+  //method when cacthing the message from fcm
   foreground() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        createNotification(
-            notification.title ?? '', notification.body ?? '', '');
-        print(notification.title);
+        if(android.imageUrl != '' ) {
+        createNotificationForegroundWithImage(
+            notification.title ?? '',
+            notification.body ?? '',android.imageUrl ?? '');
+        } else {
+           createNotificationForeground(
+            notification.title ?? '',
+            notification.body ?? '');
+        }
       }
     });
   }
 
-  void sendNotif(String topic, String title, String body) async {
+  void sendNotif(String topic, String title, String body, String image) async {
     var data = {
-      "notification": {"title": title, "body": body},
+      "notification": {"title": title, "body": body, "image": image},
       "data": {"score": "5x1", "time": "15:10"},
       "priority": "high",
       "to": "/topics/$topic"
@@ -108,9 +118,10 @@ class Notif {
     String token,
     String title,
     String body,
+    String image,
   ) async {
     var data = {
-      "notification": {"title": title, "body": body},
+      "notification": {"title": title, "body": body, "image": image},
       "data": {"score": "5x1", "time": "15:10"},
       "priority": "high",
       "to": token

@@ -22,7 +22,8 @@ import 'controller/c_user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print(message.notification);
+  // AwesomeNotifications().createNotification(content: Notif);
+  print(message.data);
   print("Background message handler is work!");
 }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
@@ -108,7 +109,15 @@ class _CreateRequestState extends State<CreateRequest> {
                         callback: () async {
                           // // form choose title.....
                           provider.clearSearchTitle();
-                          titleList(context);
+                          if (value.selectedDept == "Choose Department") {
+                            Fluttertoast.showToast(
+                                msg: AppLocalizations.of(context)!
+                                    .noDepartementSelected,
+                                backgroundColor: Colors.white,
+                                textColor: mainColor);
+                          } else {
+                            titleList(context);
+                          }
                         },
                         icons: Icons.arrow_drop_down_rounded,
                         colors: mainColor),
@@ -173,7 +182,8 @@ class _CreateRequestState extends State<CreateRequest> {
                                 Provider.of<CreateRequestController>(context,
                                         listen: false)
                                     .tasks(
-                                        Provider.of<SettingProvider>(context, listen: false)
+                                        Provider.of<SettingProvider>(context,
+                                                listen: false)
                                             .imageUrl,
                                         context,
                                         cUser.data.hotelid!,

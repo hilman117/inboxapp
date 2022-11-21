@@ -156,16 +156,16 @@ class ChatRoomController with ChangeNotifier {
     if (box!.get('sendNotification') == true &&
         deptTujuan == cUser.data.department) {
       Notif().sendNotif(deptSender, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}");
+          "${cUser.data.name} : ${commentBody.text}", imageUrl);
       Notif().sendNotif(taskId, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}");
+          "${cUser.data.name} : ${commentBody.text}", imageUrl);
       notifyListeners();
     } else if (box!.get('sendNotification') == true &&
         deptSender == cUser.data.department) {
       Notif().sendNotif(deptTujuan, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}");
+          "${cUser.data.name} : ${commentBody.text}", imageUrl);
       Notif().sendNotif(taskId, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}");
+          "${cUser.data.name} : ${commentBody.text}", imageUrl);
       notifyListeners();
     } else if (deptTujuan != cUser.data.department ||
         deptSender != cUser.data.department) {
@@ -235,13 +235,13 @@ class ChatRoomController with ChangeNotifier {
       String title,
       ScrollController scroll,
       String deptTujuan) async {
-    if (imageName != '') {
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image!);
-      imageUrl = await ref.getDownloadURL();
-    }
+    // if (imageName != '') {
+    //   String imageExtension = imageName.split('.').last;
+    //   final ref = FirebaseStorage.instance.ref(
+    //       "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
+    //   await ref.putFile(_image!);
+    //   imageUrl = await ref.getDownloadURL();
+    // }
     await FirebaseFirestore.instance
         .collection('Hotel List')
         .doc(cUser.data.hotel)
@@ -263,7 +263,7 @@ class ChatRoomController with ChangeNotifier {
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
+          'imageComment': "",
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -301,7 +301,7 @@ class ChatRoomController with ChangeNotifier {
       token.forEach(
         (element) {
           Notif().sendNotifToToken(element, '$location - "$title"',
-              "${cUser.data.name} accept your request");
+              "${cUser.data.name} accept your request", '');
         },
       );
     }
@@ -496,7 +496,7 @@ class ChatRoomController with ChangeNotifier {
         if (token.isNotEmpty) {
           token.forEach((element) {
             Notif().sendNotifToToken(element, '$location - "$title"',
-                "${cUser.data.name} has assigned this request to you");
+                "${cUser.data.name} has assigned this request to you", '');
           });
         }
       });
@@ -509,7 +509,8 @@ class ChatRoomController with ChangeNotifier {
           Notif().sendNotif(
               element.toLowerCase().removeAllWhitespace,
               '$location - "$title"',
-              "${cUser.data.name} has assigned this request to $element");
+              "${cUser.data.name} has assigned this request to $element",
+              '');
         },
       );
     }
@@ -597,7 +598,8 @@ class ChatRoomController with ChangeNotifier {
     Notif().sendNotif(
         taskId.toLowerCase().removeAllWhitespace,
         '$location - "$title"',
-        "${cUser.data.name} has close this request \n$reason");
+        "${cUser.data.name} has close this request \n$reason",
+        '');
     var result =
         await FirebaseFirestore.instance.collection('users').doc(email).get();
     List token = result.data()!["token"];
@@ -606,7 +608,7 @@ class ChatRoomController with ChangeNotifier {
       token.forEach(
         (element) {
           Notif().sendNotifToToken(element, '$location - "$title"',
-              "${cUser.data.name} close this request");
+              "${cUser.data.name} close this request", '');
         },
       );
     }
@@ -658,10 +660,16 @@ class ChatRoomController with ChangeNotifier {
     if (deptTujuan != cUser.data.department) {
       Notif().saveTopic(taskId);
     }
-    Notif().sendNotif(taskId.toLowerCase().removeAllWhitespace,
-        '$location - "$title"', "${cUser.data.name} has reopen this request");
-    Notif().sendNotif(deptTujuan.toLowerCase().removeAllWhitespace,
-        '$location - "$title"', "${cUser.data.name} has reopen this request");
+    Notif().sendNotif(
+        taskId.toLowerCase().removeAllWhitespace,
+        '$location - "$title"',
+        "${cUser.data.name} has reopen this request",
+        '');
+    Notif().sendNotif(
+        deptTujuan.toLowerCase().removeAllWhitespace,
+        '$location - "$title"',
+        "${cUser.data.name} has reopen this request",
+        '');
     clearListAssign();
     scrollMaxExtend(scroll);
     notifyListeners();

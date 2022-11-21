@@ -44,7 +44,7 @@ class InputLocation extends StatelessWidget {
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 9),
-                      width: Get.width * 0.55,
+                      width: Get.width * 0.8,
                       child: TypeAheadFormField<String>(
                         debounceDuration: Duration(milliseconds: 0),
                         hideOnEmpty: true,
@@ -62,7 +62,8 @@ class InputLocation extends StatelessWidget {
                             decoration: InputDecoration(
                                 isDense: true,
                                 hintStyle: TextStyle(color: Colors.black38),
-                                hintText: 'type location..',
+                                hintText:
+                                    AppLocalizations.of(context)!.typeLocation,
                                 contentPadding: EdgeInsets.only(top: 11),
                                 border: InputBorder.none)),
                         suggestionsCallback: (pattern) async {
