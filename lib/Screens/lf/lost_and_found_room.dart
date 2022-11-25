@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:post/Screens/lf/lf_controller.dart';
+import 'package:post/Screens/lf/widget/descriptions_item.dart';
+import 'package:post/Screens/lf/widget/timeline_widget.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
-import 'widget/descriptions_item.dart';
 import 'widget/name_item_box.dart';
 import 'widget/status_box.dart';
 
@@ -40,7 +41,8 @@ class LostAndFoundRoom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F5F5),
+      extendBody: true,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
@@ -64,7 +66,8 @@ class LostAndFoundRoom extends StatelessWidget {
               height: Get.height * 0.3,
               width: Get.width,
               decoration: BoxDecoration(
-                  image: DecorationImage(image: NetworkImage(image))),
+                  image: DecorationImage(
+                      image: NetworkImage(image), fit: BoxFit.cover)),
             ),
             SizedBox(
               height: Get.height * 0.02,
@@ -87,7 +90,49 @@ class LostAndFoundRoom extends StatelessWidget {
             SizedBox(
               height: Get.height * 0.02,
             ),
-            DescriptionItem(description: description),
+            Consumer<ReportLFController>(
+              builder: (context, value, child) => Column(
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: Get.width * 0.5,
+                    height: Get.height * 0.06,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: value.menu.length,
+                        itemBuilder: (context, index) => GestureDetector(
+                              onTap: () => Provider.of<ReportLFController>(
+                                      context,
+                                      listen: false)
+                                  .changeIndex(index),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: value.currentIndex == index
+                                        ? mainColor.withOpacity(0.2)
+                                        : Colors.grey.shade100),
+                                margin: EdgeInsets.all(8),
+                                child: Text(
+                                  value.menu[index],
+                                  style: TextStyle(
+                                      color: value.currentIndex == index
+                                          ? mainColor
+                                          : Colors.grey),
+                                ),
+                              ),
+                            )),
+                  ),
+                  SizedBox(
+                    height: Get.height * 0.04,
+                  ),
+                  Provider.of<ReportLFController>(context).currentIndex == 0
+                      ? DescriptionItem(description: description)
+                      : Timeline(founder: founder)
+                ],
+              ),
+            ),
             Spacer(),
             Padding(
               padding: const EdgeInsets.only(bottom: 20),

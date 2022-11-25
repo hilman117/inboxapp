@@ -2,7 +2,6 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/dasboard/dashboard_provider.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
@@ -49,16 +48,16 @@ class NavBar extends StatelessWidget {
             left: Get.width * 0.42,
             bottom: Get.height * 0.035,
             child: addButton(context, Get.height, Get.width)),
-        Provider.of<DashboardProvider>(context).list.length >= 1
+        Provider.of<HomeController>(context).newData.length >= 1
             ? Positioned(
                 top: Get.height * 0.025,
                 left: Get.width * 0.23,
                 child: CircleAvatar(
                     backgroundColor: Colors.red,
                     radius: Get.width * 0.03,
-                    child: Consumer<DashboardProvider>(
+                    child: Consumer<HomeController>(
                         builder: (context, value, child) => Text(
-                              "${value.list.length}",
+                              "${value.newData.length.toString()}",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 12),
                             ))),

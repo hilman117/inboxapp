@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
 import '../../service/session_user.dart';
+import '../chatroom/chatroom_controller.dart';
 import 'widget/navbar.dart';
 import 'widget/search.dart';
 
@@ -37,18 +38,29 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    
+    // Provider.of<HomeController>(context, listen: false)
+    //     .dataForNotiifcationAction();
+    // Provider.of<HomeController>(context, listen: false).actionStreamNotif();
     getUser();
-    // Provider.of<CreateRequestController>(context, listen: false)
-    //     .getTotalCreate();
-    // Provider.of<ChatRoomController>(context, listen: false)
-    //     .getTotalAcceptedAndClose();
-    Provider.of<HomeController>(context, listen: false).getPhotoProfile(context);
+    Provider.of<CreateRequestController>(context, listen: false)
+        .getTotalCreate();
+    Provider.of<ChatRoomController>(context, listen: false)
+        .getTotalAcceptedAndClose();
+    Provider.of<HomeController>(context, listen: false)
+        .getPhotoProfile(context);
     Provider.of<CreateRequestController>(context, listen: false)
         .getDeptartement(cUser.data.hotelid!);
     Provider.of<CreateRequestController>(context, listen: false)
         .getLocation(cUser.data.hotelid!);
+    // print(
+    //     " data of assignmenrt stuff ${Provider.of<HomeController>(context, listen: false).data}");
   }
+
+  // @override
+  // void dispose() {
+  //   AwesomeNotifications().actionSink.close();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

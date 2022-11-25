@@ -65,10 +65,9 @@ class MyMessage extends StatelessWidget {
                           height: Get.height * 0.009,
                         ),
                         message.isNotEmpty
-                            ? Text(
+                            ? SelectableText(
                                 message,
-                                style: TextStyle(color: Colors.black87),
-                                overflow: TextOverflow.clip,
+                                style: TextStyle(color: Colors.black87), 
                               )
                             : SizedBox(),
                         SizedBox(height: image == '' ? 0 : Get.height * 0.015),

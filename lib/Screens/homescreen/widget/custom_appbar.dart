@@ -46,92 +46,99 @@ class CustomAppbar extends StatelessWidget {
           statusBarBrightness: Brightness.light,
         ),
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: Get.width * 0.45,
-              child: Text(
-                cUser.data.hotel!,
-                style: TextStyle(color: Colors.black87, fontSize: 16),
-                overflow: TextOverflow.clip,
-              ),
+            Consumer<HomeController>(
+              builder: (context, value, child) => GestureDetector(
+                  onTap: () {
+                    // Provider.of<SettingProvider>(context, listen: false)
+                    //     .changeImageProfile(value.getFoto);
+                    Get.to(() => Settings(),
+                        transition: Transition.rightToLeft);
+                  },
+                  child: Consumer<SettingProvider>(
+                      builder: (context, value, child) => ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Container(
+                            width: Get.width * 0.145,
+                            height: Get.height * 0.065,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50)),
+                            child: value.imageUrl != ''
+                                ? Image.network(
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return Image.asset(
+                                          'images/nophoto.png',
+                                          fit: BoxFit.cover,
+                                        );
+                                      }
+                                    },
+                                    value.imageUrl,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'images/nophoto.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                          )
+                          ))),
             ),
-            Spacer(),
-            Row(
+            SizedBox(
+              width: Get.width * 0.02,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: Get.width * 0.33,
-                      child: Text(
-                        cUser.data.name!,
-                        textAlign: TextAlign.end,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(color: Colors.black, fontSize: 13),
-                      ),
-                    ),
-                    SizedBox(
-                      height: Get.height * 0.005,
-                    ),
-                    Row(
-                      children: [
-                        Consumer<HomeController>(
-                            builder: (context, value, child) => CircleAvatar(
-                                radius: 3,
-                                backgroundColor: box!.get('dutyStatus') == true
-                                    ? mainColor
-                                    : Colors.grey)),
-                        SizedBox(
-                          width: Get.width * 0.01,
-                        ),
-                        Consumer<HomeController>(
-                            builder: (context, value, child) => Text(
-                                  box!.get('dutyStatus') == true
-                                      ? AppLocalizations.of(context)!.onDuty
-                                      : AppLocalizations.of(context)!.offDuty,
-                                  style: TextStyle(
-                                      fontSize: 13, color: Colors.grey),
-                                )),
-                      ],
-                    ),
-                  ],
+                Container(
+                  // width: Get.width * 0.45,
+                  child: Text(
+                    cUser.data.hotel!,
+                    style: TextStyle(color: Colors.black87, fontSize: 16),
+                    overflow: TextOverflow.clip,
+                  ),
                 ),
                 SizedBox(
-                  width: Get.width * 0.02,
+                  height: Get.height * 0.005,
                 ),
-                Consumer<HomeController>(
-                  builder: (context, value, child) => GestureDetector(
-                      onTap: () {
-                        // Provider.of<SettingProvider>(context, listen: false)
-                        //     .changeImageProfile(value.getFoto);
-                        Get.to(() => Settings(),
-                            transition: Transition.rightToLeft);
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: Container(
-                          width: Get.width * 0.1,
-                          height: Get.height * 0.07,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: (Provider.of<SettingProvider>(context)
-                                          .imageUrl ==
-                                      '')
-                                  ? DecorationImage(
-                                      image: AssetImage('images/nophoto.png'),
-                                      fit: BoxFit.cover)
-                                  : DecorationImage(
-                                      image: NetworkImage(
-                                          Provider.of<SettingProvider>(context)
-                                              .imageUrl),
-                                      fit: BoxFit.cover)),
-                        ),
-                      )),
-                )
+                Container(
+                  width: Get.width * 0.33,
+                  child: Text(
+                    cUser.data.name!,
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.clip,
+                    style: TextStyle(color: Colors.black, fontSize: 13),
+                  ),
+                ),
+                SizedBox(
+                  height: Get.height * 0.005,
+                ),
+                Row(
+                  children: [
+                    Consumer<HomeController>(
+                        builder: (context, value, child) => CircleAvatar(
+                            radius: 3,
+                            backgroundColor: box!.get('dutyStatus') == true
+                                ? mainColor
+                                : Colors.grey)),
+                    SizedBox(
+                      width: Get.width * 0.01,
+                    ),
+                    Consumer<HomeController>(
+                        builder: (context, value, child) => Text(
+                              box!.get('dutyStatus') == true
+                                  ? AppLocalizations.of(context)!.onDuty
+                                  : AppLocalizations.of(context)!.offDuty,
+                              style:
+                                  TextStyle(fontSize: 13, color: Colors.grey),
+                            )),
+                  ],
+                ),
               ],
-            )
+            ),
           ],
         ),
         elevation: 0,

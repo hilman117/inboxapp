@@ -371,7 +371,8 @@ class CreateRequestController with ChangeNotifier {
       TextEditingController controller,
       String senderName,
       String senderEmail,
-      String location) async {
+      String location,
+      String description) async {
     final applcation = AppLocalizations.of(context);
     if (location.isEmpty) {
       Fluttertoast.showToast(

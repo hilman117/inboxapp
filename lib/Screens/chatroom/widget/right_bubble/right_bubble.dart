@@ -4,19 +4,32 @@ import 'package:post/Screens/chatroom/widget/right_bubble/accepted_bubble.dart';
 import 'assign_bubble_right.dart';
 import 'my_message.dart';
 
-Widget rightBubble(
-    List<dynamic> commentList,
-    BuildContext context,
-    String time,
-    String senderMsgName,
-    String message,
-    // String description,
-    String isAccepted,
-    String esc,
-    String assignSender,
-    String assignTo,
-    String image) {
-  return Column(
+class RightBubble extends StatelessWidget {
+  final List<dynamic> commentList;
+  final String time;
+  final String senderMsgName;
+  final String message;
+  // String description,
+  final String isAccepted;
+  final String esc;
+  final String assignSender;
+  final String assignTo;
+  final String image;
+  const RightBubble(
+      {super.key,
+      required this.commentList,
+      required this.time,
+      required this.senderMsgName,
+      required this.isAccepted,
+      required this.esc,
+      required this.assignSender,
+      required this.assignTo,
+      required this.image,
+      required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+   return Column(
     //buble chat yg tampil jika ada kita sbg pengirim pesan..................................
     crossAxisAlignment: CrossAxisAlignment.end,
     children: [
@@ -108,4 +121,5 @@ Widget rightBubble(
       ),
     ],
   );
+  }
 }

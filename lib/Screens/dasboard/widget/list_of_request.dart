@@ -224,15 +224,15 @@ class _ListOfRequestState extends State<ListOfRequest>
                   Map<String, dynamic> data =
                       list[index].data()! as Map<String, dynamic>;
                   TaskModel taskModel = TaskModel.fromJson(data);
-                  // print(data);
+                  print(data);
                   if (textInput.isEmpty && data['status'] == "New") {
                     return AnimatedBuilder(
                         animation: _controller,
                         builder: (BuildContext context, Widget? child) {
-                          return listdata(context,
-                              data,
-                              taskModel,
-                              bgColor.evaluate(
+                          return CardList(
+                              data: data,
+                              taskModel: taskModel,
+                              animationColor: bgColor.evaluate(
                                   AlwaysStoppedAnimation(_controller.value)));
                         });
                   }
@@ -240,33 +240,35 @@ class _ListOfRequestState extends State<ListOfRequest>
                       .toString()
                       .toLowerCase()
                       .contains(textInput.toLowerCase())) {
-                    return listdata(context,
-                        data,
-                        taskModel,
-                        bgColor.evaluate(
+                    return CardList(
+                        data: data,
+                        taskModel: taskModel,
+                        animationColor: bgColor.evaluate(
                             AlwaysStoppedAnimation(_controller.value)));
                   }
                   if (data['title']
                       .toString()
                       .toLowerCase()
                       .contains(textInput.toLowerCase())) {
-                    return listdata(context,
-                        data,
-                        taskModel,
-                        bgColor.evaluate(
+                    return CardList(
+                        data: data,
+                        taskModel: taskModel,
+                        animationColor: bgColor.evaluate(
                             AlwaysStoppedAnimation(_controller.value)));
                   }
                   if (data['sender']
                       .toString()
                       .toLowerCase()
                       .contains(textInput.toLowerCase())) {
-                    return listdata(context,
-                        data,
-                        taskModel,
-                        bgColor.evaluate(
+                    return CardList(
+                        data: data,
+                        taskModel: taskModel,
+                        animationColor: bgColor.evaluate(
                             AlwaysStoppedAnimation(_controller.value)));
                   }
-                  return Container();
+                  return Center(
+                    child: Text("No Data"),
+                  );
                 });
           },
         )

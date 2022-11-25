@@ -28,4 +28,13 @@ class ReportLFController with ChangeNotifier {
     _statusItem = 'Accepted';
     notifyListeners();
   }
+
+  int currentIndex = 0;
+  List menu = ["Description", "Timeline"];
+  List isiMenu = [Text("Description"), Text("Timeline")];
+  changeIndex(int index) {
+    currentIndex = index;
+    print(currentIndex);
+    notifyListeners();
+  }
 }

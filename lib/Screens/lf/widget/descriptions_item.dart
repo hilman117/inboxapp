@@ -15,11 +15,6 @@ class DescriptionItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Description:',
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox(height: Get.height * 0.01),
-          Text(
             description,
             style: TextStyle(color: Colors.grey, height: 1.5),
           ),

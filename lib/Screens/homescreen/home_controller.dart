@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:post/Screens/chatroom/chatroom.dart';
 import 'package:post/Screens/example/general_widget.dart';
 import 'package:post/Screens/homescreen/pages/lost_and_found.dart';
 import 'package:post/Screens/homescreen/pages/task_page.dart';
@@ -47,5 +52,108 @@ class HomeController with ChangeNotifier {
         .changeImageProfile(fotoUser['profileImage']);
     notifyListeners();
     print(_getFoto);
+  }
+
+  String _taskId = '';
+  String get taskId => _taskId;
+  List<dynamic> _assign = [];
+  List<dynamic> get assign => _assign;
+  String _sendTo = "";
+  String get sendTo => _sendTo;
+  String _imageProfileSender = "";
+  String get imageProfileSender => _imageProfileSender;
+  String _positionSender = "";
+  String get positionSender => _positionSender;
+  String _emailSender = "";
+  String get emailSender => _emailSender;
+  String _location = "";
+  String get location => _location;
+  String _nameSender = "";
+  String get nameSender => _nameSender;
+  String _titleTask = '';
+  String get tilteTask => _titleTask;
+  String _descriptionTask = "";
+  String get descriptionTask => _descriptionTask;
+  String _statusTask = '';
+  String get statusTask => _statusTask;
+  String _penerimaTask = "";
+  String get penerimaTask => _penerimaTask;
+  String _hotelId = "";
+  String get hotelid => _hotelId;
+  DateTime _time = DateTime.now();
+  DateTime get time => _time;
+  String _fromWhere = "";
+  String get fromWhere => _fromWhere;
+  String _schedule = "";
+  String get schedule => _schedule;
+  bool _isFading = false;
+  bool get isFading => _isFading;
+  int? jarakWaktu;
+  Map<String, dynamic> _data = {};
+  Map<String, dynamic> get data => _data;
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> _newData = [];
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> get newData => _newData;
+  // int index = 0;
+  dataForNotiifcationAction() async {
+    var data = FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .where("assigned", arrayContains: cUser.data.department)
+        .where("status", isNotEqualTo: "Close")
+        .snapshots(includeMetadataChanges: true);
+    data.map((data) {
+      _newData = data.docs;
+      List.generate(_newData.length, (index) {
+        _taskId = _newData[index]["id"];
+        _assign = _newData[index]["assigned"];
+        _sendTo = _newData[index]["sendTo"];
+        _imageProfileSender = _newData[index]["profileImageSender"];
+        _positionSender = _newData[index]["positionSender"];
+        _emailSender = _newData[index]["emailSender"];
+        _location = _newData[index]["location"];
+        _nameSender = _newData[index]["sender"];
+        _titleTask = _newData[index]["title"];
+        _descriptionTask = _newData[index]["description"];
+        _statusTask = _newData[index]["status"];
+        _penerimaTask = _newData[index]["receiver"];
+        _time = DateTime.parse(_newData[index]["time"]);
+        _fromWhere = _newData[index]["from"];
+        _schedule = _newData[index]["setDate"];
+        _isFading = _newData[index]["isFading"];
+        notifyListeners();
+      });
+    }).toList();
+  }
+
+  actionStreamNotif() {
+    AwesomeNotifications().actionStream.listen((notif) {
+      if (notif.channelKey == 'basic_channel' && Platform.isIOS) {
+        AwesomeNotifications().getGlobalBadgeCounter().then(
+            (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
+      }
+      Get.to(
+          () => Chatroom(
+                descriptionTask: _descriptionTask,
+                hotelid: _hotelId,
+                location: location,
+                nameSender: _nameSender,
+                penerimaTask: _penerimaTask,
+                schedule: _schedule,
+                sendTo: _sendTo,
+                statusTask: _statusTask,
+                taskId: _taskId,
+                tilteTask: _titleTask,
+                time: _time,
+                fromWhere: _fromWhere,
+                emailSender: _emailSender,
+                jarakWaktu: 0,
+                assign: _assign,
+                imageProfileSender: _imageProfileSender,
+                positionSender: _positionSender,
+              ),
+          transition: Transition.rightToLeft);
+      notifyListeners();
+    });
   }
 }

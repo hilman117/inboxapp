@@ -32,7 +32,7 @@ class StatusBox extends StatelessWidget {
             'Status:',
             style: TextStyle(fontSize: 18),
           ),
-          SizedBox(height: Get.height * 0.001),
+          SizedBox(height: Get.height * 0.01),
           Container(
               width: Get.width * 0.2, child: StatusReport(status: status)),
           SizedBox(height: Get.height * 0.001),

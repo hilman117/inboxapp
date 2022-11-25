@@ -170,7 +170,7 @@ class _ChatroomState extends State<Chatroom>
                 child: StreamBuilder<DocumentSnapshot>(
                   stream: FirebaseFirestore.instance
                       .collection('Hotel List')
-                      .doc(widget.hotelid)
+                      .doc(cUser.data.hotelid)
                       .collection('tasks')
                       .doc(widget.taskId)
                       .snapshots(includeMetadataChanges: true),
@@ -190,40 +190,44 @@ class _ChatroomState extends State<Chatroom>
                             children: [
                               snapshot.data!['comment'][index]['senderemail'] ==
                                       auth.currentUser!.email
-                                  ? rightBubble(
-                                      commentList,
-                                      context,
-                                      snapshot.data!['comment'][index]['time'],
-                                      snapshot.data!['comment'][index]
-                                          ['sender'],
-                                      snapshot.data!['comment'][index]
-                                          ['commentBody'],
-                                      snapshot.data!['comment'][index]
-                                          ['accepted'],
-                                      snapshot.data!['comment'][index]['esc'],
-                                      snapshot.data!['comment'][index]
-                                          ['assignTask'],
-                                      snapshot.data!['comment'][index]
+                                  ? RightBubble(
+                                      assignSender: snapshot.data!['comment']
+                                          [index]['assignTask'],
+                                      assignTo: snapshot.data!['comment'][index]
                                           ['assignTo'],
-                                      snapshot.data!['comment'][index]
-                                          ['imageComment'])
-                                  : leftBubble(
-                                      commentList,
-                                      context,
-                                      snapshot.data!['comment'][index]['time'],
-                                      snapshot.data!['comment'][index]
-                                          ['sender'],
-                                      snapshot.data!['comment'][index]
+                                      commentList: commentList,
+                                      esc: snapshot.data!['comment'][index]
+                                          ['esc'],
+                                      image: snapshot.data!['comment'][index]
+                                          ['imageComment'],
+                                      isAccepted: snapshot.data!['comment']
+                                          [index]['accepted'],
+                                      message: snapshot.data!['comment'][index]
                                           ['commentBody'],
-                                      snapshot.data!['comment'][index]
-                                          ['accepted'],
-                                      snapshot.data!['comment'][index]['esc'],
-                                      snapshot.data!['comment'][index]
-                                          ['assignTask'],
-                                      snapshot.data!['comment'][index]
+                                      senderMsgName: snapshot.data!['comment']
+                                          [index]['sender'],
+                                      time: snapshot.data!['comment'][index]
+                                          ['time'],
+                                    )
+                                  : LeftBubble(
+                                      assignSender: snapshot.data!['comment']
+                                          [index]['assignTask'],
+                                      assignTo: snapshot.data!['comment'][index]
                                           ['assignTo'],
-                                      snapshot.data!['comment'][index]
-                                          ['imageComment']),
+                                      commentList: commentList,
+                                      esc: snapshot.data!['comment'][index]
+                                          ['esc'],
+                                      image: snapshot.data!['comment'][index]
+                                          ['imageComment'],
+                                      isAccepted: snapshot.data!['comment']
+                                          [index]['accepted'],
+                                      message: snapshot.data!['comment'][index]
+                                          ['commentBody'],
+                                      senderMsgName: snapshot.data!['comment']
+                                          [index]['sender'],
+                                      time: snapshot.data!['comment'][index]
+                                          ['time'],
+                                    ),
                             ],
                           );
                         },

@@ -201,7 +201,8 @@ class _CreateRequestState extends State<CreateRequest> {
                                     value.descriptionController,
                                     cUser.data.name!,
                                     cUser.data.email!,
-                                    value.selectedLocation.text);
+                                    value.selectedLocation.text,
+                                    value.descriptionController.text);
                               }
                             },
                           )

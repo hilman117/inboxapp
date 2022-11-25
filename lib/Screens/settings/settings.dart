@@ -37,32 +37,37 @@ class Settings extends StatelessWidget {
                             child: Stack(
                               children: [
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    width: Get.width * 0.16,
-                                    height: Get.height * 0.1,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: value.imageUrl == ''
-                                            ? DecorationImage(
-                                                image: AssetImage(
-                                                    'images/nophoto.png'),
-                                                fit: BoxFit.cover)
-                                            : DecorationImage(
-                                                image: NetworkImage(
-                                                    value.imageUrl),
-                                                fit: BoxFit.cover)),
-                                    child: value.isLoading
-                                        ? CircularProgressIndicator(
-                                            color: secondary,
-                                          )
-                                        : SizedBox(),
-                                  ),
-                                ),
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container(
+                                      width: Get.width * 0.16,
+                                      height: Get.height * 0.075,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50)),
+                                      child: value.imageUrl != ''
+                                          ? Image.network(
+                                              loadingBuilder: (context, child,
+                                                  loadingProgress) {
+                                                if (loadingProgress == null) {
+                                                  return child;
+                                                } else {
+                                                  return Image.asset(
+                                                    'images/nophoto.png',
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                }
+                                              },
+                                              value.imageUrl,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              'images/nophoto.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                    )),
                                 Positioned(
                                     left: Get.width * 0.12,
-                                    top: Get.height * 0.07,
+                                    top: Get.height * 0.06,
                                     child: Icon(
                                       Icons.camera_alt_rounded,
                                       color: secondary,
@@ -115,7 +120,7 @@ class Settings extends StatelessWidget {
               body: ModalProgressHUD(
                 inAsyncCall: value.isLoad,
                 progressIndicator: CircularProgressIndicator(
-                  color: Colors.orange,
+                  color: secondary,
                 ),
                 child: Padding(
                   padding:

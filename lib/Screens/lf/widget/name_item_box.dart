@@ -18,7 +18,7 @@ class NameItemBox extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10),
       width: Get.width,
-      color: Colors.white,
+      // color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -28,7 +28,7 @@ class NameItemBox extends StatelessWidget {
           ),
           SizedBox(height: Get.height * 0.01),
           Text(
-            "Reported by: $founder",
+            founder,
             style: TextStyle(color: Colors.grey),
           ),
           SizedBox(height: Get.height * 0.01),
