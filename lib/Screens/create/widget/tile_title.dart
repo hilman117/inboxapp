@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import '../create_request_controller.dart';
 
-Widget titleTile(BuildContext context, int index) {
+Widget titleTile(BuildContext context, int index, String tasksId, String emailSender) {
   return InkWell(
     onTap: () {
-      Provider.of<CreateRequestController>(context, listen: false)
-          .selectTitle(context, index);
+      if (Provider.of<PopUpMenuProvider>(context, listen: false)
+              .isTitleChange ==
+          true) {
+        Provider.of<PopUpMenuProvider>(context, listen: false)
+            .storeNewTitle(context, tasksId, index, emailSender);
+      } else {
+        Provider.of<CreateRequestController>(context, listen: false)
+            .selectTitle(context, index);
+      }
     },
     child: Container(
       alignment: Alignment.centerLeft,

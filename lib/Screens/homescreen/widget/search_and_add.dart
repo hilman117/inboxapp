@@ -7,7 +7,7 @@ import '../../../service/theme.dart';
 import '../home_controller.dart';
 import 'search_icon.dart';
 
-Widget searchButton(BuildContext context) {
+Widget searchButtonAndAdd(BuildContext context) {
   return Tooltip(
     textStyle: const TextStyle(color: Colors.black45),
     decoration: BoxDecoration(
@@ -24,7 +24,7 @@ Widget searchButton(BuildContext context) {
             : Alignment.center,
         duration: const Duration(milliseconds: 300),
         width: context.read<HomeController>().isCollapse
-            ? Get.width * 0.9
+            ? Get.width * 0.75
             : Get.width * 0.15,
         decoration: BoxDecoration(
             color: Colors.white,

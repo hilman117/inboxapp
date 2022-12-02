@@ -141,6 +141,7 @@ class ChatRoomController with ChangeNotifier {
           'commentId': Uuid().v4(),
           'commentBody': "${commentBody.text}",
           'esc': '',
+          'titleChange' : "",
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -258,6 +259,7 @@ class ChatRoomController with ChangeNotifier {
           'commentBody': "",
           'accepted': cUser.data.name,
           'esc': "",
+          'titleChange' : "" ,
           'assignTask': "",
           'assignTo': "",
           'sender': cUser.data.name,
@@ -459,6 +461,7 @@ class ChatRoomController with ChangeNotifier {
           'commentBody': "",
           'accepted': "",
           'esc': "",
+          'titleChange' : "",
           'assignTask': cUser.data.name,
           'assignTo': departmentsAndNamesSelected.join(', '),
           'sender': cUser.data.name,
@@ -562,6 +565,7 @@ class ChatRoomController with ChangeNotifier {
           'commentId': Uuid().v4(),
           'commentBody': "has close this request",
           'accepted': "",
+          'titleChange' : "",
           'esc': "",
           'assignTask': "",
           'assignTo': "",
@@ -635,6 +639,7 @@ class ChatRoomController with ChangeNotifier {
           'accepted': "",
           'esc': "",
           'assignTask': "",
+          'titleChange' : "",
           'assignTo': "",
           'sender': cUser.data.name,
           'description': "",
@@ -688,6 +693,122 @@ class ChatRoomController with ChangeNotifier {
         notifyListeners();
       },
     );
+    notifyListeners();
+  }
+
+  //this is function for lf chat
+  List totalEmailAdmin = [];
+  getAdminData() async {
+    var result = await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .get();
+    List<dynamic> dataAdmin = result.data()!["admin"];
+    dataAdmin.forEach((element) {
+      List list = element['housekeeping'];
+      // print(list);
+      list.forEach((element) async {
+        var getToken = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(element)
+            .get();
+        List listToken = getToken['token'];
+        listToken.forEach((element) {
+          print(element);
+        });
+      });
+    });
+    notifyListeners();
+  }
+
+  void sendCommentForLostAndFound(
+      String taskId,
+      String location,
+      String title,
+      ScrollController scroll,
+      String deptSender,
+      String deptTujuan,
+      String reportCreator,
+      String creatorEmail) async {
+    _isImageLoad = true;
+    notifyListeners();
+    if (imageName != '') {
+      String imageExtension = imageName.split('.').last;
+      final ref = FirebaseStorage.instance.ref(
+          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
+      await ref.putFile(_image!);
+      imageUrl = await ref.getDownloadURL();
+    }
+    await FirebaseFirestore.instance
+        .collection('Hotel List')
+        .doc(cUser.data.hotel)
+        .collection('lost and found')
+        .doc(taskId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'commentId': Uuid().v4(),
+          'commentBody': "${commentBody.text}",
+          'esc': '',
+          'accepted': "",
+          'assignTask': "",
+          'assignTo': "",
+          'titleChange' : "",
+          'sender': cUser.data.name,
+          'description': "",
+          'senderemail': auth.currentUser!.email,
+          'imageComment': imageUrl,
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+        }
+      ])
+    });
+    if (box!.get('sendNotification') == true ||
+        reportCreator == cUser.data.department) {
+      var result = await FirebaseFirestore.instance
+          .collection("Hotel List")
+          .doc(cUser.data.hotelid)
+          .get();
+      List<dynamic> dataAdmin = result.data()!["admin"];
+      dataAdmin.forEach((element) {
+        List list = element['housekeeping'];
+        // print(list);
+        list.forEach((element) async {
+          var getToken = await FirebaseFirestore.instance
+              .collection("users")
+              .doc(element)
+              .get();
+          List listToken = await getToken['token'];
+          listToken.forEach((element) {
+            Notif().sendNotifToToken(element, "$title",
+                "${cUser.data.name}: ${commentBody.text}", imageUrl);
+          });
+        });
+      });
+    } else if (box!.get('sendNotification') ||
+        reportCreator != cUser.data.name) {
+      var result = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(creatorEmail)
+          .get();
+      List token = await result.data()!["token"];
+      if (token.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(element, '$location - "$title"',
+                "${cUser.data.name}: ${commentBody.text}", imageUrl);
+          },
+        );
+      }
+    }
+    _isTyping = false;
+    _value = '';
+    _image = null;
+    _isImageLoad = false;
+    if (scroll.hasClients) {
+      final position = scroll.position.maxScrollExtent;
+      scroll.animateTo(position,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    }
     notifyListeners();
   }
 }

@@ -35,11 +35,11 @@ class CreateRequestController with ChangeNotifier {
 
   List<String> _departments = [];
   List<String> get departments => _departments;
-  getDeptartement(String hotelid) async {
+  getDeptartement() async {
     _departments.clear();
     var result = await FirebaseFirestore.instance
         .collection("users")
-        .where("hotelid", isEqualTo: hotelid)
+        .where("hotelid", isEqualTo: cUser.data.hotelid)
         .get();
     Set listDepartement =
         result.docs.map((e) => e.data()['department']).toSet();
@@ -75,9 +75,9 @@ class CreateRequestController with ChangeNotifier {
         .collection("Hotel List")
         .doc(hotelid)
         .collection("Department")
-        .doc(_selectedDept)
+        .doc(selectedDept)
         .get();
-    print(result.data()!['title'].runtimeType);
+    // print(result.data()!['title'].runtimeType);
     List<String> list = List.castFrom(result.data()!['title']);
     _title.addAll(list);
     notifyListeners();
@@ -316,6 +316,7 @@ class CreateRequestController with ChangeNotifier {
             'commentBody': controller.text,
             'accepted': "",
             'esc': "",
+            'titleChange': "",
             'assignTask': "",
             'assignTo': "",
             'sender': senderName,
@@ -363,6 +364,7 @@ class CreateRequestController with ChangeNotifier {
     // }
   }
 
+  String emailAdmin = '';
   TextEditingController nameItem = TextEditingController();
   void lfReport(
       BuildContext context,
@@ -426,13 +428,58 @@ class CreateRequestController with ChangeNotifier {
           "profileImageSender": cUser.data.profileImage,
           "id": _idTask,
           "emailSender": senderEmail,
+          "comment": [],
+        });
+        await FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(hotelId)
+            .collection('lost and found')
+            .doc(_idTask)
+            .update({
+          'comment': FieldValue.arrayUnion([
+            {
+              'commentId': Uuid().v4(),
+              'commentBody': controller.text,
+              'accepted': "",
+              'esc': "",
+              'assignTask': "",
+              'assignTo': "",
+              'sender': senderName,
+              'description': controller.text,
+              'senderemail': senderEmail,
+              'imageComment': imageUrl,
+              'time':
+                  DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+            }
+          ])
         });
         Notif().saveTopic(_idTask);
-        Notif().sendNotif(
-            "Housekeeping".removeAllWhitespace,
-            "New Report",
-            '$senderName found: ${nameItem.text} - "${_selectedLocation.text}" ${controller.text}',
-            imageUrl);
+        var result = await FirebaseFirestore.instance
+            .collection("Hotel List")
+            .doc(cUser.data.hotelid)
+            .get();
+        List<dynamic> dataAdmin = result.data()!["admin"];
+        dataAdmin.forEach((element) {
+          List list = element['housekeeping'];
+          // print(list);
+          list.forEach((element) async {
+            var getToken = await FirebaseFirestore.instance
+                .collection("users")
+                .doc(element)
+                .get();
+            List listToken = getToken['token'];
+            listToken.forEach((element) {
+              Notif().sendNotifToToken(
+                  element,
+                  "New Report",
+                  '$senderName found: ${nameItem.text} - "${_selectedLocation.text}" ${controller.text}',
+                  imageUrl);
+              print(element);
+            });
+          });
+        });
+        notifyListeners();
+
         _isLoading = false;
         Fluttertoast.showToast(
             backgroundColor: Colors.white,

@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'tile_title.dart';
 
-void titleList(BuildContext context) {
+void titleList(BuildContext context, String tasksId, String emailSender) {
   showAnimatedDialog(
       alignment: Alignment.bottomCenter,
       barrierDismissible: true,
@@ -141,13 +141,13 @@ void titleList(BuildContext context) {
                                                 .title
                                                 .length,
                                             (index) =>
-                                                titleTile(context, index));
+                                                titleTile(context, index, tasksId, emailSender));
                                         if (Provider.of<
                                                     CreateRequestController>(
                                                 context)
                                             .searchTitle
                                             .isEmpty) {
-                                          return titleTile(context, index);
+                                          return titleTile(context, index, tasksId, emailSender);
                                         }
                                         if (Provider.of<
                                                     CreateRequestController>(
@@ -160,7 +160,7 @@ void titleList(BuildContext context) {
                                                     context)
                                                 .searchTitle
                                                 .toLowerCase())) {
-                                          return titleTile(context, index);
+                                          return titleTile(context, index, tasksId, emailSender);
                                         }
                                         return Container();
                                       }),

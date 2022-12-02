@@ -13,6 +13,7 @@ class UserDetails {
   bool? notifyWhenAccepted;
   bool? receiveNotifWhenClose;
   String? hotelid;
+  bool? isOnDuty;
 
   UserDetails(
       {this.email,
@@ -28,7 +29,7 @@ class UserDetails {
       this.profileImage,
       this.department,
       this.notifyWhenAccepted,
-      this.receiveNotifWhenClose});
+      this.receiveNotifWhenClose, this.isOnDuty});
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         email: json['email'],
@@ -45,6 +46,7 @@ class UserDetails {
         department: json['department'],
         notifyWhenAccepted: json['ReceiveNotifWhenAccepted'],
         receiveNotifWhenClose: json['ReceiveNotifWhenClose'],
+        isOnDuty: json['isOnDuty'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,5 +64,6 @@ class UserDetails {
         'department': department,
         'ReceiveNotifWhenAccepted': notifyWhenAccepted,
         'ReceiveNotifWhenClose': receiveNotifWhenClose,
+        'isOnDuty': isOnDuty,
       };
 }

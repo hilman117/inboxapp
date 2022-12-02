@@ -14,6 +14,7 @@ import 'package:uuid/uuid.dart';
 import '../../../controller/c_new.dart';
 import '../../../controller/c_user.dart';
 import '../../../models/tasks.dart';
+import '../../homescreen/home_controller.dart';
 import 'card.dart';
 
 class ListOfRequest extends StatefulWidget {
@@ -178,10 +179,10 @@ class _ListOfRequestState extends State<ListOfRequest>
       Future.delayed(
         Duration(seconds: 2),
         () {
-          print("--------------------------");
-          print(cNew.data);
+          // print("--------------------------");
+          // print(cNew.data);
           cNew.setData(false);
-          print(cNew.data);
+          // print(cNew.data);
         },
       );
     }
@@ -191,7 +192,7 @@ class _ListOfRequestState extends State<ListOfRequest>
 
   String? acceptedby;
   String time = '';
-  String textInput = '';
+
   String? idpenerima;
   String sender = " ";
 
@@ -218,14 +219,22 @@ class _ListOfRequestState extends State<ListOfRequest>
             setiniTotal(snapshot.data!.size);
             setincrement(increment + 1);
             return ListView.builder(
+                physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.only(top: 5),
                 itemCount: list.length,
                 itemBuilder: (BuildContext context, int index) {
                   Map<String, dynamic> data =
                       list[index].data()! as Map<String, dynamic>;
                   TaskModel taskModel = TaskModel.fromJson(data);
-                  print(data);
-                  if (textInput.isEmpty && data['status'] == "New") {
+                  // print(data);
+                  List assigned = data["assigned"];
+                  // print(assigned);
+                  if (Provider.of<HomeController>(context).textInput.isEmpty &&
+                          data['status'] == "New" ||
+                      assigned
+                          .toString()
+                          .toLowerCase()
+                          .contains(cUser.data.name!)) {
                     return AnimatedBuilder(
                         animation: _controller,
                         builder: (BuildContext context, Widget? child) {
@@ -236,39 +245,37 @@ class _ListOfRequestState extends State<ListOfRequest>
                                   AlwaysStoppedAnimation(_controller.value)));
                         });
                   }
-                  if (data['location']
-                      .toString()
-                      .toLowerCase()
-                      .contains(textInput.toLowerCase())) {
+                  if (data['location'].toString().toLowerCase().contains(
+                      Provider.of<HomeController>(context)
+                          .textInput
+                          .toLowerCase())) {
                     return CardList(
                         data: data,
                         taskModel: taskModel,
                         animationColor: bgColor.evaluate(
                             AlwaysStoppedAnimation(_controller.value)));
                   }
-                  if (data['title']
-                      .toString()
-                      .toLowerCase()
-                      .contains(textInput.toLowerCase())) {
+                  if (data['title'].toString().toLowerCase().contains(
+                      Provider.of<HomeController>(context)
+                          .textInput
+                          .toLowerCase())) {
                     return CardList(
                         data: data,
                         taskModel: taskModel,
                         animationColor: bgColor.evaluate(
                             AlwaysStoppedAnimation(_controller.value)));
                   }
-                  if (data['sender']
-                      .toString()
-                      .toLowerCase()
-                      .contains(textInput.toLowerCase())) {
+                  if (data['sender'].toString().toLowerCase().contains(
+                      Provider.of<HomeController>(context)
+                          .textInput
+                          .toLowerCase())) {
                     return CardList(
                         data: data,
                         taskModel: taskModel,
                         animationColor: bgColor.evaluate(
                             AlwaysStoppedAnimation(_controller.value)));
                   }
-                  return Center(
-                    child: Text("No Data"),
-                  );
+                  return Center();
                 });
           },
         )

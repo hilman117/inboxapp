@@ -8,15 +8,17 @@ import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
-import 'pop_up_menu.dart';
+import 'pop_up_menu/pop_up_menu.dart';
 
 class ChatRoomAppbar extends StatelessWidget {
   final String imageProfileSender;
+  final String emailSender;
   final String sender;
   final String positionSender;
   final String title;
   final String lokasi;
   final String sendTo;
+  final String taskId;
   final DateTime timeCreated;
   // final String image;
   final String schedule;
@@ -32,7 +34,9 @@ class ChatRoomAppbar extends StatelessWidget {
       required this.schedule,
       required this.assigned,
       required this.sendTo,
-      required this.timeCreated});
+      required this.timeCreated,
+      required this.taskId,
+      required this.emailSender});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +60,13 @@ class ChatRoomAppbar extends StatelessWidget {
                           ? Container(
                               height: Get.height * 0.04,
                               width: Get.width * 0.1,
-                              child: Image.asset('images/$sendTo.png'))
+                              child: assigned.isEmpty
+                                  ? Icon(
+                                      Icons.not_listed_location_rounded,
+                                      size: width * 0.09,
+                                      color: mainColor,
+                                    )
+                                  : Image.asset('images/$sendTo.png'))
                           : CircleAvatar(
                               backgroundColor: Colors.grey,
                               foregroundImage: NetworkImage(imageProfileSender !=
@@ -73,7 +83,11 @@ class ChatRoomAppbar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            sender == cUser.data.name ? "to $sendTo" : sender,
+                            (sendTo.isEmpty)
+                                ? "You created this report"
+                                : (sender == cUser.data.name)
+                                    ? "to $sendTo"
+                                    : sender,
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.normal,
@@ -104,7 +118,8 @@ class ChatRoomAppbar extends StatelessWidget {
                       InkWell(
                         borderRadius: BorderRadius.circular(50),
                         radius: 20,
-                        onTap: () => showPopUpMenu(context),
+                        onTap: () =>
+                            showPopUpMenu(context, sendTo, taskId, emailSender),
                         child: Icon(
                           Icons.more_vert,
                           color: Colors.black54,

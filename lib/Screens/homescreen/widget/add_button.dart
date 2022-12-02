@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
+import '../../chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import '../../create/create_request.dart';
 import '../../create/create_request_controller.dart';
 import '../../dasboard/widget/card.dart';
@@ -22,14 +23,19 @@ Widget addButton(BuildContext context, double height, double widht) {
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () async {
+          Provider.of<PopUpMenuProvider>(context, listen: false)
+              .isChangeTitle(false);
           Provider.of<CreateRequestController>(context, listen: false)
               .clearData();
           Provider.of<CreateRequestController>(context, listen: false)
               .clearSchedule();
           Provider.of<CreateRequestController>(context, listen: false)
               .getLocation(cUser.data.hotelid!);
+          Provider.of<CreateRequestController>(context, listen: false)
+              .getDeptartement();
           await Get.to(() => CreateRequest(),
               transition: Transition.rightToLeft);
+          // titleList(context);
         },
         child: Icon(
           Icons.add,

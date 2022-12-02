@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +14,15 @@ Widget typing(BuildContext context) {
           context.read<HomeController>().changeValue();
         },
       ),
-      Expanded(
-        child: SizedBox(
+      Consumer<HomeController>(
+        builder: (context, value, child) => AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          width: value.isCollapse ? Get.width * 0.015 : Get.width * 0.4,
           child: TextFormField(
+            controller: Provider.of<HomeController>(context).text,
+            onChanged: (value) =>
+                Provider.of<HomeController>(context, listen: false)
+                    .getInputTextSearch(value),
             cursorColor: mainColor,
             autofocus: true,
             style: const TextStyle(fontSize: 15),
@@ -26,7 +33,7 @@ Widget typing(BuildContext context) {
             ),
           ),
         ),
-      ),
+      )
     ],
   );
 }

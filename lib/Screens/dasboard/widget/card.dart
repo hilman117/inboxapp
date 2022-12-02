@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/dasboard/widget/timer.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -74,8 +75,6 @@ class _CardListState extends State<CardList> {
     // });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     int runnningTime =
@@ -101,6 +100,8 @@ class _CardListState extends State<CardList> {
             child: InkWell(
               borderRadius: BorderRadius.circular(16),
               onTap: () {
+                Provider.of<PopUpMenuProvider>(context, listen: false)
+                    .changeTitle(widget.taskModel.title!);
                 Get.to(
                     () => Chatroom(
                           descriptionTask: widget.taskModel.description!,

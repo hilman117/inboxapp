@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../../controller/c_user.dart';
 import '../../../models/tasks.dart';
 import '../../../service/theme.dart';
-import '../../chatroom_lf/chatroom_lf.dart';
+import '../../chatroom/chatroom.dart';
 import '../../dasboard/widget/animated/animated_receiver.dart';
 import '../../dasboard/widget/animated/status.dart';
 
@@ -38,7 +38,6 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override
@@ -67,7 +66,24 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {
                   Get.to(
-                      () => ChatRoomLf(data: widget.data),
+                      () => Chatroom(
+                          taskId: widget.data["id"],
+                          nameSender: widget.data["founder"],
+                          tilteTask: widget.data["nameItem"],
+                          descriptionTask: widget.data["description"],
+                          statusTask: widget.data["status"],
+                          penerimaTask: widget.data["receiveBy"],
+                          location: widget.data["location"],
+                          time: DateTime.now(),
+                          hotelid: cUser.data.hotelid!,
+                          sendTo: "",
+                          schedule: "",
+                          fromWhere: "",
+                          emailSender: widget.data["emailSender"],
+                          jarakWaktu: 0,
+                          assign: [],
+                          imageProfileSender: widget.data["profileImageSender"],
+                          positionSender: widget.data["positionSender"]),
                       transition: Transition.rightToLeft);
                 },
                 child: Padding(

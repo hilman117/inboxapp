@@ -116,7 +116,7 @@ class _CreateRequestState extends State<CreateRequest> {
                                 backgroundColor: Colors.white,
                                 textColor: mainColor);
                           } else {
-                            titleList(context);
+                            titleList(context, '', "");
                           }
                         },
                         icons: Icons.arrow_drop_down_rounded,

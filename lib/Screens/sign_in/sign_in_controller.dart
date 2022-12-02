@@ -66,8 +66,7 @@ class SignInController with ChangeNotifier {
           box!.delete('password');
           notifyListeners();
         }
-        print("$_getEmail tersimpan dilocal storage");
-        print("$_getPassword tersimpan dilocal storage");
+        print("${box!.get('email')} tersimpan dilocal storage");
         await auth.signInWithEmailAndPassword(
             email: email.removeAllWhitespace,
             password: password.removeAllWhitespace);
@@ -83,8 +82,6 @@ class SignInController with ChangeNotifier {
           box!.put('token', token);
           listToken.clear();
           listToken.add(token);
-          print("---------------------");
-          print(userDetails!.department);
           Notif().saveTopic(userDetails!.department!.removeAllWhitespace);
           await FirebaseFirestore.instance
               .collection("users")
@@ -95,6 +92,10 @@ class SignInController with ChangeNotifier {
               msg: "${applications!.youAreSignInAs} ${userDetails!.name}",
               textColor: Colors.black,
               backgroundColor: Colors.grey.shade50);
+          // Provider.of<CreateRequestController>(context, listen: false)
+          //     .getTotalCreate();
+          // Provider.of<ChatRoomController>(context, listen: false)
+          //     .getTotalAcceptedAndClose();
           _isLoading = false;
           await Future.delayed(Duration(milliseconds: 4000), () {
             Get.off(() => Home(),

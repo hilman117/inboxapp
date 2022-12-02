@@ -12,12 +12,13 @@ import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
+import '../feeds/feeds.dart';
 
 class HomeController with ChangeNotifier {
   //changing pages in navigation bar
   int _navIndex = 0;
   int get navIndex => _navIndex;
-  final pages = [TaskPage(), LostAndFoundList()];
+  final pages = [TaskPage(), Feeds(), LostAndFoundList()];
   changePage(int val) {
     _navIndex = val;
     notifyListeners();
@@ -31,9 +32,17 @@ class HomeController with ChangeNotifier {
     notifyListeners();
   }
 
+  String _textInput = '';
+  String get textInput => _textInput;
+  final TextEditingController text = TextEditingController();
+  getInputTextSearch(String value) {
+    _textInput = value;
+    notifyListeners();
+  }
+
   // update status duty
-  bool _isOnduty = true;
-  bool get isOnduty => _isOnduty;
+  bool? _isOnduty;
+  bool? get isOnduty => _isOnduty;
   void changeDutyStatus(bool value) {
     _isOnduty = value;
     box!.putAll({'dutyStatus': value});
@@ -42,16 +51,19 @@ class HomeController with ChangeNotifier {
 
   String _getFoto = '';
   String get getFoto => _getFoto;
-  getPhotoProfile(BuildContext context) async {
+  Future getPhotoProfile(BuildContext context) async {
     var fotoUser = await FirebaseFirestore.instance
         .collection('users')
         .doc(cUser.data.email)
         .get();
-    _getFoto = fotoUser['profileImage'];
+    var data = fotoUser.data();
+    String foto = data!['profileImage'];
+    print(foto);
+    // _getFoto = fotoUser.data()!['profileImage'];
     Provider.of<SettingProvider>(context, listen: false)
-        .changeImageProfile(fotoUser['profileImage']);
+        .changeImageProfile(foto);
     notifyListeners();
-    print(_getFoto);
+    print("ini foto pofile nya $_getFoto");
   }
 
   String _taskId = '';

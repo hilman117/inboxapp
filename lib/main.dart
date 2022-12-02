@@ -4,13 +4,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/dasboard/dashboard_provider.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/lf/lf_controller.dart';
+import 'package:post/Screens/profile/profiile_controller.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/Screens/sign_in/sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:post/example_widget/multiple_photos.dart';
 import 'package:post/service/session_user.dart';
 import 'package:provider/provider.dart';
 import 'Screens/chatroom/chatroom_controller.dart';
@@ -57,6 +60,8 @@ void main() async {
       ChangeNotifierProvider(create: (context) => SettingProvider()),
       ChangeNotifierProvider(create: (context) => DashboardProvider()),
       ChangeNotifierProvider(create: (context) => ReportLFController()),
+      ChangeNotifierProvider(create: (context) => PopUpMenuProvider()),
+      ChangeNotifierProvider(create: (context) => ProfileController()),
     ],
     builder: (context, child) => GetMaterialApp(
         // locale: Locale('zh'),

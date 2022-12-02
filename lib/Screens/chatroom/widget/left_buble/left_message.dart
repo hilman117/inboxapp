@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../service/theme.dart';
 import '../imageRoom.dart';
 
 class LeftMessage extends StatelessWidget {
@@ -22,6 +23,9 @@ class LeftMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Color finalCOlor =
+        Colors.primaries[Random().nextInt(Colors.primaries.length)].shade900;
     String idImage = Uuid().v4();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -41,7 +45,7 @@ class LeftMessage extends StatelessWidget {
                         bottomRight: Radius.circular(16),
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
-                    color: mainColor.withOpacity(0.2),
+                    color: finalCOlor.withOpacity(0.1),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -51,8 +55,7 @@ class LeftMessage extends StatelessWidget {
                         Text(
                           senderMsgName,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87),
+                              fontWeight: FontWeight.bold, color: finalCOlor),
                         ),
                         SizedBox(
                           height: Get.height * 0.009,

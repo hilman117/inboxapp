@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/Screens/profile/profile.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
-import '../../../main.dart';
-import '../../settings/settings.dart';
 import '../home_controller.dart';
 
 class CustomAppbar extends StatelessWidget {
@@ -49,10 +48,8 @@ class CustomAppbar extends StatelessWidget {
           children: [
             Consumer<HomeController>(
               builder: (context, value, child) => GestureDetector(
-                  onTap: () {
-                    // Provider.of<SettingProvider>(context, listen: false)
-                    //     .changeImageProfile(value.getFoto);
-                    Get.to(() => Settings(),
+                  onTap: () async {
+                    Get.to(() => ProfileWidget(),
                         transition: Transition.rightToLeft);
                   },
                   child: Consumer<SettingProvider>(
@@ -83,8 +80,7 @@ class CustomAppbar extends StatelessWidget {
                                     'images/nophoto.png',
                                     fit: BoxFit.cover,
                                   ),
-                          )
-                          ))),
+                          )))),
             ),
             SizedBox(
               width: Get.width * 0.02,
@@ -118,18 +114,18 @@ class CustomAppbar extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Consumer<HomeController>(
+                    Consumer<SettingProvider>(
                         builder: (context, value, child) => CircleAvatar(
                             radius: 3,
-                            backgroundColor: box!.get('dutyStatus') == true
+                            backgroundColor: value.getValue == true
                                 ? mainColor
                                 : Colors.grey)),
                     SizedBox(
                       width: Get.width * 0.01,
                     ),
-                    Consumer<HomeController>(
+                    Consumer<SettingProvider>(
                         builder: (context, value, child) => Text(
-                              box!.get('dutyStatus') == true
+                              value.getValue == true
                                   ? AppLocalizations.of(context)!.onDuty
                                   : AppLocalizations.of(context)!.offDuty,
                               style:
@@ -145,30 +141,46 @@ class CustomAppbar extends StatelessWidget {
         pinned: true,
         snap: true,
         floating: true,
-        expandedHeight: Get.height * 0.12,
+        expandedHeight:
+            Provider.of<HomeController>(context, listen: false).navIndex == 0
+                ? Get.height * 0.12
+                : Get.height * 0.08,
         flexibleSpace: Container(
           height: double.maxFinite,
           width: double.infinity,
           decoration: BoxDecoration(color: Colors.white),
         ),
         bottom: PreferredSize(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(3),
-                  color: Colors.white,
-                ),
-                height: Get.height * 0.050,
-                child: TabBar(
-                    labelPadding: EdgeInsets.all(0),
-                    labelColor: mainColor,
-                    indicatorColor: Colors.transparent,
-                    unselectedLabelColor: Colors.grey,
-                    tabs: tabs),
-              ),
-            ),
-            preferredSize: Size.fromHeight(Get.height * 0.050)));
+            child: Provider.of<HomeController>(context, listen: false)
+                        .navIndex ==
+                    0
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3),
+                        color: Colors.white,
+                      ),
+                      height:
+                          Provider.of<HomeController>(context, listen: false)
+                                      .navIndex ==
+                                  0
+                              ? Get.height * 0.050
+                              : Get.height * 0.40,
+                      child: TabBar(
+                          labelPadding: EdgeInsets.all(0),
+                          labelColor: mainColor,
+                          indicatorColor: Colors.transparent,
+                          unselectedLabelColor: Colors.grey,
+                          tabs: tabs),
+                    ),
+                  )
+                : SizedBox(),
+            preferredSize: Size.fromHeight(
+                Provider.of<HomeController>(context, listen: false).navIndex ==
+                        0
+                    ? Get.height * 0.050
+                    : Get.height * 0.00)));
   }
 }

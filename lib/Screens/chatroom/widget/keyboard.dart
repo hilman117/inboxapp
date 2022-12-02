@@ -4,16 +4,20 @@ import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../../service/theme.dart';
 
 Widget keyboardChat(
-    BuildContext context,
-    String taskId,
-    String location,
-    String title,
-    ScrollController scroll,
-    String deptSender,
-    String deptTujuan) {
+  BuildContext context,
+  String taskId,
+  String location,
+  String title,
+  ScrollController scroll,
+  String deptSender,
+  String deptTujuan,
+  String reportCreator,
+  String creatorEmail,
+) {
   return SizedBox(
     height: Get.height * 0.05,
     width: double.infinity,
@@ -72,10 +76,25 @@ Widget keyboardChat(
                   child: value.isTypping || value.images != null
                       ? GestureDetector(
                           onTap: () {
-                            Provider.of<ChatRoomController>(context,
-                                    listen: false)
-                                .sendComment(taskId, location, title, scroll,
-                                    deptSender, deptTujuan);
+                            if (deptTujuan.isEmpty) {
+                              Provider.of<ChatRoomController>(context,
+                                      listen: false)
+                                  .sendCommentForLostAndFound(
+                                      taskId,
+                                      location,
+                                      title,
+                                      scroll,
+                                      deptSender,
+                                      deptTujuan,
+                                      reportCreator,
+                                      creatorEmail);
+                              
+                            } else {
+                              Provider.of<ChatRoomController>(context,
+                                      listen: false)
+                                  .sendComment(taskId, location, title, scroll,
+                                      deptSender, deptTujuan);
+                            }
                           },
                           child: Container(
                               height: Get.height * 0.05,

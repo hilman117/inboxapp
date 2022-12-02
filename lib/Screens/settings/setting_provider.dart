@@ -18,7 +18,7 @@ class SettingProvider with ChangeNotifier {
   final ImagePicker _picker = ImagePicker();
   File? _image;
   File? get images => _image;
-  String _imageUrl = '';
+  String _imageUrl = "";
   String get imageUrl => _imageUrl;
   String imageName = '';
 
@@ -79,12 +79,30 @@ class SettingProvider with ChangeNotifier {
   }
 
   Future<void> onDuty(bool value) async {
-    box!.putAll({'isOnDuty': value});
     await FirebaseFirestore.instance
         .collection('users')
         .doc(auth.currentUser!.email)
         .update({'isOnDuty': value});
+    box!.putAll({'isOnDuty': value});
     print("${box!.get('isOnDuty')} status send a duty");
+    notifyListeners();
+  }
+
+  bool? _getValue;
+  bool? get getValue => _getValue;
+  Future<void> getOnDutyValue() async {
+    var result = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(auth.currentUser!.email)
+        .get();
+    _getValue = result.data()!['isOnDuty'];
+    print("ini value dari dutynya $_getValue");
+    notifyListeners();
+  }
+
+  void changeDutyStatus(bool value) {
+    _getValue = value;
+    box!.putAll({'dutyStatus': value});
     notifyListeners();
   }
 
@@ -106,10 +124,10 @@ class SettingProvider with ChangeNotifier {
             .update({'token': [].remove(token)});
         // FirebaseMessaging.instance
         //     .unsubscribeFromTopic(cUser.data.department!.removeAllWhitespace);
-        cUser.data.name = '';
-        cUser.data.department = '';
-        cUser.data.email = '';
-        cUser.data.hotel = '';
+        // cUser.data.name = '';
+        // cUser.data.department = '';
+        // cUser.data.email = '';
+        // cUser.data.hotel = '';
         cUser.data.hotelid = '';
         await auth.signOut();
         Navigator.pop(context);
