@@ -186,27 +186,34 @@ class CreateRequestController with ChangeNotifier {
     notifyListeners();
   }
 
-  File? _image;
-  File? get images => _image;
-  String imageUrl = "";
+  List<XFile?> _imageList = [];
+  List<XFile?> get imagesList => _imageList;
+  List imageUrl = [];
   String imageName = '';
   TextEditingController descriptionController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
   Future<void> selectImage(ImageSource source) async {
-    XFile? image = await _picker.pickImage(source: source, imageQuality: 30);
-    _image = File(image!.path);
-    imageName = image.name;
+    List<XFile?> selectedImage = await _picker.pickMultiImage();
+    if (selectedImage.isNotEmpty) {
+      _imageList.addAll(selectedImage);
+    }
     notifyListeners();
   }
 
-  void clearImage() {
+  void restartVariable() {
     imageName = '';
-    imageUrl = '';
-    _image = null;
+    imageUrl.clear();
+    _imageList.clear();
     nameItem.clear();
     _isLfReport = false;
     _isCreateRequest = true;
+    notifyListeners();
+  }
+
+  void removeSingleImage(int index) {
+    _imageList.removeAt(index);
+    imageName = '';
     notifyListeners();
   }
 
@@ -272,11 +279,14 @@ class CreateRequestController with ChangeNotifier {
       _idTask = Uuid().v4();
       notifyListeners();
       if (imageName != '') {
-        String imageExtension = imageName.split('.').last;
-        final ref = FirebaseStorage.instance.ref(
-            "$hotelId/${userId + DateTime.now().toString()}.$imageExtension");
-        await ref.putFile(_image!);
-        imageUrl = await ref.getDownloadURL();
+        List.generate(_imageList.length, (index) async {
+          String imageExtension = imageName.split('.').last;
+          final ref = FirebaseStorage.instance.ref(
+              "$hotelId/${userId + DateTime.now().toString()}.$imageExtension");
+          await ref.putFile(File(_imageList[index]!.path));
+          String urlImage = await ref.getDownloadURL();
+          imageUrl.add([urlImage]);
+        });
       }
       await FirebaseFirestore.instance
           .collection('Hotel List')
@@ -337,7 +347,7 @@ class CreateRequestController with ChangeNotifier {
           _selectedDept.removeAllWhitespace,
           "$_selectedDept New Request",
           '$senderName send a request: ${_selectedLocation.text} - "$_selectedTitle" ${controller.text}',
-          imageUrl);
+          imageUrl[0]);
       _isLoading = false;
       notifyListeners();
       Fluttertoast.showToast(
@@ -350,7 +360,7 @@ class CreateRequestController with ChangeNotifier {
       controller.clear();
       _searchtitle.clear();
       _idTask = '';
-      _image = null;
+      _imageList.clear();
 
       notifyListeners();
     }
@@ -398,10 +408,13 @@ class CreateRequestController with ChangeNotifier {
         notifyListeners();
         if (imageName != '') {
           String imageExtension = imageName.split('.').last;
-          final ref = FirebaseStorage.instance.ref(
-              "$hotelId/${userId + DateTime.now().toString()}.$imageExtension");
-          await ref.putFile(_image!);
-          imageUrl = await ref.getDownloadURL();
+          List.generate(_imageList.length, (index) async {
+            final ref = FirebaseStorage.instance.ref(
+                "$hotelId/${userId + DateTime.now().toString()}.$imageExtension");
+            await ref.putFile(File(_imageList[index]!.path));
+            String urlImage = await ref.getDownloadURL();
+            imageUrl.addAll([urlImage]);
+          });
         }
         await FirebaseFirestore.instance
             .collection('Hotel List')
@@ -473,7 +486,7 @@ class CreateRequestController with ChangeNotifier {
                   element,
                   "New Report",
                   '$senderName found: ${nameItem.text} - "${_selectedLocation.text}" ${controller.text}',
-                  imageUrl);
+                  imageUrl[0]);
               print(element);
             });
           });
@@ -490,7 +503,7 @@ class CreateRequestController with ChangeNotifier {
         Get.back();
         controller.clear();
         _idTask = '';
-        _image = null;
+        _imageList.clear();
         notifyListeners();
       } catch (e) {
         Fluttertoast.showToast(

@@ -15,6 +15,7 @@ import 'widget/box_description.dart';
 import 'widget/execute_buttons.dart';
 import 'widget/general_form.dart';
 import 'widget/input_locaton.dart';
+import 'widget/list_images.dart';
 import 'widget/schedule.dart';
 
 class CreateRequest extends StatefulWidget {
@@ -36,7 +37,7 @@ class _CreateRequestState extends State<CreateRequest> {
         Provider.of<CreateRequestController>(context, listen: false)
             .clearData();
         Provider.of<CreateRequestController>(context, listen: false)
-            .clearImage();
+            .restartVariable();
       },
     );
   }
@@ -123,18 +124,10 @@ class _CreateRequestState extends State<CreateRequest> {
                         colors: mainColor),
                     SizedBox(height: height * 0.010),
                     BoxDescription(
-                      controller: Provider.of<CreateRequestController>(context)
-                          .descriptionController,
+                      controller: value.descriptionController,
                     ),
                     SizedBox(height: height * 0.025),
                     SchedulePicker(),
-                    // InkWell(
-                    //     onTap: () => DateAndTimePicker().setDate(context),
-                    //     child: Text(value.selectedDate != ''
-                    //         ? DateFormat('E, d MMM y')
-                    //             .format(value.currentTime)
-                    //             .toString()
-                    //         : "pick schedule")),
                     SizedBox(height: height * 0.010),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -147,52 +140,35 @@ class _CreateRequestState extends State<CreateRequest> {
                               style: const TextStyle(
                                   color: Colors.black54, fontSize: 15)),
                           SizedBox(height: height * 0.010),
-                          Provider.of<CreateRequestController>(context)
-                                      .images ==
-                                  null
-                              ? ExecuteButton().imageButton(context)
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: height * 0.1,
-                                      width: widht * 0.2,
-                                      child: Image.file(
-                                          Provider.of<CreateRequestController>(
-                                                  context)
-                                              .images!,
-                                          fit: BoxFit.cover),
-                                    ),
-                                    CloseButton(
-                                      color: Colors.grey,
-                                      onPressed: () =>
-                                          Provider.of<CreateRequestController>(
-                                                  context,
-                                                  listen: false)
-                                              .clearImage(),
-                                    )
-                                  ],
-                                ),
+                          AnimatedSwitcher(
+                            duration: Duration(milliseconds: 300),
+                            switchInCurve: Curves.linear,
+                            switchOutCurve: Curves.linear,
+                            child: value.imagesList.isEmpty
+                                ? Container(
+                                    alignment: Alignment.centerLeft,
+                                    height: height * 0.1,
+                                    child: ExecuteButton().imageButton(context))
+                                : ListImages(),
+                          ),
                           SizedBox(height: height * 0.010),
                           ExecuteButton().sendButton(
                             context,
                             widht,
                             () {
                               if (value.isCreateRequest) {
-                                Provider.of<CreateRequestController>(context,
-                                        listen: false)
-                                    .tasks(
-                                        Provider.of<SettingProvider>(context,
-                                                listen: false)
-                                            .imageUrl,
-                                        context,
-                                        cUser.data.hotelid!,
-                                        cUser.data.uid!,
-                                        value.descriptionController,
-                                        cUser.data.name!,
-                                        cUser.data.department!,
-                                        cUser.data.email!,
-                                        value.selectedLocation.text);
+                                provider.tasks(
+                                    Provider.of<SettingProvider>(context,
+                                            listen: false)
+                                        .imageUrl,
+                                    context,
+                                    cUser.data.hotelid!,
+                                    cUser.data.uid!,
+                                    value.descriptionController,
+                                    cUser.data.name!,
+                                    cUser.data.department!,
+                                    cUser.data.email!,
+                                    value.selectedLocation.text);
                               } else {
                                 provider.lfReport(
                                     context,
