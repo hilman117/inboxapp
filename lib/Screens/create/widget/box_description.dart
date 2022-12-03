@@ -21,7 +21,7 @@ class BoxDescription extends StatelessWidget {
             height: Get.height * 0.13,
             width: double.infinity,
             decoration: BoxDecoration(
-                color: mainColor.withOpacity(0.2),
+                border: Border.all(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),

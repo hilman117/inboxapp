@@ -13,7 +13,6 @@ import 'package:post/Screens/profile/profiile_controller.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/Screens/sign_in/sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:post/example_widget/multiple_photos.dart';
 import 'package:post/service/session_user.dart';
 import 'package:provider/provider.dart';
 import 'Screens/chatroom/chatroom_controller.dart';

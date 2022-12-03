@@ -242,7 +242,7 @@ class _ListOfRequestState extends State<ListOfRequest>
                               data: data,
                               taskModel: taskModel,
                               animationColor: bgColor.evaluate(
-                                  AlwaysStoppedAnimation(_controller.value)));
+                                  AlwaysStoppedAnimation(_controller.value)), listImage: data["image"]);
                         });
                   }
                   if (data['location'].toString().toLowerCase().contains(
@@ -253,7 +253,7 @@ class _ListOfRequestState extends State<ListOfRequest>
                         data: data,
                         taskModel: taskModel,
                         animationColor: bgColor.evaluate(
-                            AlwaysStoppedAnimation(_controller.value)));
+                            AlwaysStoppedAnimation(_controller.value)), listImage: data["image"],);
                   }
                   if (data['title'].toString().toLowerCase().contains(
                       Provider.of<HomeController>(context)
@@ -263,7 +263,7 @@ class _ListOfRequestState extends State<ListOfRequest>
                         data: data,
                         taskModel: taskModel,
                         animationColor: bgColor.evaluate(
-                            AlwaysStoppedAnimation(_controller.value)));
+                            AlwaysStoppedAnimation(_controller.value)), listImage: data["image"],);
                   }
                   if (data['sender'].toString().toLowerCase().contains(
                       Provider.of<HomeController>(context)
@@ -273,7 +273,7 @@ class _ListOfRequestState extends State<ListOfRequest>
                         data: data,
                         taskModel: taskModel,
                         animationColor: bgColor.evaluate(
-                            AlwaysStoppedAnimation(_controller.value)));
+                            AlwaysStoppedAnimation(_controller.value)), listImage: data["image"]);
                   }
                   return Center();
                 });

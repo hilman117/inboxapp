@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:post/Screens/profile/profile.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
+import '../../feeds/widget/search.dart';
+import '../../settings/settings.dart';
 import '../home_controller.dart';
 
-class CustomAppbar extends StatelessWidget {
-  const CustomAppbar({required this.dept});
+class CustomAppbarHome extends StatelessWidget {
+  const CustomAppbarHome({required this.dept});
   final String dept;
 
   @override
@@ -53,88 +54,62 @@ class CustomAppbar extends StatelessWidget {
                         transition: Transition.rightToLeft);
                   },
                   child: Consumer<SettingProvider>(
-                      builder: (context, value, child) => ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            width: Get.width * 0.145,
-                            height: Get.height * 0.065,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50)),
-                            child: value.imageUrl != ''
-                                ? Image.network(
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      } else {
-                                        return Image.asset(
-                                          'images/nophoto.png',
-                                          fit: BoxFit.cover,
-                                        );
-                                      }
-                                    },
-                                    value.imageUrl,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    'images/nophoto.png',
-                                    fit: BoxFit.cover,
-                                  ),
-                          )))),
+                      builder: (context, value, child) => Stack(
+                            children: [
+                              ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 20,
+                                    child: value.imageUrl != ''
+                                        ? Image.network(
+                                            loadingBuilder: (context, child,
+                                                loadingProgress) {
+                                              if (loadingProgress == null) {
+                                                return child;
+                                              } else {
+                                                return Image.asset(
+                                                  'images/nophoto.png',
+                                                  fit: BoxFit.cover,
+                                                );
+                                              }
+                                            },
+                                            value.imageUrl,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            'images/nophoto.png',
+                                            fit: BoxFit.cover,
+                                          ),
+                                  )),
+                              Positioned(
+                                bottom: 6,
+                                right: 4,
+                                child: CircleAvatar(
+                                    radius: 4,
+                                    backgroundColor: value.getValue == true
+                                        ? Color(0xff05B714)
+                                        : Colors.red.shade500),
+                              )
+                            ],
+                          ))),
             ),
             SizedBox(
               width: Get.width * 0.02,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  // width: Get.width * 0.45,
-                  child: Text(
-                    cUser.data.hotel!,
-                    style: TextStyle(color: Colors.black87, fontSize: 16),
-                    overflow: TextOverflow.clip,
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.005,
-                ),
-                Container(
-                  width: Get.width * 0.33,
-                  child: Text(
-                    cUser.data.name!,
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.clip,
-                    style: TextStyle(color: Colors.black, fontSize: 13),
-                  ),
-                ),
-                SizedBox(
-                  height: Get.height * 0.005,
-                ),
-                Row(
-                  children: [
-                    Consumer<SettingProvider>(
-                        builder: (context, value, child) => CircleAvatar(
-                            radius: 3,
-                            backgroundColor: value.getValue == true
-                                ? mainColor
-                                : Colors.grey)),
-                    SizedBox(
-                      width: Get.width * 0.01,
-                    ),
-                    Consumer<SettingProvider>(
-                        builder: (context, value, child) => Text(
-                              value.getValue == true
-                                  ? AppLocalizations.of(context)!.onDuty
-                                  : AppLocalizations.of(context)!.offDuty,
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.grey),
-                            )),
-                  ],
-                ),
-              ],
-            ),
+            Search(),
+            GestureDetector(
+              onTap: () {
+                Get.to(() => Settings(), transition: Transition.rightToLeft);
+              },
+              child: Container(
+                  margin: EdgeInsets.only(left: Get.width * 0.04),
+                  height: Get.height * 0.06,
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.black45,
+                  )),
+            )
           ],
         ),
         elevation: 0,

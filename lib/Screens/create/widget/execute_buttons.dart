@@ -27,9 +27,8 @@ class ExecuteButton {
     return SizedBox(
       width: Get.width * 0.40,
       height: Get.height * 0.048,
-      child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: mainColor,
+      child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(4),

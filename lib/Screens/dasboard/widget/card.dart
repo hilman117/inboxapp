@@ -24,11 +24,13 @@ class CardList extends StatefulWidget {
       {super.key,
       required this.data,
       required this.taskModel,
-      required this.animationColor});
+      required this.animationColor,
+      required this.listImage});
 
   final Map<String, dynamic> data;
   final TaskModel taskModel;
   final Color? animationColor;
+  final List listImage;
 
   @override
   State<CardList> createState() => _CardListState();
@@ -177,26 +179,26 @@ class _CardListState extends State<CardList> {
                             // height: 17,
                             child: Row(
                               children: [
-                                if (widget.data['image'] != '')
-                                  InkWell(
-                                    onTap: () => Get.to(() => ImageRoom(
-                                          image: taskmodel.image!,
-                                          id: '',
-                                        )),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 2),
-                                      child: Icon(Icons.attach_file,
-                                          color: Color(0xff007dff), size: 16),
-                                    ),
-                                  ),
-                                if (widget.taskModel.image != '')
-                                  SizedBox(
-                                    width: width * 0.035,
-                                  ),
-                                if (widget.taskModel.image == '')
-                                  SizedBox(
-                                    width: width * 0.075,
-                                  ),
+                                widget.listImage.isNotEmpty
+                                    ? InkWell(
+                                        onTap: () => Get.to(() => ImageRoom(
+                                              image: widget.data['image'],
+                                              id: '',
+                                            )),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 2),
+                                          child: Icon(Icons.attach_file,
+                                              color: Color(0xff007dff),
+                                              size: 16),
+                                        ),
+                                      )
+                                    : SizedBox(),
+                                SizedBox(
+                                  width: widget.listImage.isEmpty
+                                      ? width * 0.075
+                                      : width * 0.035,
+                                ),
                                 Container(
                                   width: width * 0.40,
                                   child: Text(

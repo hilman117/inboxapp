@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../service/theme.dart';
-import '../imageRoom.dart';
+import '../multiple_photos.dart';
 
 class MyMessage extends StatelessWidget {
   final List<dynamic> commentList;
@@ -11,7 +10,7 @@ class MyMessage extends StatelessWidget {
   final String time;
   final String message;
   // final String description;
-  final String image;
+  final List<dynamic> image;
   const MyMessage(
       {required this.commentList,
       required this.time,
@@ -22,7 +21,6 @@ class MyMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String idImage = Uuid().v4();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -48,7 +46,7 @@ class MyMessage extends StatelessWidget {
                         bottomLeft: Radius.circular(16),
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16)),
-                    color: mainColor.withOpacity(0.2),
+                    color: mainColor.withOpacity(0.1),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
@@ -67,46 +65,17 @@ class MyMessage extends StatelessWidget {
                         message.isNotEmpty
                             ? SelectableText(
                                 message,
-                                style: TextStyle(color: Colors.black87), 
+                                style: TextStyle(color: Colors.black87),
                               )
                             : SizedBox(),
-                        SizedBox(height: image == '' ? 0 : Get.height * 0.015),
+                        SizedBox(
+                            height: image.isEmpty ? 0 : Get.height * 0.015),
                         image.isEmpty
                             ? SizedBox()
-                            : GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    final listImage = commentList
-                                        .where((element) =>
-                                            element['imageComment'] != '')
-                                        .toList();
-                                    return PageView.builder(
-                                      pageSnapping: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: listImage.length,
-                                      itemBuilder: (context, index) {
-                                        var imageItem = listImage[index];
-                                        return ImageRoom(
-                                            image: imageItem['imageComment'],
-                                            id: idImage);
-                                      },
-                                    );
-                                  }));
-                                },
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: Hero(
-                                    tag: idImage,
-                                    child: Image.network(
-                                      image,
-                                      width: 170,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              )
+                            : SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: MultiplePhoto(images: image))
                       ],
                     ),
                   ),

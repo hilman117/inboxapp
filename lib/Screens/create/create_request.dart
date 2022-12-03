@@ -10,6 +10,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../../controller/c_user.dart';
 import 'widget/box_description.dart';
 import 'widget/execute_buttons.dart';
@@ -27,6 +28,7 @@ class CreateRequest extends StatefulWidget {
 
 class _CreateRequestState extends State<CreateRequest> {
   final cUser = Get.put(CUser());
+  String _idTask = Uuid().v4();
 
   @override
   void initState() {
@@ -36,8 +38,8 @@ class _CreateRequestState extends State<CreateRequest> {
       () {
         Provider.of<CreateRequestController>(context, listen: false)
             .clearData();
-        Provider.of<CreateRequestController>(context, listen: false)
-            .restartVariable();
+        // Provider.of<CreateRequestController>(context, listen: false)
+        //     .restartVariable();
       },
     );
   }
@@ -168,7 +170,8 @@ class _CreateRequestState extends State<CreateRequest> {
                                     cUser.data.name!,
                                     cUser.data.department!,
                                     cUser.data.email!,
-                                    value.selectedLocation.text);
+                                    value.selectedLocation.text,
+                                    _idTask);
                               } else {
                                 provider.lfReport(
                                     context,

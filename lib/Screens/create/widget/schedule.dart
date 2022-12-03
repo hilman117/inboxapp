@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
 class SchedulePicker extends StatelessWidget {
@@ -50,9 +49,7 @@ class SchedulePicker extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(
-                            color: value.isLfReport
-                                ? Colors.grey.withOpacity(0.2)
-                                : mainColor.withOpacity(0.2),
+                            border: Border.all(color: Colors.grey.shade300),
                             borderRadius: BorderRadius.circular(12)),
                         width: Get.width,
                         height: Get.height * 0.06,
@@ -87,9 +84,7 @@ class SchedulePicker extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 12),
                         alignment: Alignment.centerLeft,
                         decoration: BoxDecoration(
-                            color: value.isLfReport
-                                ? Colors.grey.withOpacity(0.2)
-                                : mainColor.withOpacity(0.2),
+                            border: Border.all(color: Colors.grey.shade300),
                             borderRadius: BorderRadius.circular(12)),
                         width: Get.width,
                         height: Get.height * 0.06,

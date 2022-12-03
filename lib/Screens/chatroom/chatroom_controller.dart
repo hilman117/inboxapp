@@ -1,11 +1,14 @@
 import 'dart:io';
-
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import '../../controller/c_user.dart';
@@ -141,14 +144,14 @@ class ChatRoomController with ChangeNotifier {
           'commentId': Uuid().v4(),
           'commentBody': "${commentBody.text}",
           'esc': '',
-          'titleChange' : "",
+          'titleChange': "",
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -259,13 +262,13 @@ class ChatRoomController with ChangeNotifier {
           'commentBody': "",
           'accepted': cUser.data.name,
           'esc': "",
-          'titleChange' : "" ,
+          'titleChange': "",
           'assignTask': "",
           'assignTo': "",
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': "",
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -461,13 +464,13 @@ class ChatRoomController with ChangeNotifier {
           'commentBody': "",
           'accepted': "",
           'esc': "",
-          'titleChange' : "",
+          'titleChange': "",
           'assignTask': cUser.data.name,
           'assignTo': departmentsAndNamesSelected.join(', '),
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': '',
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -565,14 +568,14 @@ class ChatRoomController with ChangeNotifier {
           'commentId': Uuid().v4(),
           'commentBody': "has close this request",
           'accepted': "",
-          'titleChange' : "",
+          'titleChange': "",
           'esc': "",
           'assignTask': "",
           'assignTo': "",
           'sender': cUser.data.name,
           'description': "$reason",
           'senderemail': auth.currentUser!.email,
-          'imageComment': '',
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -639,12 +642,12 @@ class ChatRoomController with ChangeNotifier {
           'accepted': "",
           'esc': "",
           'assignTask': "",
-          'titleChange' : "",
+          'titleChange': "",
           'assignTo': "",
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': '',
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -753,11 +756,11 @@ class ChatRoomController with ChangeNotifier {
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
-          'titleChange' : "",
+          'titleChange': "",
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ])
@@ -810,5 +813,30 @@ class ChatRoomController with ChangeNotifier {
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }
     notifyListeners();
+  }
+
+
+  void saveNetworkImage(String url) async {
+    print("----------------------");
+    print("save network image");
+    final temDir = await getTemporaryDirectory();
+    final path = '${temDir.path}/myfile.jpg';
+    // await Dio().download(url, path);
+    final respon = await http.get(Uri.parse(url));
+    final bytes = respon.bodyBytes;
+    File(path).writeAsBytesSync(bytes);
+    var result = await GallerySaver.saveImage(path, albumName: "POST");
+    print("Hasil: $result");
+    if (result == true) {
+      Fluttertoast.showToast(
+          msg: "Image Saved",
+          textColor: Colors.green.shade900,
+          backgroundColor: Colors.white);
+    } else {
+      Fluttertoast.showToast(
+          msg: "Failed to download",
+          textColor: Colors.red.shade900,
+          backgroundColor: Colors.white);
+    }
   }
 }

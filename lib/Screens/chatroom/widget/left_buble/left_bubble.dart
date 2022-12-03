@@ -14,7 +14,7 @@ class LeftBubble extends StatelessWidget {
   final String esc;
   final String assignSender;
   final String assignTo;
-  final String image;
+  final List<dynamic> image;
   const LeftBubble(
       {super.key,
       required this.commentList,

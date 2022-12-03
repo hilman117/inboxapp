@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/controller/c_user.dart';
@@ -12,7 +13,6 @@ import '../../models/user.dart';
 import '../../service/session_user.dart';
 import 'widget/add_button.dart';
 import 'widget/navbar.dart';
-import 'widget/search_and_add.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -41,6 +41,8 @@ class _HomeState extends State<Home> {
     super.initState();
     getUser();
     Provider.of<SettingProvider>(context, listen: false).getOnDutyValue();
+    Provider.of<CreateRequestController>(context, listen: false)
+        .getTotalCreate();
   }
 
   // @override
@@ -60,16 +62,7 @@ class _HomeState extends State<Home> {
           floatingActionButton: Consumer<HomeController>(
             builder: (context, value, child) =>
                 value.navIndex == 0 || value.navIndex == 2
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          searchButtonAndAdd(context),
-                          SizedBox(
-                            width: Get.width * 0.03,
-                          ),
-                          addButton(context, Get.height, Get.width),
-                        ],
-                      )
+                    ? addButton(context, Get.height, Get.width)
                     : SizedBox(),
           ),
           backgroundColor: Colors.white,

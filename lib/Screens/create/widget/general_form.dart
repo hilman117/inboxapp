@@ -33,11 +33,13 @@ class GeneralForm extends StatelessWidget {
               Container(
                 width: Get.width * 0.25,
                 child: Text(
-                  value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
+                  value.isLfReport &&
+                          title == AppLocalizations.of(context)!.sendThisTo
                       ? '- - - - - - '
                       : title,
                   style: TextStyle(
-                      color: value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
+                      color: value.isLfReport &&
+                              title == AppLocalizations.of(context)!.sendThisTo
                           ? Colors.black38
                           : Colors.black,
                       fontSize: 15),
@@ -53,14 +55,16 @@ class GeneralForm extends StatelessWidget {
                   children: [
                     Expanded(
                       child: InkWell(
-                          onTap: value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
+                          onTap: value.isLfReport &&
+                                  title ==
+                                      AppLocalizations.of(context)!.sendThisTo
                               ? null
                               : callback,
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 10),
                             height: Get.height * 0.06,
                             decoration: BoxDecoration(
-                                color: colors.withOpacity(0.2),
+                                border: Border.all(color: Colors.grey.shade300),
                                 borderRadius:
                                     BorderRadiusDirectional.circular(12)),
                             child: Row(
@@ -69,7 +73,10 @@ class GeneralForm extends StatelessWidget {
                                     ? Expanded(
                                         child: Container(
                                             child: value.isLfReport &&
-                                                    title == AppLocalizations.of(context)!.sendThisTo
+                                                    title ==
+                                                        AppLocalizations.of(
+                                                                context)!
+                                                            .sendThisTo
                                                 ? Text(
                                                     '- - - - - - - - - - - - - - - - - - -',
                                                     style: const TextStyle(
@@ -101,12 +108,18 @@ class GeneralForm extends StatelessWidget {
                                             color: Colors.black45),
                                       ),
                                 value.isLfReport ? SizedBox() : Spacer(),
-                                value.isLfReport && title == AppLocalizations.of(context)!.sendThisTo
+                                value.isLfReport &&
+                                        title ==
+                                            AppLocalizations.of(context)!
+                                                .sendThisTo
                                     ? SizedBox()
                                     : Icon(
                                         icons,
                                         color: value.isLfReport &&
-                                                title == AppLocalizations.of(context)!.sendThisTo
+                                                title ==
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .sendThisTo
                                             ? Colors.grey
                                             : secondary,
                                         size: 20,

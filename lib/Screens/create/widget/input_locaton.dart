@@ -37,14 +37,14 @@ class InputLocation extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                    color: mainColor.withOpacity(0.2),
+                    border: Border.all(color: Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(10)),
                 height: Get.height * 0.07,
                 child: Row(
                   children: [
                     Container(
                       padding: EdgeInsets.only(bottom: 9),
-                      width: Get.width * 0.8,
+                      width: Get.width * 0.75,
                       child: TypeAheadFormField<String>(
                         debounceDuration: Duration(milliseconds: 0),
                         hideOnEmpty: true,

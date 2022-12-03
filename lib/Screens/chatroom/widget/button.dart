@@ -16,7 +16,7 @@ Widget button(String buttonName, VoidCallback callback, String status) =>
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-                    backgroundColor: secondary.withOpacity(0.5),
+                    backgroundColor: mainColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8), // <-- Radius
                     ),

@@ -82,6 +82,7 @@ class StreamTasksChat extends StatelessWidget {
 
                   print("-----------------------------");
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     reverse: false,
                     padding: EdgeInsets.all(0),
                     controller: scrollController,
@@ -107,8 +108,9 @@ class StreamTasksChat extends StatelessWidget {
                                   senderMsgName: snapshot.data!['comment']
                                       [index]['sender'],
                                   time: snapshot.data!['comment'][index]
-                                      ['time'], titleChanging: snapshot.data!['comment'][index]
-                                      ['titleChange'],
+                                      ['time'],
+                                  titleChanging: snapshot.data!['comment']
+                                      [index]['titleChange'],
                                 )
                               : LeftBubble(
                                   assignSender: snapshot.data!['comment'][index]

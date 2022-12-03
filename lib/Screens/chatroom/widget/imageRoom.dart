@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 class ImageRoom extends StatefulWidget {
   const ImageRoom({Key? key, required this.image, required this.id})
       : super(key: key);
-  final String image;
+  final List<dynamic> image;
   final String id;
 
   @override
@@ -48,29 +47,29 @@ class _ImageRoomState extends State<ImageRoom> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Center(
-                    child: Hero(
-                        tag: "imageHero",
-                        child: SizedBox(
-                            width: Get.width,
-                            height: Get.height * 0.7,
-                            child: Image.network(widget.image))))),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    backgroundColor: Colors.orange),
-                onPressed: () {
-                  _saveNetworkImage(widget.image);
-                },
-                child: Icon(Icons.download))
+            // InkWell(
+            //     onTap: () {
+            //       Navigator.pop(context);
+            //     },
+            //     child: Center(
+            //         child: Hero(
+            //             tag: "imageHero",
+            //             child: SizedBox(
+            //                 width: Get.width,
+            //                 height: Get.height * 0.7,
+            //                 child: Image.network(widget.image))))),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // ElevatedButton(
+            //     style: ElevatedButton.styleFrom(
+            //         shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(10)),
+            //         backgroundColor: Colors.orange),
+            //     onPressed: () {
+            //       _saveNetworkImage(widget.image);
+            //     },
+            //     child: Icon(Icons.download))
           ],
         ),
       ),

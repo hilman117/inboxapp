@@ -1,6 +1,6 @@
 class TaskModel {
   TaskModel(
-      {this.image,
+      {
       this.receiver,
       this.unread,
       this.description,
@@ -22,7 +22,7 @@ class TaskModel {
       this.positionSender,
       this.from});
 
-  String? image;
+
   String? receiver;
   String? priority;
   String? unread;
@@ -45,7 +45,6 @@ class TaskModel {
   String? from;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
-      image: json["image"],
       receiver: json["receiver"],
       unread: json["unread"],
       description: json["description"],
@@ -68,7 +67,7 @@ class TaskModel {
       from: json["from"]);
 
   Map<String, dynamic> toJson() => {
-        "image": image,
+        
         "receiver": receiver,
         "unread": unread,
         "emailSender": emailSender,

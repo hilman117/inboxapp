@@ -16,7 +16,7 @@ class RightBubble extends StatelessWidget {
   final String titleChanging;
   final String assignSender;
   final String assignTo;
-  final String image;
+  final List<dynamic> image;
   const RightBubble(
       {super.key,
       required this.commentList,

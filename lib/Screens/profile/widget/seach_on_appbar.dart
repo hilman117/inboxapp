@@ -14,7 +14,7 @@ class SearchOnAppBar extends StatelessWidget {
       height: height * 0.04,
       decoration: BoxDecoration(
           color: mainColor.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(16)),
+          borderRadius: BorderRadius.circular(4)),
       child: TextField(
         cursorColor: mainColor,
         decoration: InputDecoration(

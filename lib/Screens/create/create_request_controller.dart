@@ -45,7 +45,6 @@ class CreateRequestController with ChangeNotifier {
         result.docs.map((e) => e.data()['department']).toSet();
     List<String> list = List.castFrom(listDepartement.toList());
     _departments.addAll(list);
-    print(_departments);
     notifyListeners();
   }
 
@@ -61,7 +60,9 @@ class CreateRequestController with ChangeNotifier {
   void clearData() {
     _selectedDept = 'Choose Department';
     _selectedTitle = 'Input Title';
+    _imageUrl.clear();
     notifyListeners();
+    print(_imageUrl.toString());
   }
 
   List<String> _title = [];
@@ -115,11 +116,8 @@ class CreateRequestController with ChangeNotifier {
         .collection("Hotel List")
         .doc(hotelId)
         .get();
-    print(result.data()!['location']);
-    print(result.data()!['location'].runtimeType);
     List<String> list = List.castFrom(result.data()!['location']);
     _data.addAll(list);
-    print("$list ----------------------------------------------------");
     notifyListeners();
   }
 
@@ -188,7 +186,8 @@ class CreateRequestController with ChangeNotifier {
 
   List<XFile?> _imageList = [];
   List<XFile?> get imagesList => _imageList;
-  List imageUrl = [];
+  List<String> _imageUrl = [];
+  List<String> get imageUrl => _imageUrl;
   String imageName = '';
   TextEditingController descriptionController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
@@ -197,6 +196,7 @@ class CreateRequestController with ChangeNotifier {
     List<XFile?> selectedImage = await _picker.pickMultiImage();
     if (selectedImage.isNotEmpty) {
       _imageList.addAll(selectedImage);
+      print(_imageList.length);
     }
     notifyListeners();
   }
@@ -256,7 +256,8 @@ class CreateRequestController with ChangeNotifier {
       String senderName,
       String senderDept,
       String senderEmail,
-      String location) async {
+      String location,
+      String idTask) async {
     // try {
     final application = AppLocalizations.of(context);
     if (_selectedDept == 'Choose Department') {
@@ -276,70 +277,123 @@ class CreateRequestController with ChangeNotifier {
           textColor: mainColor);
     } else {
       _isLoading = true;
-      _idTask = Uuid().v4();
       notifyListeners();
-      if (imageName != '') {
+      if (_imageList.isNotEmpty) {
         List.generate(_imageList.length, (index) async {
           String imageExtension = imageName.split('.').last;
           final ref = FirebaseStorage.instance.ref(
               "$hotelId/${userId + DateTime.now().toString()}.$imageExtension");
           await ref.putFile(File(_imageList[index]!.path));
-          String urlImage = await ref.getDownloadURL();
-          imageUrl.add([urlImage]);
+          await ref.getDownloadURL().then((value) {
+            _imageUrl.add(value);
+            notifyListeners();
+            FirebaseFirestore.instance
+                .collection('Hotel List')
+                .doc(hotelId)
+                .collection('tasks')
+                .doc(idTask)
+                .set({
+              "positionSender": cUser.data.position,
+              "profileImageSender": imageSender,
+              "location": location,
+              "title": _selectedTitle,
+              "sendTo": _selectedDept,
+              "assigned": [_selectedDept],
+              'setDate': _datePicked,
+              'setTime': _selectedTime,
+              "description": controller.text,
+              "time": DateTime.now().toString(),
+              "sender": senderName,
+              "comment": [],
+              "image": _imageUrl,
+              "status": "New",
+              "isFading": false,
+              "from": senderDept,
+              "receiver": "",
+              "id": idTask,
+              "emailSender": senderEmail,
+            });
+            FirebaseFirestore.instance
+                .collection('Hotel List')
+                .doc(hotelId)
+                .collection('tasks')
+                .doc(idTask)
+                .update({
+              'comment': FieldValue.arrayUnion([
+                {
+                  'commentId': Uuid().v4(),
+                  'commentBody': controller.text,
+                  'accepted': "",
+                  'esc': "",
+                  'titleChange': "",
+                  'assignTask': "",
+                  'assignTo': "",
+                  'sender': senderName,
+                  'description': controller.text,
+                  'senderemail': senderEmail,
+                  'imageComment': _imageUrl,
+                  'time': DateFormat('MMM d, h:mm a')
+                      .format(DateTime.now())
+                      .toString(),
+                }
+              ])
+            });
+          });
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(hotelId)
+            .collection('tasks')
+            .doc(idTask)
+            .set({
+          "positionSender": cUser.data.position,
+          "profileImageSender": imageSender,
+          "location": location,
+          "title": _selectedTitle,
+          "sendTo": _selectedDept,
+          "assigned": [_selectedDept],
+          'setDate': _datePicked,
+          'setTime': _selectedTime,
+          "description": controller.text,
+          "time": DateTime.now().toString(),
+          "sender": senderName,
+          "comment": [],
+          "image": _imageUrl,
+          "status": "New",
+          "isFading": false,
+          "from": senderDept,
+          "receiver": "",
+          "id": idTask,
+          "emailSender": senderEmail,
+        });
+        await FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(hotelId)
+            .collection('tasks')
+            .doc(idTask)
+            .update({
+          'comment': FieldValue.arrayUnion([
+            {
+              'commentId': Uuid().v4(),
+              'commentBody': controller.text,
+              'accepted': "",
+              'esc': "",
+              'titleChange': "",
+              'assignTask': "",
+              'assignTo': "",
+              'sender': senderName,
+              'description': controller.text,
+              'senderemail': senderEmail,
+              'imageComment': _imageUrl,
+              'time':
+                  DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+            }
+          ])
         });
       }
-      await FirebaseFirestore.instance
-          .collection('Hotel List')
-          .doc(hotelId)
-          .collection('tasks')
-          .doc(_idTask)
-          .set({
-        "positionSender": cUser.data.position,
-        "profileImageSender": imageSender,
-        "location": location,
-        "title": _selectedTitle,
-        "sendTo": _selectedDept,
-        "assigned": [_selectedDept],
-        'setDate': _datePicked,
-        'setTime': _selectedTime,
-        "description": controller.text,
-        "time": DateTime.now().toString(),
-        "sender": senderName,
-        "comment": [],
-        "image": imageUrl,
-        "status": "New",
-        "isFading": false,
-        "from": senderDept,
-        "receiver": "",
-        "id": _idTask,
-        "emailSender": senderEmail,
-      });
-      await FirebaseFirestore.instance
-          .collection('Hotel List')
-          .doc(hotelId)
-          .collection('tasks')
-          .doc(_idTask)
-          .update({
-        'comment': FieldValue.arrayUnion([
-          {
-            'commentId': Uuid().v4(),
-            'commentBody': controller.text,
-            'accepted': "",
-            'esc': "",
-            'titleChange': "",
-            'assignTask': "",
-            'assignTo': "",
-            'sender': senderName,
-            'description': controller.text,
-            'senderemail': senderEmail,
-            'imageComment': imageUrl,
-            'time':
-                DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-          }
-        ])
-      });
       addNewRequestTotal(context, 1);
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(cUser.data.email)
           .update({'createRequest': newTotal});
@@ -347,7 +401,7 @@ class CreateRequestController with ChangeNotifier {
           _selectedDept.removeAllWhitespace,
           "$_selectedDept New Request",
           '$senderName send a request: ${_selectedLocation.text} - "$_selectedTitle" ${controller.text}',
-          imageUrl[0]);
+          "");
       _isLoading = false;
       notifyListeners();
       Fluttertoast.showToast(
@@ -359,19 +413,10 @@ class CreateRequestController with ChangeNotifier {
       Get.back();
       controller.clear();
       _searchtitle.clear();
-      _idTask = '';
       _imageList.clear();
 
       notifyListeners();
     }
-    // } catch (e) {
-    //   Fluttertoast.showToast(
-    //       backgroundColor: Colors.white,
-    //       toastLength: Toast.LENGTH_SHORT,
-    //       textColor: Colors.black,
-    //       msg: "Ups! Something Wrong");
-    //   print(e);
-    // }
   }
 
   String emailAdmin = '';

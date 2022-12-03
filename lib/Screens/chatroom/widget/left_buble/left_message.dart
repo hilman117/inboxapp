@@ -2,9 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uuid/uuid.dart';
 
-import '../imageRoom.dart';
+import '../multiple_photos.dart';
 
 class LeftMessage extends StatelessWidget {
   final List<dynamic> commentList;
@@ -12,7 +11,7 @@ class LeftMessage extends StatelessWidget {
   final String time;
   final String message;
   // final String description;
-  final String image;
+  final List<dynamic> image;
   const LeftMessage(
       {required this.commentList,
       required this.time,
@@ -23,10 +22,8 @@ class LeftMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Color finalCOlor =
         Colors.primaries[Random().nextInt(Colors.primaries.length)].shade900;
-    String idImage = Uuid().v4();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -67,43 +64,11 @@ class LeftMessage extends StatelessWidget {
                                 overflow: TextOverflow.clip,
                               )
                             : SizedBox(),
-                        SizedBox(height: image == '' ? 0 : Get.height * 0.015),
+                        SizedBox(
+                            height: image.isEmpty ? 0 : Get.height * 0.015),
                         image.isEmpty
                             ? SizedBox()
-                            : GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    final listImage = commentList
-                                        .where((element) =>
-                                            element['imageComment'] != '')
-                                        .toList();
-                                    return PageView.builder(
-                                      pageSnapping: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: listImage.length,
-                                      itemBuilder: (context, index) {
-                                        var imageItem = listImage[index];
-                                        return ImageRoom(
-                                            image: imageItem['imageComment'],
-                                            id: idImage);
-                                      },
-                                    );
-                                  }));
-                                },
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  child: Hero(
-                                    tag: idImage,
-                                    child: Image.network(
-                                      image,
-                                      width: 170,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              )
+                            : MultiplePhoto(images: image)
                       ],
                     ),
                   ),
