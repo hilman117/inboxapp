@@ -16,7 +16,7 @@ class ImageRoom extends StatefulWidget {
 }
 
 class _ImageRoomState extends State<ImageRoom> {
-  void _saveNetworkImage(String url) async {
+  void saveNetworkImage(String url) async {
     print("----------------------");
     print("save network image");
     final temDir = await getTemporaryDirectory();

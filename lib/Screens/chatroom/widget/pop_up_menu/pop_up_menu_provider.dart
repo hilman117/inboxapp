@@ -47,30 +47,148 @@ class PopUpMenuProvider with ChangeNotifier {
           'sender': cUser.data.name,
           'description': "",
           'senderemail': auth.currentUser!.email,
-          'imageComment': "",
+          'imageComment': [],
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
         }
       ]),
       "title": listTitle[index]
     });
+    changeTitle(listTitle[index]);
+    Navigator.pop(context);
+    notifyListeners();
     var result = await FirebaseFirestore.instance
         .collection('users')
         .doc(emailSender)
         .get();
-    List token = result.data()!["token"];
-    if (token.isNotEmpty) {
-      token.forEach(
-        (element) {
-          Notif().sendNotifToToken(
-              element,
-              _title,
-              "${cUser.data.name} has change the title to ${listTitle[index]}",
-              '');
-        },
-      );
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(
+                element,
+                _title,
+                "${cUser.data.name} has change the title to ${listTitle[index]}",
+                '');
+          },
+        );
+      }
     }
-    changeTitle(listTitle[index]);
-    Navigator.pop(context);
+  }
+
+  // methon untuk mengubah jadwal date....
+  void storeNewDate(BuildContext context, String tasksId, String oldDate,
+      String emailSender, String location) async {
+    final provider =
+        Provider.of<CreateRequestController>(context, listen: false);
+    await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .doc(tasksId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'commentId': Uuid().v4(),
+          'commentBody': "",
+          'esc': '',
+          'setDate':
+              "${cUser.data.name} has change the date to ${provider.datePicked}",
+          'setTime': "",
+          'accepted': "",
+          'titleChange': "",
+          'assignTask': "",
+          'assignTo': "",
+          'sender': cUser.data.name,
+          'description': "",
+          'senderemail': auth.currentUser!.email,
+          'imageComment': [],
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+        }
+      ]),
+      "setDate": provider.datePicked,
+    });
+
+    // Navigator.pop(context);
+    // notifyListeners();
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(emailSender)
+        .get();
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(
+                element,
+                '$location "$_title"',
+                "${cUser.data.name} has change due date from $oldDate to ${provider.datePicked}",
+                '');
+          },
+        );
+      }
+    }
+    // Navigator.pop(context);
+    notifyListeners();
+  }
+
+  // methon untuk mengubah jadwal time....
+  void storeNewTime(BuildContext context, String tasksId, String oldTime,
+      String emailSender, String location) async {
+    final provider =
+        Provider.of<CreateRequestController>(context, listen: false);
+    await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .doc(tasksId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'commentId': Uuid().v4(),
+          'commentBody': "",
+          'esc': '',
+          'setDate': "",
+          'setTime':
+              "${cUser.data.name} has change the time to ${provider.selectedTime}",
+          'accepted': "",
+          'titleChange': "",
+          'assignTask': "",
+          'assignTo': "",
+          'sender': cUser.data.name,
+          'description': "",
+          'senderemail': auth.currentUser!.email,
+          'imageComment': [],
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+        }
+      ]),
+      "setTime": provider.selectedTime,
+    });
+
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(emailSender)
+        .get();
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty && provider.newDate == '') {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(
+                element,
+                '$location "$_title"',
+                "${cUser.data.name} has change the time from $oldTime to  ${provider.selectedTime}",
+                '');
+          },
+        );
+      }
+    }
+    
+    // Navigator.pop(context);
     notifyListeners();
   }
 }

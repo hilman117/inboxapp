@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/custom_appbar_chatroom.dart';
-import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
+import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/controller/c_user.dart';
 import 'package:provider/provider.dart';
 import 'widget/stream_chatroom/stream_lf_chat.dart';
@@ -26,13 +26,14 @@ class Chatroom extends StatefulWidget {
     required this.time,
     required this.hotelid,
     required this.sendTo,
-    required this.schedule,
+    required this.setDate,
     required this.fromWhere,
     required this.emailSender,
     required this.jarakWaktu,
     required this.assign,
     required this.imageProfileSender,
     required this.positionSender,
+    required this.setTime,
     // required this.image,
   });
   final String taskId;
@@ -50,7 +51,8 @@ class Chatroom extends StatefulWidget {
   final String hotelid;
   final DateTime time;
   final String fromWhere;
-  final String schedule;
+  final String setDate;
+  final String setTime;
   final int jarakWaktu;
   // final String image;
 
@@ -93,6 +95,10 @@ class _ChatroomState extends State<Chatroom> {
     Future.delayed(
       Duration.zero,
       () {
+        Provider.of<CreateRequestController>(context, listen: false)
+            .changeDate(widget.setDate);
+        Provider.of<CreateRequestController>(context, listen: false)
+            .changeTime(widget.setTime);
         Provider.of<ChatRoomController>(context, listen: false).changeStatus(
             widget.statusTask,
             widget.penerimaTask,
@@ -116,12 +122,14 @@ class _ChatroomState extends State<Chatroom> {
                   imageProfileSender: widget.imageProfileSender,
                   sender: widget.nameSender,
                   positionSender: widget.positionSender,
-                  title: Provider.of<PopUpMenuProvider>(context).title,
                   lokasi: "${widget.location}",
-                  schedule: widget.schedule,
                   assigned: widget.assign,
                   sendTo: widget.sendTo,
-                  timeCreated: widget.time, taskId: widget.taskId, emailSender: widget.emailSender,
+                  timeCreated: widget.time,
+                  taskId: widget.taskId,
+                  emailSender: widget.emailSender,
+                  oldDate: widget.setDate,
+                  oldTime: widget.setTime,
                 );
               },
             ),
@@ -143,7 +151,7 @@ class _ChatroomState extends State<Chatroom> {
                 hotelid: widget.hotelid,
                 time: widget.time,
                 fromWhere: widget.fromWhere,
-                schedule: widget.schedule)
+                schedule: widget.setDate)
             : StreamLfChat(
                 taskId: widget.taskId,
                 assignLIst: widget.assign,
@@ -160,6 +168,6 @@ class _ChatroomState extends State<Chatroom> {
                 hotelid: widget.hotelid,
                 time: widget.time,
                 fromWhere: widget.fromWhere,
-                schedule: widget.schedule));
+                schedule: widget.setDate));
   }
 }

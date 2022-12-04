@@ -50,7 +50,7 @@ class _SignInState extends State<SignIn> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "images/launcher4.png",
+                        "images/splash.png",
                         width: width * 0.50,
                         fit: BoxFit.fill,
                       ),
@@ -144,8 +144,8 @@ class _SignInState extends State<SignIn> {
                                     borderRadius: BorderRadius.circular(10)),
                                 side: BorderSide(color: mainColor, width: 0.5),
                                 backgroundColor: mainColor),
-                            onPressed: () =>
-                                controller.signIn(context ,emailC.text, passwordC.text),
+                            onPressed: () => controller.signIn(
+                                context, emailC.text, passwordC.text),
                             child: Text(
                               AppLocalizations.of(context)!.login,
                               style: GoogleFonts.poppins(color: Colors.white),

@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import '../../../create/create_request_controller.dart';
 import '../../../create/widget/dialog_title.dart';
 import '../../../dasboard/widget/card.dart';
+import 'dialog_edit_schedule.dart';
 
-void showPopUpMenu(
-    BuildContext context, String selectedDept, String tasksId, String emailSender) async {
+void showPopUpMenu(BuildContext context, String selectedDept, String tasksId,
+    String emailSender, String oldDate, String oldTime, String location) async {
   final app = AppLocalizations.of(context);
   double size = Get.height + Get.width;
   await showMenu(
@@ -18,54 +19,64 @@ void showPopUpMenu(
       context: context,
       position: RelativeRect.fromLTRB(size * 0.02, size * 0.02, 0, size * 0.02),
       items: [
-        PopupMenuItem(
-          child: Row(
-            children: [
-              Icon(
-                Icons.schedule,
-                color: Colors.grey.shade400,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(app!.editDueDate),
-            ],
+        if (oldDate.isNotEmpty || oldTime.isNotEmpty)
+          PopupMenuItem(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.schedule,
+                  color: Colors.grey.shade400,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(app!.editDueDate),
+              ],
+            ),
+            value: 'Edit Due Date',
+            onTap: () {
+              Future.delayed(
+                Duration.zero,
+                () {
+                  editSchedule(context, tasksId, emailSender, oldDate, oldTime, location);
+                },
+              );
+            },
           ),
-          value: 'Edit Due Date',
-          onTap: () {},
-        ),
-        PopupMenuItem(
-          child: Row(
-            children: [
-              Icon(
-                Icons.delete,
-                color: Colors.grey.shade400,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(app.deleteDueDate),
-            ],
+        if (oldDate.isNotEmpty || oldTime.isNotEmpty)
+          PopupMenuItem(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.delete,
+                  color: Colors.grey.shade400,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(app!.deleteDueDate),
+              ],
+            ),
+            value: 'Delete Due Date',
+            onTap: () {},
           ),
-          value: 'Delete Due Date',
-          onTap: () {},
-        ),
-        PopupMenuItem(
-          child: Row(
-            children: [
-              Icon(
-                Icons.add,
-                color: Colors.grey.shade400,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(app.addDueDate),
-            ],
+        if (oldDate.isEmpty || oldTime.isEmpty)
+          PopupMenuItem(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.add,
+                  color: Colors.grey.shade400,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(app!.addDueDate),
+              ],
+            ),
+            value: 'Add Due Date',
+            onTap: () {},
           ),
-          value: 'Add Due Date',
-          onTap: () {},
-        ),
         PopupMenuItem(
           child: Row(
             children: [
@@ -76,7 +87,7 @@ void showPopUpMenu(
               SizedBox(
                 width: 10,
               ),
-              Text(app.onHold),
+              Text(app!.onHold),
             ],
           ),
           value: 'On Hold',

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
+import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
+import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/dasboard/widget/animated/status.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
@@ -15,28 +17,29 @@ class ChatRoomAppbar extends StatelessWidget {
   final String emailSender;
   final String sender;
   final String positionSender;
-  final String title;
   final String lokasi;
   final String sendTo;
   final String taskId;
+  final String oldDate;
+  final String oldTime;
   final DateTime timeCreated;
   // final String image;
-  final String schedule;
   final List<dynamic> assigned;
-  const ChatRoomAppbar(
-      {super.key,
-      required this.imageProfileSender,
-      required this.sender,
-      required this.positionSender,
-      required this.title,
-      required this.lokasi,
-      // required this.image,
-      required this.schedule,
-      required this.assigned,
-      required this.sendTo,
-      required this.timeCreated,
-      required this.taskId,
-      required this.emailSender});
+  const ChatRoomAppbar({
+    super.key,
+    required this.imageProfileSender,
+    required this.sender,
+    required this.positionSender,
+    required this.lokasi,
+    // required this.image,
+    required this.assigned,
+    required this.sendTo,
+    required this.timeCreated,
+    required this.taskId,
+    required this.emailSender,
+    required this.oldDate,
+    required this.oldTime,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -115,16 +118,23 @@ class ChatRoomAppbar extends StatelessWidget {
                       SizedBox(
                         width: Get.width * 0.02,
                       ),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(50),
-                        radius: 20,
-                        onTap: () =>
-                            showPopUpMenu(context, sendTo, taskId, emailSender),
-                        child: Icon(
-                          Icons.more_vert,
-                          color: Colors.black54,
-                        ),
-                      )
+                      Consumer<CreateRequestController>(
+                          builder: (context, value, child) => InkWell(
+                                borderRadius: BorderRadius.circular(50),
+                                radius: 20,
+                                onTap: () => showPopUpMenu(
+                                    context,
+                                    sendTo,
+                                    taskId,
+                                    emailSender,
+                                    oldDate,
+                                    oldTime,
+                                    lokasi),
+                                child: Icon(
+                                  Icons.more_vert,
+                                  color: Colors.black54,
+                                ),
+                              ))
                     ],
                   ),
                 ),
@@ -148,7 +158,7 @@ class ChatRoomAppbar extends StatelessWidget {
                           Container(
                             width: Get.width * 0.45,
                             child: Text(
-                              '${applications!.title}: $title',
+                              '${applications!.title}: ${Provider.of<PopUpMenuProvider>(context).title}',
                               style: TextStyle(color: secondary, fontSize: 14),
                               overflow: TextOverflow.clip,
                             ),
@@ -183,56 +193,60 @@ class ChatRoomAppbar extends StatelessWidget {
                         ],
                       ),
                       Spacer(),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          SizedBox(
-                              height: sender == cUser.data.name
-                                  ? Get.height * 0.002
-                                  : 0.0),
-                          (value.status == 'Accepted' ||
-                                  value.status == 'Close')
-                              ? Container(
-                                  width: Get.width * 0.40,
-                                  child: Text(
-                                    "${applications.by} ${value.receiver}",
-                                    style: TextStyle(
-                                        color: secondary, fontSize: 14),
-                                    overflow: TextOverflow.clip,
-                                    textAlign: TextAlign.end,
+                      Consumer<CreateRequestController>(
+                          builder: (context, val, child) => Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SizedBox(
+                                      height: sender == cUser.data.name
+                                          ? Get.height * 0.002
+                                          : 0.0),
+                                  (value.status == 'Accepted' ||
+                                          value.status == 'Close')
+                                      ? Container(
+                                          width: Get.width * 0.40,
+                                          child: Text(
+                                            "${applications.by} ${value.receiver}",
+                                            style: TextStyle(
+                                                color: secondary, fontSize: 14),
+                                            overflow: TextOverflow.clip,
+                                            textAlign: TextAlign.end,
+                                          ),
+                                        )
+                                      : (value.status == "Assigned" ||
+                                              value.status == 'Close')
+                                          ? Container(
+                                              width: Get.width * 0.40,
+                                              child: Text(
+                                                "${applications.to} ${value.assignTo}",
+                                                style: TextStyle(
+                                                    color: secondary,
+                                                    fontSize: 14),
+                                                overflow: TextOverflow.clip,
+                                                textAlign: TextAlign.end,
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                  SizedBox(
+                                    height: Get.height * 0.005,
                                   ),
-                                )
-                              : (value.status == "Assigned" ||
-                                      value.status == 'Close')
-                                  ? Container(
-                                      width: Get.width * 0.40,
-                                      child: Text(
-                                        "${applications.to} ${value.assignTo}",
-                                        style: TextStyle(
-                                            color: secondary, fontSize: 14),
-                                        overflow: TextOverflow.clip,
-                                        textAlign: TextAlign.end,
-                                      ),
-                                    )
-                                  : SizedBox(),
-                          SizedBox(
-                            height: Get.height * 0.005,
-                          ),
-                          schedule != ''
-                              ? Container(
-                                  width: Get.width * 0.40,
-                                  child: Text(
-                                    schedule,
-                                    style: TextStyle(
-                                        color: Colors.red, fontSize: 14),
-                                    overflow: TextOverflow.clip,
-                                    textAlign: TextAlign.end,
-                                  ),
-                                )
-                              : SizedBox(),
-                        ],
-                      )
+                                  (val.datePicked != '' ||
+                                          val.selectedTime != '')
+                                      ? Container(
+                                          width: Get.width * 0.40,
+                                          child: Text(
+                                            "${val.datePicked} ${val.selectedTime}",
+                                            style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 14),
+                                            overflow: TextOverflow.clip,
+                                            textAlign: TextAlign.end,
+                                          ),
+                                        )
+                                      : SizedBox(),
+                                ],
+                              ))
                     ],
                   ),
                 ),

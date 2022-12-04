@@ -19,7 +19,6 @@ class LeftMessage extends StatelessWidget {
       // required this.description,
       required this.image,
       required this.senderMsgName});
-
   @override
   Widget build(BuildContext context) {
     Color finalCOlor =
@@ -68,7 +67,10 @@ class LeftMessage extends StatelessWidget {
                             height: image.isEmpty ? 0 : Get.height * 0.015),
                         image.isEmpty
                             ? SizedBox()
-                            : MultiplePhoto(images: image)
+                            : SizedBox(
+                                height: 200,
+                                width: 200,
+                                child: MultiplePhoto(images: image))
                       ],
                     ),
                   ),

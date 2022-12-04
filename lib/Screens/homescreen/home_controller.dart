@@ -151,7 +151,7 @@ class HomeController with ChangeNotifier {
                 location: location,
                 nameSender: _nameSender,
                 penerimaTask: _penerimaTask,
-                schedule: _schedule,
+                setDate: _schedule,
                 sendTo: _sendTo,
                 statusTask: _statusTask,
                 taskId: _taskId,
@@ -162,7 +162,7 @@ class HomeController with ChangeNotifier {
                 jarakWaktu: 0,
                 assign: _assign,
                 imageProfileSender: _imageProfileSender,
-                positionSender: _positionSender,
+                positionSender: _positionSender, setTime: '',
               ),
           transition: Transition.rightToLeft);
       notifyListeners();

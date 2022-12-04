@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../../service/theme.dart';
 
 class AcceptedBubbleLeft extends StatelessWidget {
   final String isAccepted;
@@ -16,7 +15,7 @@ class AcceptedBubbleLeft extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: mainColor.withOpacity(0.5))),
+            border: Border.all(color: Colors.green)),
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +40,7 @@ class AcceptedBubbleLeft extends StatelessWidget {
               ),
             ),
             Icon(Icons.check_circle_rounded,
-                size: size * 0.03, color: mainColor),
+                size: size * 0.03, color: Colors.green),
           ],
         ));
   }

@@ -4,7 +4,8 @@ import 'package:provider/provider.dart';
 import '../../chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import '../create_request_controller.dart';
 
-Widget titleTile(BuildContext context, int index, String tasksId, String emailSender) {
+Widget titleTile(
+    BuildContext context, int index, String tasksId, String emailSender) {
   return InkWell(
     onTap: () {
       if (Provider.of<PopUpMenuProvider>(context, listen: false)

@@ -111,7 +111,7 @@ class _CardListState extends State<CardList> {
                           location: widget.taskModel.location!,
                           nameSender: widget.taskModel.sender!,
                           penerimaTask: widget.taskModel.receiver!,
-                          schedule: widget.taskModel.setDate!,
+                          setDate: widget.taskModel.setDate!,
                           sendTo: widget.taskModel.sendTo!,
                           statusTask: widget.taskModel.status!,
                           taskId: widget.taskModel.id!,
@@ -122,7 +122,7 @@ class _CardListState extends State<CardList> {
                           jarakWaktu: runnningTime,
                           assign: widget.data['assigned'],
                           imageProfileSender: widget.data['profileImageSender'],
-                          positionSender: widget.data['positionSender'],
+                          positionSender: widget.data['positionSender'], setTime: widget.taskModel.setTime!,
                         ),
                     transition: Transition.rightToLeft);
               },

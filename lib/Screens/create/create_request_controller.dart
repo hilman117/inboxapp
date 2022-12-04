@@ -135,6 +135,8 @@ class CreateRequestController with ChangeNotifier {
     notifyListeners();
   }
 
+  String _newDate = '';
+  String get newDate => _newDate;
   String _datePicked = '';
   String get datePicked => _datePicked;
   dateTimPicker(BuildContext context) async {
@@ -151,14 +153,36 @@ class CreateRequestController with ChangeNotifier {
             DateTime.now().month == 12 ? 1 : DateTime.now().month + 1,
             DateTime.now().day));
     if (resultDate == null) {
-      _datePicked = '';
+      _datePicked = _datePicked;
+      _newDate = '';
       notifyListeners();
     } else {
       var setDate = DateTime(resultDate.year, resultDate.month, resultDate.day);
-      _datePicked = DateFormat('EEEE, MMM d').format(setDate);
+      _datePicked = DateFormat('EEEE, d MMM').format(setDate);
+      _newDate = DateFormat('EEEE, d MMM').format(setDate);
+      changeDate(_datePicked);
       notifyListeners();
       print(_datePicked);
     }
+  }
+
+  cancelButton(String oldDate, String oldTime) {
+    _datePicked = oldDate;
+    _selectedTime = oldTime;
+    notifyListeners();
+  }
+
+  void changeDate(String dateChange) {
+    _datePicked = dateChange;
+    notifyListeners();
+  }
+
+  String _newTime = '';
+  String get newTime => _newTime;
+  clear() {
+    _newDate = '';
+    _newTime = '';
+    notifyListeners();
   }
 
   String _selectedTime = '';
@@ -170,17 +194,27 @@ class CreateRequestController with ChangeNotifier {
       if (value != null) {
         currentTime = value;
         _selectedTime = value.format(context).toString();
+        _newTime = value.format(context).toString();
+        changeTime(_selectedTime);
         notifyListeners();
       } else {
-        _selectedTime = '';
+        _selectedTime = _selectedTime;
+        _newTime = '';
         notifyListeners();
       }
     });
   }
 
+  void changeTime(String timeChange) {
+    _selectedTime = timeChange;
+    notifyListeners();
+  }
+
   void clearSchedule() {
     _datePicked = '';
     _selectedTime = '';
+    _newDate = '';
+    _newTime = '';
     notifyListeners();
   }
 
@@ -411,7 +445,6 @@ class CreateRequestController with ChangeNotifier {
           msg: "Request sent");
       await Future.delayed(Duration(milliseconds: 600));
       Get.back();
-      controller.clear();
       _searchtitle.clear();
       _imageList.clear();
 
