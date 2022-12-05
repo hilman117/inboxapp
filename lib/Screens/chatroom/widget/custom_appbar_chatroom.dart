@@ -122,14 +122,19 @@ class ChatRoomAppbar extends StatelessWidget {
                           builder: (context, value, child) => InkWell(
                                 borderRadius: BorderRadius.circular(50),
                                 radius: 20,
-                                onTap: () => showPopUpMenu(
-                                    context,
-                                    sendTo,
-                                    taskId,
-                                    emailSender,
-                                    oldDate,
-                                    oldTime,
-                                    lokasi),
+                                onTap: Provider.of<ChatRoomController>(context,
+                                                listen: false)
+                                            .status !=
+                                        "Close"
+                                    ? () => showPopUpMenu(
+                                        context,
+                                        sendTo,
+                                        taskId,
+                                        emailSender,
+                                        oldDate,
+                                        oldTime,
+                                        lokasi)
+                                    : () {},
                                 child: Icon(
                                   Icons.more_vert,
                                   color: Colors.black54,
@@ -202,32 +207,33 @@ class ChatRoomAppbar extends StatelessWidget {
                                       height: sender == cUser.data.name
                                           ? Get.height * 0.002
                                           : 0.0),
-                                  (value.status == 'Accepted' ||
-                                          value.status == 'Close')
+                                  (value.status != 'Assigned')
                                       ? Container(
                                           width: Get.width * 0.40,
-                                          child: Text(
-                                            "${applications.by} ${value.receiver}",
-                                            style: TextStyle(
-                                                color: secondary, fontSize: 14),
-                                            overflow: TextOverflow.clip,
-                                            textAlign: TextAlign.end,
-                                          ),
+                                          child: value.receiver != ''
+                                              ? Text(
+                                                  "${applications.by} ${value.receiver}",
+                                                  style: TextStyle(
+                                                      color: secondary,
+                                                      fontSize: 14),
+                                                  overflow: TextOverflow.clip,
+                                                  textAlign: TextAlign.end,
+                                                )
+                                              : SizedBox(),
                                         )
-                                      : (value.status == "Assigned" ||
-                                              value.status == 'Close')
-                                          ? Container(
-                                              width: Get.width * 0.40,
-                                              child: Text(
-                                                "${applications.to} ${value.assignTo}",
-                                                style: TextStyle(
-                                                    color: secondary,
-                                                    fontSize: 14),
-                                                overflow: TextOverflow.clip,
-                                                textAlign: TextAlign.end,
-                                              ),
-                                            )
-                                          : SizedBox(),
+                                      : Container(
+                                          width: Get.width * 0.40,
+                                          child: value.status == 'Assigned'
+                                              ? Text(
+                                                  "${applications.to} ${value.assignTo}",
+                                                  style: TextStyle(
+                                                      color: secondary,
+                                                      fontSize: 14),
+                                                  overflow: TextOverflow.clip,
+                                                  textAlign: TextAlign.end,
+                                                )
+                                              : SizedBox(),
+                                        ),
                                   SizedBox(
                                     height: Get.height * 0.005,
                                   ),

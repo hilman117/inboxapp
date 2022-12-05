@@ -355,20 +355,26 @@ class CreateRequestController with ChangeNotifier {
                 .update({
               'comment': FieldValue.arrayUnion([
                 {
-                  'commentId': Uuid().v4(),
-                  'commentBody': controller.text,
                   'accepted': "",
-                  'esc': "",
-                  'titleChange': "",
                   'assignTask': "",
                   'assignTo': "",
-                  'sender': senderName,
+                  'commentBody': controller.text,
+                  'commentId': Uuid().v4(),
                   'description': controller.text,
-                  'senderemail': senderEmail,
+                  'esc': '',
                   'imageComment': _imageUrl,
+                  'sender': cUser.data.name,
+                  'senderemail': auth.currentUser!.email,
+                  'setDate': '',
+                  'setTime': '',
                   'time': DateFormat('MMM d, h:mm a')
                       .format(DateTime.now())
                       .toString(),
+                  'titleChange': "",
+                  'newlocation': "",
+                  'hold': "",
+                  'resume': "",
+                  'scheduleDelete': "",
                 }
               ])
             });
@@ -409,19 +415,25 @@ class CreateRequestController with ChangeNotifier {
             .update({
           'comment': FieldValue.arrayUnion([
             {
-              'commentId': Uuid().v4(),
-              'commentBody': controller.text,
               'accepted': "",
-              'esc': "",
-              'titleChange': "",
               'assignTask': "",
               'assignTo': "",
-              'sender': senderName,
+              'commentBody': controller.text,
+              'commentId': Uuid().v4(),
               'description': controller.text,
-              'senderemail': senderEmail,
+              'esc': '',
               'imageComment': _imageUrl,
+              'sender': cUser.data.name,
+              'senderemail': auth.currentUser!.email,
+              'setDate': '',
+              'setTime': '',
               'time':
                   DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+              'titleChange': "",
+              'newlocation': "",
+              'hold': "",
+              'resume': "",
+              'scheduleDelete': "",
             }
           ])
         });

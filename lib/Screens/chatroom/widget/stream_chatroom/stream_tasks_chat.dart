@@ -79,7 +79,7 @@ class StreamTasksChat extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.active) {
                   var commentList = (snapshot.data!.data()
                       as Map<String, dynamic>)['comment'] as List;
-
+                  commentList.sort((a, b) => b["time"].compareTo(a["time"]));
                   print("-----------------------------");
                   return ListView.builder(
                     physics: BouncingScrollPhysics(),
@@ -111,6 +111,18 @@ class StreamTasksChat extends StatelessWidget {
                                       ['time'],
                                   titleChanging: snapshot.data!['comment']
                                       [index]['titleChange'],
+                                  setTime: snapshot.data!['comment'][index]
+                                      ['setTime'],
+                                  deleteSchedule: snapshot.data!['comment']
+                                      [index]['scheduleDelete'],
+                                  editLocation: snapshot.data!['comment'][index]
+                                      ['newlocation'],
+                                  hold: snapshot.data!['comment'][index]
+                                      ['hold'],
+                                  resume: snapshot.data!['comment'][index]
+                                      ['resume'],
+                                  setDate: snapshot.data!['comment'][index]
+                                      ['setDate'],
                                 )
                               : LeftBubble(
                                   assignSender: snapshot.data!['comment'][index]
@@ -129,6 +141,20 @@ class StreamTasksChat extends StatelessWidget {
                                       [index]['sender'],
                                   time: snapshot.data!['comment'][index]
                                       ['time'],
+                                  titleChanging: snapshot.data!['comment']
+                                      [index]['titleChange'],
+                                  setTime: snapshot.data!['comment'][index]
+                                      ['setTime'],
+                                  deleteSchedule: snapshot.data!['comment']
+                                      [index]['scheduleDelete'],
+                                  editLocation: snapshot.data!['comment'][index]
+                                      ['newlocation'],
+                                  hold: snapshot.data!['comment'][index]
+                                      ['hold'],
+                                  resume: snapshot.data!['comment'][index]
+                                      ['resume'],
+                                  setDate: snapshot.data!['comment'][index]
+                                      ['setDate'],
                                 ),
                         ],
                       );

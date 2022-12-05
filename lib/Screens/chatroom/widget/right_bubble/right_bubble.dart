@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:post/Screens/chatroom/widget/right_bubble/accepted_bubble.dart';
 
+import 'add_schedule_right.dart';
 import 'assign_bubble_right.dart';
+import 'bubble_edit_location_right.dart';
+import 'delete_schedule_bubble.dart';
+import 'hold_right.dart';
 import 'my_message.dart';
+import 'resume_right.dart';
 import 'title_changes_right.dart';
 
 class RightBubble extends StatelessWidget {
   final List<dynamic> commentList;
   final String time;
+  final String setDate;
+  final String setTime;
+  final String deleteSchedule;
+  final String editLocation;
+  final String resume;
+  final String hold;
   final String senderMsgName;
   final String message;
   // String description,
@@ -28,56 +39,265 @@ class RightBubble extends StatelessWidget {
       required this.assignTo,
       required this.image,
       required this.message,
-      required this.titleChanging});
+      required this.titleChanging,
+      required this.setDate,
+      required this.setTime,
+      required this.deleteSchedule,
+      required this.editLocation,
+      required this.resume,
+      required this.hold});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       //buble chat yg tampil jika ada kita sbg pengirim pesan..................................
       crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         (isAccepted != '')
             ? SizedBox()
-            : (assignSender != '')
+            : (assignTo != '')
                 ? SizedBox()
                 : (titleChanging != '')
                     ? SizedBox()
-                    : (message.isEmpty && image.isEmpty)
+                    : (resume != '')
                         ? SizedBox()
-                        : MyMessage(
-                            commentList: commentList,
-                            time: time,
-                            message: message,
-                            image: image,
-                            senderMsgName: senderMsgName),
-        //widget pesan yg ditampilkan ketika status diterima............
+                        : (hold != '')
+                            ? SizedBox()
+                            : (setTime != '')
+                                ? SizedBox()
+                                : (editLocation != '')
+                                    ? SizedBox()
+                                    : (deleteSchedule != '')
+                                        ? SizedBox()
+                                        : (message.isEmpty && image.isEmpty)
+                                            ? SizedBox()
+                                            : MyMessage(
+                                                commentList: commentList,
+                                                time: time,
+                                                message: message,
+                                                image: image,
+                                                senderMsgName: senderMsgName),
+        //bubble ketike kita hold task
         SizedBox(
-          height: isAccepted == '' ? 0 : 10,
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        hold == '' ? SizedBox() : HoldBubble(hold: hold, time: time),
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        //bubble ketike kita resume task
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        resume == '' ? SizedBox() : Resume(resume: resume, time: time),
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        //bubble ketike kita menambah kan shcedule
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        setTime.isEmpty
+            ? SizedBox()
+            : AddSchedule(addSchedule: setDate + setTime, time: time),
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        //bubble ketika kita menghapus schedule
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        deleteSchedule == ''
+            ? SizedBox()
+            : DeleteScheduleBubble(deleteSchedule: deleteSchedule, time: time),
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        //bubble ketika kita mengedit lokasi
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        editLocation == ''
+            ? SizedBox()
+            : EditLoactionBubble(newLocation: editLocation, time: time),
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
+        //bubble ketika kita menerima task...
+        SizedBox(
+          height: isAccepted.isEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
         ),
         (isAccepted == '')
             ? SizedBox()
-            : (assignSender != '')
-                ? SizedBox()
-                : (titleChanging != '')
-                    ? SizedBox()
-                    : AcceptedBubbleRight(time: time, isAccepted: isAccepted),
+            : AcceptedBubbleRight(time: time, isAccepted: isAccepted),
         SizedBox(
-          height: isAccepted == '' ? 0 : 10,
+          height: isAccepted.isEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
         ),
         // widget yg ditampilkan ketika kita assign request ke user lain.......................
         SizedBox(
-          height: assignSender == '' ? 0 : 10,
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
         ),
-        assignSender == ''
+        assignTo == ''
             ? SizedBox()
             : AssignBubnleRight(
                 assignSender: assignSender, time: time, assignTo: assignTo),
         SizedBox(
-          height: assignSender == '' ? 0 : 10,
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isEmpty ||
+                  titleChanging.isNotEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
         ),
         //bubble ketika user mengganti title
         SizedBox(
-          height: titleChanging == '' ? 0 : 10,
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
         ),
         titleChanging == ''
             ? SizedBox()
@@ -85,6 +305,19 @@ class RightBubble extends StatelessWidget {
                 titleChanges: titleChanging,
                 time: time,
                 changer: senderMsgName),
+        SizedBox(
+          height: isAccepted.isNotEmpty ||
+                  assignTo.isNotEmpty ||
+                  titleChanging.isEmpty ||
+                  hold.isNotEmpty ||
+                  setTime.isNotEmpty ||
+                  deleteSchedule.isNotEmpty ||
+                  editLocation.isNotEmpty ||
+                  resume.isNotEmpty ||
+                  message.isNotEmpty
+              ? 0
+              : 5,
+        ),
         // status esc................................
         SizedBox(
           height: esc == '' ? 0 : 10,

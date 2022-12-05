@@ -101,7 +101,14 @@ class StreamLfChat extends StatelessWidget {
                                   senderMsgName: snapshot.data!['comment']
                                       [index]['sender'],
                                   time: snapshot.data!['comment'][index]
-                                      ['time'], titleChanging: '',
+                                      ['time'],
+                                  titleChanging: '',
+                                  deleteSchedule: '',
+                                  editLocation: '',
+                                  hold: '',
+                                  resume: '',
+                                  setDate: '',
+                                  setTime: '',
                                 )
                               : LeftBubble(
                                   assignSender: snapshot.data!['comment'][index]
@@ -120,6 +127,13 @@ class StreamLfChat extends StatelessWidget {
                                       [index]['sender'],
                                   time: snapshot.data!['comment'][index]
                                       ['time'],
+                                  titleChanging: '',
+                                  deleteSchedule: '',
+                                  editLocation: '',
+                                  hold: '',
+                                  resume: '',
+                                  setDate: '',
+                                  setTime: '',
                                 ),
                         ],
                       );
@@ -153,7 +167,8 @@ class StreamLfChat extends StatelessWidget {
                                 scrollController,
                                 fromWhere,
                                 sendTo,
-                                nameSender, emailSender),
+                                nameSender,
+                                emailSender),
                           ),
                     value.images != null
                         ? Padding(

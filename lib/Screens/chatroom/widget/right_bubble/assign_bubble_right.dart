@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../../service/theme.dart';
+import '../../../dasboard/widget/card.dart';
 
 class AssignBubnleRight extends StatelessWidget {
   final String assignSender;
@@ -17,13 +17,19 @@ class AssignBubnleRight extends StatelessWidget {
         // height: Get.height * 0.1,
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10)),
             border: Border.all(color: Color(0xffD5DFF3))),
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.assignment, size: size * 0.03, color: secondary),
+            Container(
+                width: width * 0.08,
+                height: height * 0.05,
+                child: Image.asset("images/assign.png")),
             Container(
               width: Get.width * 0.70,
               // color: Colors.blue.shade50,

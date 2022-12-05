@@ -46,43 +46,6 @@ class ChatRoomController with ChangeNotifier {
     notifyListeners();
   }
 
-  // void esc(String bodyMessage, String topic) async {
-  //   if (imageName != '') {
-  //     String imageExtension = imageName.split('.').last;
-  //     final ref = FirebaseStorage.instance.ref(
-  //         "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-  //     await ref.putFile(_image);
-  //     imageUrl = await ref.getDownloadURL();
-  //   }
-  //   await FirebaseFirestore.instance
-  //       .collection('Hotel List')
-  //       .doc(cUser.data.hotelid)
-  //       .collection('tasks')
-  //       .doc(widget.taskId)
-  //       .update({
-  //     "status": "ESC",
-  //     "receiver": "by POST",
-  //     "comment": FieldValue.arrayUnion([
-  //       {
-  //         'commentId': Uuid().v4(),
-  //         'commentBody': "",
-  //         "assignTask": "",
-  //         'accepted': "",
-  //         'esc': bodyMessage,
-  //         'sender': "",
-  //         'description': "",
-  //         'senderemail': widget.emailSender,
-  //         'imageComment': imageUrl,
-  //         'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-  //       }
-  //     ])
-  //   });
-  //   Notif().sendNotif(
-  //       topic, '${widget.location} - "${widget.tilteTask}"', bodyMessage);
-  //   cAccepted.setData("ESC");
-  //   cAccepted.setSender(cUser.data.name!);
-  // }
-
   String _status = "";
   String get status => _status;
   String _receiver = "";
@@ -141,18 +104,24 @@ class ChatRoomController with ChangeNotifier {
       "isFading": true,
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "${commentBody.text}",
-          'esc': '',
-          'titleChange': "",
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
-          'sender': cUser.data.name,
+          'commentBody': commentBody.text,
+          'commentId': Uuid().v4(),
           'description': "",
-          'senderemail': auth.currentUser!.email,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ])
     });
@@ -258,18 +227,24 @@ class ChatRoomController with ChangeNotifier {
       "emailReceiver": cUser.data.email,
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "",
           'accepted': cUser.data.name,
-          'esc': "",
-          'titleChange': "",
           'assignTask': "",
           'assignTo': "",
-          'sender': cUser.data.name,
+          'commentBody': '',
+          'commentId': Uuid().v4(),
           'description': "",
-          'senderemail': auth.currentUser!.email,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ])
     });
@@ -460,18 +435,24 @@ class ChatRoomController with ChangeNotifier {
       "assigned": FieldValue.arrayUnion(departmentsAndNamesSelected),
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "",
           'accepted': "",
-          'esc': "",
-          'titleChange': "",
-          'assignTask': cUser.data.name,
+          'assignTask': "",
           'assignTo': departmentsAndNamesSelected.join(', '),
-          'sender': cUser.data.name,
+          'commentBody': '',
+          'commentId': Uuid().v4(),
           'description': "",
-          'senderemail': auth.currentUser!.email,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ])
     });
@@ -565,18 +546,24 @@ class ChatRoomController with ChangeNotifier {
       "receiver": cUser.data.name,
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "has close this request",
           'accepted': "",
-          'titleChange': "",
-          'esc': "",
           'assignTask': "",
-          'assignTo': "",
-          'sender': cUser.data.name,
-          'description': "$reason",
-          'senderemail': auth.currentUser!.email,
+          'assignTo': departmentsAndNamesSelected.join(', '),
+          'commentBody': 'has close this request',
+          'commentId': Uuid().v4(),
+          'description': reason,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ])
     });
@@ -637,18 +624,24 @@ class ChatRoomController with ChangeNotifier {
       "receiver": "${cUser.data.name}",
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "has reopen this request",
-          'accepted': "",
-          'esc': "",
+          'accepted': '',
           'assignTask': "",
-          'titleChange': "",
-          'assignTo': "",
-          'sender': cUser.data.name,
-          'description': "",
-          'senderemail': auth.currentUser!.email,
+          'assignTo': '',
+          'commentBody': 'has reopen this request',
+          'commentId': Uuid().v4(),
+          'description': '',
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ])
     });
@@ -814,7 +807,6 @@ class ChatRoomController with ChangeNotifier {
     }
     notifyListeners();
   }
-
 
   void saveNetworkImage(String url) async {
     print("----------------------");

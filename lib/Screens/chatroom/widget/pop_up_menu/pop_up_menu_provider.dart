@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:post/service/notif.dart';
@@ -10,6 +11,8 @@ import 'package:uuid/uuid.dart';
 import '../../../sign_up/signup.dart';
 
 class PopUpMenuProvider with ChangeNotifier {
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
   //ini methode untuk mengganti title
   String _title = "";
   String get title => _title;
@@ -29,6 +32,7 @@ class PopUpMenuProvider with ChangeNotifier {
       String emailSender) async {
     List listTitle =
         Provider.of<CreateRequestController>(context, listen: false).title;
+
     await FirebaseFirestore.instance
         .collection("Hotel List")
         .doc(cUser.data.hotelid)
@@ -37,25 +41,29 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "",
-          'esc': '',
           'accepted': "",
-          'titleChange': "$_title to ${listTitle[index]}",
           'assignTask': "",
           'assignTo': "",
-          'sender': cUser.data.name,
+          'commentBody': "",
+          'commentId': Uuid().v4(),
           'description': "",
-          'senderemail': auth.currentUser!.email,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "$_title to ${listTitle[index]}",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ]),
       "title": listTitle[index]
     });
     changeTitle(listTitle[index]);
-    Navigator.pop(context);
-    notifyListeners();
     var result = await FirebaseFirestore.instance
         .collection('users')
         .doc(emailSender)
@@ -75,13 +83,20 @@ class PopUpMenuProvider with ChangeNotifier {
         );
       }
     }
+    Navigator.pop(context);
+    notifyListeners();
   }
 
-  // methon untuk mengubah jadwal date....
-  void storeNewDate(BuildContext context, String tasksId, String oldDate,
-      String emailSender, String location) async {
-    final provider =
-        Provider.of<CreateRequestController>(context, listen: false);
+  //method for change teh location
+  String _location = "";
+  String get location => _location;
+  void changelocation(String newLocation) {
+    _location = newLocation;
+    notifyListeners();
+  }
+
+  void storeNewLocation(BuildContext context, String tasksId,
+      String oldLocation, String emailSender, String newLocation) async {
     await FirebaseFirestore.instance
         .collection("Hotel List")
         .doc(cUser.data.hotelid)
@@ -90,26 +105,90 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "",
-          'esc': '',
-          'setDate':
-              "${cUser.data.name} has change the date to ${provider.datePicked}",
-          'setTime': "",
           'accepted': "",
-          'titleChange': "",
           'assignTask': "",
           'assignTo': "",
-          'sender': cUser.data.name,
+          'commentBody': "",
+          'commentId': Uuid().v4(),
           'description': "",
-          'senderemail': auth.currentUser!.email,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation':
+              "${cUser.data.name} has changed location from $oldLocation to $newLocation",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
+        }
+      ]),
+      "location": newLocation
+    });
+    changelocation(newLocation);
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(emailSender)
+        .get();
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(
+                element,
+                oldLocation,
+                "${cUser.data.name} has change the location to $newLocation",
+                '');
+          },
+        );
+      }
+    }
+    Navigator.pop(context);
+    notifyListeners();
+  }
+
+  // methon untuk mengubah jadwal date....
+  void storeNewDate(BuildContext context, String tasksId, String oldDate,
+      String emailSender, String location) async {
+    final provider =
+        Provider.of<CreateRequestController>(context, listen: false);
+
+    await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .doc(tasksId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'accepted': "",
+          'assignTask': "",
+          'assignTo': "",
+          'commentBody': "",
+          'commentId': Uuid().v4(),
+          'description': "",
+          'esc': '',
+          'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate':
+              '${cUser.data.name} has changed the date from $oldDate to ${provider.datePicked}',
+          'setTime': '',
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ]),
       "setDate": provider.datePicked,
     });
-
     // Navigator.pop(context);
     // notifyListeners();
     var result = await FirebaseFirestore.instance
@@ -125,7 +204,7 @@ class PopUpMenuProvider with ChangeNotifier {
             Notif().sendNotifToToken(
                 element,
                 '$location "$_title"',
-                "${cUser.data.name} has change due date from $oldDate to ${provider.datePicked}",
+                "${cUser.data.name} has set due date  ${provider.datePicked}",
                 '');
           },
         );
@@ -140,6 +219,7 @@ class PopUpMenuProvider with ChangeNotifier {
       String emailSender, String location) async {
     final provider =
         Provider.of<CreateRequestController>(context, listen: false);
+
     await FirebaseFirestore.instance
         .collection("Hotel List")
         .doc(cUser.data.hotelid)
@@ -148,21 +228,25 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
-          'commentId': Uuid().v4(),
-          'commentBody': "",
-          'esc': '',
-          'setDate': "",
-          'setTime':
-              "${cUser.data.name} has change the time to ${provider.selectedTime}",
           'accepted': "",
-          'titleChange': "",
           'assignTask': "",
           'assignTo': "",
-          'sender': cUser.data.name,
+          'commentBody': "",
+          'commentId': Uuid().v4(),
           'description': "",
-          'senderemail': auth.currentUser!.email,
+          'esc': '',
           'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime':
+              '${cUser.data.name} has changed the date from $oldTime to ${provider.selectedTime}',
           'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "",
         }
       ]),
       "setTime": provider.selectedTime,
@@ -181,14 +265,178 @@ class PopUpMenuProvider with ChangeNotifier {
             Notif().sendNotifToToken(
                 element,
                 '$location "$_title"',
-                "${cUser.data.name} has change the time from $oldTime to  ${provider.selectedTime}",
+                "${cUser.data.name} has set the time ${provider.selectedTime}",
                 '');
           },
         );
       }
     }
-    
+
     // Navigator.pop(context);
+    notifyListeners();
+  }
+
+  //methode ini untuk menghapus schedule
+  void deleteSchedule(BuildContext context, String tasksId, String emailSender,
+      String location) async {
+    await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .doc(tasksId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'accepted': "",
+          'assignTask': "",
+          'assignTo': "",
+          'commentBody': "",
+          'commentId': Uuid().v4(),
+          'description': "",
+          'esc': '',
+          'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "",
+          'scheduleDelete': "${cUser.data.name}",
+        }
+      ]),
+      "setDate": '',
+      "setTime": '',
+    });
+
+    // notifyListeners();
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(emailSender)
+        .get();
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(element, '$location "$_title"',
+                "${cUser.data.name} has deleted the schedule", '');
+          },
+        );
+      }
+    }
+  }
+
+  //method untuk mengubah status menjadi hold
+  void holdFunction(BuildContext context, String tasksId, String emailSender,
+      String location) async {
+    await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .doc(tasksId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'accepted': "",
+          'assignTask': "",
+          'assignTo': "",
+          'commentBody': "",
+          'commentId': Uuid().v4(),
+          'description': "",
+          'esc': '',
+          'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "${cUser.data.name}",
+          'resume': "",
+          'scheduleDelete': "",
+        }
+      ]),
+      "status": 'Hold',
+      "receiver": cUser.data.name
+    });
+    Provider.of<ChatRoomController>(context, listen: false)
+        .changeStatus("Hold", "${cUser.data.name}", '');
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(emailSender)
+        .get();
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(element, '$location "$_title"',
+                "${cUser.data.name} has hold this request", '');
+          },
+        );
+      }
+    }
+    notifyListeners();
+  }
+
+  //function untuk resume status
+  void resumeFunction(BuildContext context, String tasksId, String emailSender,
+      String location) async {
+    await FirebaseFirestore.instance
+        .collection("Hotel List")
+        .doc(cUser.data.hotelid)
+        .collection("tasks")
+        .doc(tasksId)
+        .update({
+      "comment": FieldValue.arrayUnion([
+        {
+          'accepted': "",
+          'assignTask': "",
+          'assignTo': "",
+          'commentBody': "",
+          'commentId': Uuid().v4(),
+          'description': "",
+          'esc': '',
+          'imageComment': [],
+          'sender': cUser.data.name,
+          'senderemail': auth.currentUser!.email,
+          'setDate': '',
+          'setTime': '',
+          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'titleChange': "",
+          'newlocation': "",
+          'hold': "",
+          'resume': "${cUser.data.name}",
+          'scheduleDelete': "",
+        }
+      ]),
+      "status": 'Resume',
+      "receiver": cUser.data.name
+    });
+    Provider.of<ChatRoomController>(context, listen: false)
+        .changeStatus("resume", "${cUser.data.name}", '');
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(emailSender)
+        .get();
+    var token = result.data()!["token"];
+    if (token != false) {
+      List hasToken = token;
+      if (hasToken.isNotEmpty) {
+        token.forEach(
+          (element) {
+            Notif().sendNotifToToken(element, '$location "$_title"',
+                "${cUser.data.name} has resume this request", '');
+          },
+        );
+      }
+    }
     notifyListeners();
   }
 }

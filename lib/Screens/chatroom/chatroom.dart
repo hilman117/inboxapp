@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/custom_appbar_chatroom.dart';
+import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/controller/c_user.dart';
 import 'package:provider/provider.dart';
@@ -99,6 +100,8 @@ class _ChatroomState extends State<Chatroom> {
             .changeDate(widget.setDate);
         Provider.of<CreateRequestController>(context, listen: false)
             .changeTime(widget.setTime);
+        Provider.of<PopUpMenuProvider>(context, listen: false)
+            .changelocation(widget.location);
         Provider.of<ChatRoomController>(context, listen: false).changeStatus(
             widget.statusTask,
             widget.penerimaTask,
@@ -122,7 +125,7 @@ class _ChatroomState extends State<Chatroom> {
                   imageProfileSender: widget.imageProfileSender,
                   sender: widget.nameSender,
                   positionSender: widget.positionSender,
-                  lokasi: "${widget.location}",
+                  lokasi: Provider.of<PopUpMenuProvider>(context).location,
                   assigned: widget.assign,
                   sendTo: widget.sendTo,
                   timeCreated: widget.time,

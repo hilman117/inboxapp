@@ -60,7 +60,7 @@ class _StatusWidgetState extends State<StatusWidget>
                                     ? Colors.orange.shade100
                                     : (widget.status == 'Close')
                                         ? Colors.grey.shade300
-                                        : (widget.status == 'On Hold')
+                                        : (widget.status == 'Hold')
                                             ? Colors.grey.shade50
                                             : (widget.status == 'Assigned')
                                                 ? Colors.blue.shade50
@@ -77,8 +77,8 @@ class _StatusWidgetState extends State<StatusWidget>
                                         ? Colors.orange.shade200
                                         : (widget.status == 'Close')
                                             ? Colors.grey.shade200
-                                            : (widget.status == 'On Hold')
-                                                ? Colors.grey.shade200
+                                            : (widget.status == 'Hold')
+                                                ? Colors.grey
                                                 : (widget.status == 'Assigned')
                                                     ? Colors.blue.shade900
                                                     : Colors.blue.shade200,
@@ -98,7 +98,12 @@ class _StatusWidgetState extends State<StatusWidget>
                                     : (widget.status == 'ESC')
                                         ? AppLocalizations.of(context)!
                                             .escalation
-                                        : AppLocalizations.of(context)!.close,
+                                        : (widget.status == "Hold")
+                                            ? "Hold"
+                                            : (widget.status == "Resume")
+                                                ? "Resume"
+                                                : AppLocalizations.of(context)!
+                                                    .close,
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 14,
@@ -113,8 +118,8 @@ class _StatusWidgetState extends State<StatusWidget>
                                       : (widget.status == 'Close' ||
                                               widget.status == 'Claimed')
                                           ? Colors.grey.shade500
-                                          : (widget.status == 'On Hold')
-                                              ? Colors.grey.shade400
+                                          : (widget.status == 'Hold')
+                                              ? Colors.grey
                                               : (widget.status == 'Assigned' ||
                                                       widget.status ==
                                                           'Released')

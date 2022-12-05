@@ -122,7 +122,8 @@ class _CardListState extends State<CardList> {
                           jarakWaktu: runnningTime,
                           assign: widget.data['assigned'],
                           imageProfileSender: widget.data['profileImageSender'],
-                          positionSender: widget.data['positionSender'], setTime: widget.taskModel.setTime!,
+                          positionSender: widget.data['positionSender'],
+                          setTime: widget.taskModel.setTime!,
                         ),
                     transition: Transition.rightToLeft);
               },
@@ -228,13 +229,11 @@ class _CardListState extends State<CardList> {
                       ],
                     ),
                     SizedBox(
-                      height: height * 0.002,
+                      height: widget.taskModel.setDate! != '' ||
+                              widget.taskModel.setTime! != ''
+                          ? 3
+                          : height * 0.002,
                     ),
-                    if (widget.taskModel.setDate! != '' ||
-                        widget.taskModel.setTime! != '')
-                      SizedBox(
-                        height: 3,
-                      ),
                     if (widget.taskModel.setDate! != '' ||
                         widget.taskModel.setTime! != '')
                       Row(
@@ -251,7 +250,7 @@ class _CardListState extends State<CardList> {
                                             ? Colors.grey
                                             : Colors.red,
                                         size: 15),
-                                  SizedBox(width: 10),
+                                  SizedBox(width: 13),
                                   Container(
                                     width: width * 0.60,
                                     child: Text(
@@ -311,18 +310,20 @@ class _CardListState extends State<CardList> {
                                     ),
                                   ),
                                   Spacer(),
-                                  if (widget.taskModel.setDate! == '' ||
-                                      widget.taskModel.setTime! == '')
-                                    Container(
-                                      width: width * 0.23,
-                                      child: Text(
-                                        remainingDateTime(
-                                            context, widget.taskModel.time!),
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.blue),
-                                      ),
-                                    ),
+                                  Container(
+                                    width: width * 0.23,
+                                    child: widget.taskModel.setDate! == '' &&
+                                            widget.taskModel.setTime! == ''
+                                        ? Text(
+                                            remainingDateTime(context,
+                                                widget.taskModel.time!),
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.blue),
+                                          )
+                                        : SizedBox(),
+                                  ),
                                 ],
                               ),
                             ),

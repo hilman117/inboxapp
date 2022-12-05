@@ -21,7 +21,7 @@ Widget button(String buttonName, VoidCallback callback, String status) =>
                       borderRadius: BorderRadius.circular(8), // <-- Radius
                     ),
                   ),
-                  onPressed: callback,
+                  onPressed: value.status != "Hold" ? callback : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(buttonName),
