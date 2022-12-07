@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/feeds/widget/bottom_sheet_comment.dart';
+import 'package:post/models/feeds_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
+import '../chatroom/widget/multiple_photos.dart';
 import '../dasboard/widget/card.dart';
 import 'widget/custom_appbar_feeds.dart';
 
@@ -18,17 +21,44 @@ class Feeds extends StatelessWidget {
               CustomAppbarFeeds(dept: cUser.data.department ?? ''),
         )
       ],
-      body: ListView.builder(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.all(0),
-          itemCount: 10,
-          itemBuilder: (context, index) => ListFeeds()),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Hotel List')
+            .doc(cUser.data.hotelid)
+            .collection('feeds')
+            .snapshots(includeMetadataChanges: true),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Something went wrong'));
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.data!.docs.isEmpty) {
+            return SizedBox();
+          }
+          List<QueryDocumentSnapshot<Object?>> list = snapshot.data!.docs;
+          print(list);
+          return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.all(0),
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                Map<String, dynamic> data =
+                    list[index].data()! as Map<String, dynamic>;
+                FeedsModel feedsModel = FeedsModel.fromJson(data);
+                print(data);
+                return FeedsCard(feedsmodel: feedsModel);
+              });
+        },
+      ),
     );
   }
 }
 
-class ListFeeds extends StatelessWidget {
-  const ListFeeds({super.key});
+class FeedsCard extends StatelessWidget {
+  final FeedsModel feedsmodel;
+  const FeedsCard({super.key, required this.feedsmodel});
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +75,7 @@ class ListFeeds extends StatelessWidget {
               //widget foto
               CircleAvatar(
                 radius: Get.width * 0.06,
-                backgroundImage: NetworkImage(
-                    'https://expertphotography.b-cdn.net/wp-content/uploads/2020/08/social-media-profile-photos-3.jpg'),
+                backgroundImage: NetworkImage(feedsmodel.imagePostSender!),
               ),
               SizedBox(
                 width: Get.width * 0.02,
@@ -59,11 +88,11 @@ class ListFeeds extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "(HSK) William Henderson",
+                      feedsmodel.name!,
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      "Housekeeping Attendant",
+                      feedsmodel.position!,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ],
@@ -76,18 +105,16 @@ class ListFeeds extends StatelessWidget {
           ),
           Container(
             width: width,
-            child: Text(
-                "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. Wikipedia"),
+            child: Text(feedsmodel.postStuff!),
           ),
           SizedBox(height: height * 0.015),
-          Container(
-            width: width,
-            height: height * 0.2,
-            child: Image.network(
-              "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
-              fit: BoxFit.cover,
-            ),
-          ),
+          feedsmodel.images!.isNotEmpty
+              ? Container(
+                  // width: width,
+                  height: height * 0.2,
+                  child: MultiplePhoto(images: feedsmodel.images!),
+                )
+              : SizedBox(),
           SizedBox(height: height * 0.015),
           GestureDetector(
             onTap: () => bottomSheetComment(context),
@@ -99,7 +126,7 @@ class ListFeeds extends StatelessWidget {
                 ),
                 SizedBox(width: width * 0.015),
                 Text(
-                  "12",
+                  feedsmodel.comment!.length.toString(),
                   style: TextStyle(
                     color: Colors.grey,
                   ),

@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/feeds/feeds.dart';
-import 'package:post/Screens/profile/profiile_controller.dart';
-import 'package:post/Screens/settings/settings.dart';
+import 'package:lottie/lottie.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:post/Screens/feeds/feeds_controller.dart';
+import 'package:post/Screens/profile/widget/bottom_sheet_image_picker.dart';
+import 'package:post/Screens/profile/widget/list_images_feeds.dart';
 import 'package:provider/provider.dart';
 
 import '../../service/theme.dart';
@@ -17,7 +20,7 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    final controller = Provider.of<ProfileController>(context, listen: false);
+    final feedsController = Provider.of<FeedsController>(context);
     return Scaffold(
         appBar: AppBar(
           title: SearchOnAppBar(),
@@ -51,88 +54,117 @@ class ProfileWidget extends StatelessWidget {
             )
           ],
         ),
-        body: SafeArea(
-          child: GestureDetector(
-            onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-            child: CustomScrollView(
-              physics: BouncingScrollPhysics(),
-              slivers: <Widget>[
-                SliverToBoxAdapter(
-                  // Put here all widgets that are not slivers.
-                  child: Column(
-                    children: [
-                      ProfileAppbar(),
-                      SizedBox(
-                        height: height * 0.02,
-                      ),
-                      Container(
-                        // color: Colors.blue.shade50,
-                        width: width,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.grey.shade200))),
-                                    width: width * 0.85,
-                                    child: TextField(
-                                      controller: controller.typing,
-                                      onChanged: (value) {
-                                        controller.isUsertyping(value);
-                                      },
-                                      minLines: 1,
-                                      maxLines: 5,
-                                      decoration: InputDecoration(
-                                          hintText:
-                                              'What do you want to share?',
-                                          border: InputBorder.none,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 10)),
-                                    )),
-                                // SizedBox(
-                                //   height: height * 0.01,
-                                // ),
-                                // Container(
-                                //   width: width * 0.85,
-                                //   height: Get.height * 0.04,
-                                //   child: ElevatedButton(
-                                //       style: ElevatedButton.styleFrom(
-                                //           elevation: 0,
-                                //           backgroundColor: mainColor),
-                                //       onPressed: () {},
-                                //       child: Text("Post")),
-                                // )
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  right: width * 0.05, top: height * 0.01),
-                              child: Image.asset(
-                                'images/galery.png',
-                                width: Get.width * 0.08,
-                              ),
-                            )
-                          ],
+        body: ModalProgressHUD(
+          inAsyncCall: feedsController.isPostInProgress ? true : false,
+          progressIndicator: Lottie.asset('images/loadimage.json'),
+          child: SafeArea(
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+              child: CustomScrollView(
+                physics: BouncingScrollPhysics(),
+                slivers: <Widget>[
+                  SliverToBoxAdapter(
+                    // Put here all widgets that are not slivers.
+                    child: Column(
+                      children: [
+                        ProfileAppbar(),
+                        SizedBox(
+                          height: height * 0.02,
                         ),
-                      ),
-                    ],
+                        Container(
+                          // color: Colors.blue.shade50,
+                          width: width,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color:
+                                                      Colors.grey.shade200))),
+                                      width: width * 0.85,
+                                      child: TextField(
+                                        controller: feedsController.typing,
+                                        onChanged: (value) {
+                                          if (value.isNotEmpty) {
+                                            feedsController.isUsertyping(true);
+                                          } else {
+                                            feedsController.isUsertyping(false);
+                                          }
+                                        },
+                                        minLines: 1,
+                                        maxLines: 5,
+                                        decoration: InputDecoration(
+                                            hintText:
+                                                'What do you want to share?',
+                                            border: InputBorder.none,
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 10)),
+                                      )),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () => imagePickerFeeds(context),
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      right: width * 0.05, top: height * 0.01),
+                                  child: Image.asset(
+                                    'images/galery.png',
+                                    width: Get.width * 0.08,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        feedsController.imagesList.isNotEmpty
+                            ? ListImagesFeeds()
+                            : SizedBox()
+                      ],
+                    ),
                   ),
-                ),
-                // Replace your ListView.builder with this:
-                SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    childCount: 20,
-                    (BuildContext context, int index) {
-                      return ListFeeds();
-                    },
-                  ),
-                ),
-              ],
+                  // Replace your ListView.builder with this:
+                  // StreamBuilder(
+                  //   stream: FirebaseFirestore.instance
+                  //       .collection('Hotel List')
+                  //       .doc(cUser.data.hotelid)
+                  //       .collection('feeds')
+                  //       .where("name", isEqualTo: cUser.data.name)
+                  //       .snapshots(includeMetadataChanges: true),
+                  //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  //     if (snapshot.hasError) {
+                  //       return Center(child: Text('Something went wrong'));
+                  //     }
+                  //     if (snapshot.connectionState == ConnectionState.waiting) {
+                  //       return Center(child: CircularProgressIndicator());
+                  //     }
+                  //     if (snapshot.data!.docs.isEmpty) {
+                  //       return SizedBox();
+                  //     }
+                  //     List<QueryDocumentSnapshot<Object?>> list =
+                  //         snapshot.data!.docs;
+                  //     return SliverList(
+                  //       delegate: SliverChildBuilderDelegate(
+                  //         childCount: list.length,
+                  //         (BuildContext context, int index) {
+                  //           Map<String, dynamic> data =
+                  //               list[index].data()! as Map<String, dynamic>;
+                  //           FeedsModel feedsModel = FeedsModel.fromJson(data);
+                  //           return FeedsCard(
+                  //             feedsmodel: feedsModel,
+                  //           );
+                  //         },
+                  //       ),
+                  //     );
+                  //   },
+                  // )
+                ],
+              ),
             ),
           ),
         ));

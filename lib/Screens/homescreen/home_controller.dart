@@ -12,7 +12,7 @@ import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
-import '../feeds/feeds.dart';
+import '../feeds/list_feeds.dart';
 
 class HomeController with ChangeNotifier {
   //changing pages in navigation bar

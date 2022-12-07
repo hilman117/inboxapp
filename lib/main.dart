@@ -16,6 +16,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/session_user.dart';
 import 'package:provider/provider.dart';
 import 'Screens/chatroom/chatroom_controller.dart';
+import 'Screens/feeds/feeds_controller.dart';
 import 'Screens/homescreen/home.dart';
 import 'Screens/sign_in/signin.dart';
 import 'models/setting_model/setting_model.dart';
@@ -61,6 +62,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => ReportLFController()),
       ChangeNotifierProvider(create: (context) => PopUpMenuProvider()),
       ChangeNotifierProvider(create: (context) => ProfileController()),
+      ChangeNotifierProvider(create: (context) => FeedsController()),
     ],
     builder: (context, child) => GetMaterialApp(
         // locale: Locale('zh'),

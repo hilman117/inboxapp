@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/profile/profiile_controller.dart';
+import 'package:post/Screens/feeds/feeds_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../../dasboard/widget/card.dart';
 import '../../settings/setting_provider.dart';
 import '../../settings/widget/dialog_change_photo.dart';
@@ -12,6 +13,8 @@ class ProfileAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FeedsController>(context);
+    String postId = Uuid().v4();
     return Consumer<SettingProvider>(
       builder: (context, value, child) => Padding(
         padding:
@@ -83,16 +86,29 @@ class ProfileAppbar extends StatelessWidget {
                             fontSize: 18),
                       ),
                     ),
-                    Text(
-                      "Posting",
-                      style: TextStyle(
-                          color: Provider.of<ProfileController>(context)
-                                  .istyping
-                                  .isNotEmpty
-                              ? mainColor
-                              : Colors.grey.shade300,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16),
+                    GestureDetector(
+                      onTap: () {
+                        if (provider.istyping ||
+                            Provider.of<FeedsController>(context, listen: false)
+                                .imagesList
+                                .isNotEmpty) {
+                          Provider.of<FeedsController>(context, listen: false)
+                              .postSomething(
+                                  context, provider.typing.text, postId);
+                        }
+                      },
+                      child: Text(
+                        "Posting",
+                        style: TextStyle(
+                            color: provider.istyping ||
+                                    Provider.of<FeedsController>(context)
+                                        .imagesList
+                                        .isNotEmpty
+                                ? mainColor
+                                : Colors.grey.shade300,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
+                      ),
                     )
                   ],
                 ),

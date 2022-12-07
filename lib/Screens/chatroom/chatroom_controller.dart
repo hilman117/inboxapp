@@ -116,12 +116,14 @@ class ChatRoomController with ChangeNotifier {
     String deptTujuan,
   ) async {
     _imageUrl.clear();
+
     notifyListeners();
-    loadimage(true);
     print(_isImageLoad);
     if (_imageList.isNotEmpty) {
       _imageList.forEach((element) async {
         String imageExtension = imageName.split('.').last;
+        _isImageLoad = true;
+        notifyListeners();
         final ref = FirebaseStorage.instance.ref(
             "${cUser.data.hotelid}/${cUser.data.uid} + ${DateTime.now().toString()}.$imageExtension");
         await ref.putFile(File(element!.path));
@@ -243,7 +245,13 @@ class ChatRoomController with ChangeNotifier {
         notifyListeners();
       },
     );
-    loadimage(false);
+    Future.delayed(
+      Duration(milliseconds: 3000),
+      () {
+        _isImageLoad = false;
+        notifyListeners();
+      },
+    );
     print(_isImageLoad);
     notifyListeners();
   }
