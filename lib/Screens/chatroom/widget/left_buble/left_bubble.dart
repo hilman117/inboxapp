@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:post/Screens/chatroom/widget/right_bubble/accepted_bubble.dart';
-
+import 'accept_bubble_left.dart';
 import 'add_schedule_right.dart';
 import 'assign_bubble_left.dart';
 import 'bubble_edit_location_right.dart';
@@ -226,7 +225,7 @@ class LeftBubble extends StatelessWidget {
         ),
         (isAccepted == '')
             ? SizedBox()
-            : AcceptedBubbleRight(time: time, isAccepted: isAccepted),
+            : AcceptedBubbleLeft(time: time, isAccepted: isAccepted),
         SizedBox(
           height: isAccepted.isEmpty ||
                   assignTo.isNotEmpty ||

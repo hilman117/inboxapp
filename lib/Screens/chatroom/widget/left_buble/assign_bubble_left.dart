@@ -1,84 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../../service/theme.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
 
 class AssignBubbleLeft extends StatelessWidget {
   final String assignTo;
   final String assignSender;
   final String time;
   const AssignBubbleLeft(
-      {required this.assignSender,
-      required this.time,
-      required this.assignTo});
+      {required this.assignSender, required this.time, required this.assignTo});
 
   @override
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
     return Container(
-        // height: Get.height * 0.1,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        margin: EdgeInsets.only(right: width * 0.2),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10)),
             border: Border.all(color: Color(0xffD5DFF3))),
-        width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: Get.width * 0.70,
-              // color: Colors.blue.shade50,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "$assignSender ${AppLocalizations.of(context)!.hasAssignThisRequestTo} $assignTo",
-                    style: TextStyle(
-                        color: Colors.black87, fontSize: size * 0.012),
-                    textAlign: TextAlign.start,
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(
-                        fontSize: size * 0.01, color: Colors.grey, height: 1.5),
-                  ),
-                ],
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "$assignSender ${AppLocalizations.of(context)!.hasAssignThisRequestTo} $assignTo",
+                      style: TextStyle(
+                          color: Colors.black87, fontSize: size * 0.012),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
               ),
             ),
-            Icon(Icons.assignment, size: size * 0.03, color: secondary),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                    width: width * 0.08,
+                    height: height * 0.05,
+                    child: Image.asset("images/assign.png")),
+                Text(
+                  time,
+                  style: TextStyle(
+                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+                ),
+              ],
+            ),
           ],
-        )
-        // Column(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     Row(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         Container(
-        //           alignment: Alignment.center,
-        //           width: size * 0.25,
-        //           child: Container(
-        //             padding: EdgeInsets.all(10),
-        //             decoration: BoxDecoration(
-        //                 borderRadius: BorderRadius.circular(5),
-        //                 color: Colors.green.shade50),
-        //             child:
-        // Text(
-        // "$isAccepted ${AppLocalizations.of(context)!.hasAcceptThisRequest}",
-        //               style:
-        //                   TextStyle(color: Colors.black87, fontSize: size * 0.01),
-        //               textAlign: TextAlign.start,
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //     Text(
-        //       time,
-        //       style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
-        //     ),
-        //   ],
-        // ),
-        );
+        ));
   }
 }

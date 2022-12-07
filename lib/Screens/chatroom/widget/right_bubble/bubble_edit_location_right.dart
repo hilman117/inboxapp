@@ -12,8 +12,8 @@ class EditLoactionBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
     return Container(
-        // height: Get.height * 0.1,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        margin: EdgeInsets.only(left: width * 0.2),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
@@ -24,27 +24,29 @@ class EditLoactionBubble extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-                width: width * 0.08,
-                height: height * 0.05,
-                child: Image.asset("images/newlocation.png")),
-            Container(
-              width: Get.width * 0.70,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "$newLocation",
-                    style: TextStyle(
-                        color: Colors.black87, fontSize: size * 0.012),
-                    textAlign: TextAlign.end,
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(
-                        fontSize: size * 0.01, color: Colors.grey, height: 1.5),
-                  ),
-                ],
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                    width: width * 0.08,
+                    height: height * 0.05,
+                    child: Image.asset("images/newlocation.png")),
+                Text(
+                  time,
+                  style: TextStyle(
+                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+                ),
+              ],
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  "$newLocation",
+                  style:
+                      TextStyle(color: Colors.black87, fontSize: size * 0.012),
+                  textAlign: TextAlign.end,
+                ),
               ),
             )
           ],

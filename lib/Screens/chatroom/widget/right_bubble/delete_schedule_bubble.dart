@@ -14,7 +14,7 @@ class DeleteScheduleBubble extends StatelessWidget {
     return Container(
         alignment: Alignment.centerRight,
         margin: EdgeInsets.only(left: width * 0.2),
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
@@ -24,31 +24,29 @@ class DeleteScheduleBubble extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.free_cancellation,
-              color: Colors.grey,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.free_cancellation,
+                  color: Colors.grey,
+                ),
+                Text(
+                  time,
+                  style: TextStyle(
+                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+                ),
+              ],
             ),
             Expanded(
               child: Container(
                 alignment: Alignment.centerRight,
                 // color: Colors.blue.shade50,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      "$deleteSchedule has removed the schedule",
-                      style: TextStyle(
-                          color: Colors.black87, fontSize: size * 0.012),
-                      textAlign: TextAlign.end,
-                    ),
-                    Text(
-                      time,
-                      style: TextStyle(
-                          fontSize: size * 0.01,
-                          color: Colors.grey,
-                          height: 1.5),
-                    ),
-                  ],
+                child: Text(
+                  "$deleteSchedule has removed the schedule",
+                  style:
+                      TextStyle(color: Colors.black87, fontSize: size * 0.012),
+                  textAlign: TextAlign.end,
                 ),
               ),
             )

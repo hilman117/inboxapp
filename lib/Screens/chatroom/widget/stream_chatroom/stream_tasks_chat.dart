@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../service/theme.dart';
 import '../../../dasboard/widget/card.dart';
 import '../../../sign_up/signup.dart';
 import '../../chatroom_controller.dart';
@@ -13,6 +12,7 @@ import '../button.dart';
 import '../close_dialog.dart';
 import '../keyboard.dart';
 import '../left_buble/left_bubble.dart';
+import '../list_images_comment.dart';
 import '../right_bubble/right_bubble.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -79,8 +79,7 @@ class StreamTasksChat extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.active) {
                   var commentList = (snapshot.data!.data()
                       as Map<String, dynamic>)['comment'] as List;
-                  commentList.sort((a, b) => b["time"].compareTo(a["time"]));
-                  print("-----------------------------");
+                  commentList.sort((a, b) => b['time'].compareTo(a['time']));
                   return ListView.builder(
                     physics: BouncingScrollPhysics(),
                     reverse: false,
@@ -240,41 +239,8 @@ class StreamTasksChat extends StatelessWidget {
                                 "",
                                 ""),
                           ),
-                    // ignore: unrelated_type_equality_checks
-                    value.images != null
-                        ? Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Stack(
-                              children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  height: height * 0.06,
-                                  width: widht * 0.6,
-                                  child: Image.file(
-                                    value.images!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Positioned(
-                                    left: 30,
-                                    bottom: 15,
-                                    child: CloseButton(
-                                      color: Colors.grey,
-                                      onPressed: () {
-                                        provider.clearImage();
-                                      },
-                                    )),
-                                value.isImageLoad
-                                    ? Positioned(
-                                        left: 15,
-                                        bottom: 7,
-                                        child: CircularProgressIndicator(
-                                          color: mainColor,
-                                        ))
-                                    : SizedBox(),
-                              ],
-                            ),
-                          )
+                    value.imagesList.isNotEmpty
+                        ? ListImagesComment()
                         : SizedBox()
                   ],
                 ),

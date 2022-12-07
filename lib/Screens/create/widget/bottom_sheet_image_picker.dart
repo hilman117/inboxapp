@@ -52,7 +52,7 @@ Future imagePicker(BuildContext context) {
                     onPressed: () {
                       Provider.of<CreateRequestController>(context,
                               listen: false)
-                          .selectImage(ImageSource.camera);
+                          .selectFromCamera();
                       Navigator.pop(context);
                     },
                   ),

@@ -170,20 +170,20 @@ class StreamLfChat extends StatelessWidget {
                                 nameSender,
                                 emailSender),
                           ),
-                    value.images != null
+                    value.imagesList.isNotEmpty
                         ? Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Stack(
                               children: [
-                                Container(
-                                  alignment: Alignment.centerLeft,
-                                  height: height * 0.06,
-                                  width: widht * 0.6,
-                                  child: Image.file(
-                                    value.images!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                                // Container(
+                                //   alignment: Alignment.centerLeft,
+                                //   height: height * 0.06,
+                                //   width: widht * 0.6,
+                                //   child: Image.file(
+                                //     value.images!,
+                                //     fit: BoxFit.cover,
+                                //   ),
+                                // ),
                                 Positioned(
                                     left: 30,
                                     bottom: 15,

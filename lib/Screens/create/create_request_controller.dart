@@ -220,6 +220,8 @@ class CreateRequestController with ChangeNotifier {
 
   List<XFile?> _imageList = [];
   List<XFile?> get imagesList => _imageList;
+  XFile? _fromCamera;
+  XFile? get fromCamera => _fromCamera;
   List<String> _imageUrl = [];
   List<String> get imageUrl => _imageUrl;
   String imageName = '';
@@ -227,7 +229,7 @@ class CreateRequestController with ChangeNotifier {
   final ImagePicker _picker = ImagePicker();
 
   Future<void> selectImage(ImageSource source) async {
-    List<XFile?> selectedImage = await _picker.pickMultiImage();
+    List<XFile?> selectedImage = await _picker.pickMultiImage(imageQuality: 30);
     if (selectedImage.isNotEmpty) {
       _imageList.addAll(selectedImage);
       print(_imageList.length);
@@ -235,7 +237,18 @@ class CreateRequestController with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> selectFromCamera() async {
+    _fromCamera =
+        await _picker.pickImage(imageQuality: 30, source: ImageSource.camera);
+    if (_fromCamera != null) {
+      _imageList.add(_fromCamera);
+      print(_imageList.length);
+    }
+    notifyListeners();
+  }
+
   void restartVariable() {
+    _fromCamera = null;
     imageName = '';
     imageUrl.clear();
     _imageList.clear();

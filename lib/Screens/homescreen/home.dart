@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,15 +42,18 @@ class _HomeState extends State<Home> {
     super.initState();
     getUser();
     Provider.of<SettingProvider>(context, listen: false).getOnDutyValue();
+    Provider.of<HomeController>(context, listen: false)
+        .dataForNotiifcationAction();
+    Provider.of<HomeController>(context, listen: false).actionStreamNotif();
     Provider.of<CreateRequestController>(context, listen: false)
         .getTotalCreate();
   }
 
-  // @override
-  // void dispose() {
-  //   AwesomeNotifications().actionSink.close();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    AwesomeNotifications().actionSink.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

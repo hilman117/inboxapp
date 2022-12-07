@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,17 +20,40 @@ class ChatRoomController with ChangeNotifier {
   final cUser = Get.put(CUser());
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  File? _image;
-  File? get images => _image;
-  String imageUrl = "";
+  // File? _image;
+  // File? get images => _image;
+  // String imageUrl = "";
   String imageName = '';
   TextEditingController descriptionController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-
+  XFile? _fromCamera;
+  XFile? get fromCamera => _fromCamera;
+  List<XFile?> _imageList = [];
+  List<XFile?> get imagesList => _imageList;
+  List<String> _imageUrl = [];
+  List<String> get imageUrls => _imageUrl;
   Future<void> selectImage(ImageSource source) async {
-    XFile? image = await _picker.pickImage(source: source, imageQuality: 30);
-    _image = File(image!.path);
-    imageName = image.name;
+    List<XFile?> selectedImage = await _picker.pickMultiImage(imageQuality: 30);
+    if (selectedImage.isNotEmpty) {
+      _imageList.addAll(selectedImage);
+      notifyListeners();
+      print(_imageList.length);
+    }
+  }
+
+  Future<void> selectFromCamera() async {
+    _fromCamera =
+        await _picker.pickImage(imageQuality: 30, source: ImageSource.camera);
+    if (_fromCamera != null) {
+      _imageList.add(_fromCamera);
+      print(_imageList.length);
+    }
+    notifyListeners();
+  }
+
+  void removeSingleImage(int index) {
+    _imageList.removeAt(index);
+    imageName = '';
     notifyListeners();
   }
 
@@ -42,7 +66,7 @@ class ChatRoomController with ChangeNotifier {
   }
 
   void clearImage() {
-    _image = null;
+    _imageList.clear();
     notifyListeners();
   }
 
@@ -77,6 +101,11 @@ class ChatRoomController with ChangeNotifier {
 
   bool _isImageLoad = false;
   bool get isImageLoad => _isImageLoad;
+  void loadimage(bool newValue) {
+    _isImageLoad = newValue;
+    notifyListeners();
+  }
+
   final TextEditingController commentBody = TextEditingController();
   void sendComment(
     String taskId,
@@ -86,70 +115,117 @@ class ChatRoomController with ChangeNotifier {
     String deptSender,
     String deptTujuan,
   ) async {
-    _isImageLoad = true;
+    _imageUrl.clear();
     notifyListeners();
-    if (imageName != '') {
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image!);
-      imageUrl = await ref.getDownloadURL();
+    loadimage(true);
+    print(_isImageLoad);
+    if (_imageList.isNotEmpty) {
+      _imageList.forEach((element) async {
+        String imageExtension = imageName.split('.').last;
+        final ref = FirebaseStorage.instance.ref(
+            "${cUser.data.hotelid}/${cUser.data.uid} + ${DateTime.now().toString()}.$imageExtension");
+        await ref.putFile(File(element!.path));
+        await ref.getDownloadURL().then((value) async {
+          _imageUrl.add(value);
+          notifyListeners();
+          print("ini image list sebelum di upload ${_imageList.length}");
+          print(
+              "ini image list stelah di upload di upload ${_imageUrl.length}");
+          print("$_imageUrl");
+          if (_imageUrl.length == _imageList.length) {
+            _imageList.clear();
+            await FirebaseFirestore.instance
+                .collection('Hotel List')
+                .doc(cUser.data.hotelid)
+                .collection('tasks')
+                .doc(taskId)
+                .update({
+              'comment': FieldValue.arrayUnion([
+                {
+                  'accepted': "",
+                  'assignTask': "",
+                  'assignTo': "",
+                  'commentBody': commentBody.text,
+                  'commentId': Uuid().v4(),
+                  'description': '',
+                  'esc': '',
+                  'imageComment': _imageUrl,
+                  'sender': cUser.data.name,
+                  'senderemail': auth.currentUser!.email,
+                  'setDate': '',
+                  'setTime': '',
+                  'time': DateFormat('MMM d, h:mm a')
+                      .format(DateTime.now())
+                      .toString(),
+                  'titleChange': "",
+                  'newlocation': "",
+                  'hold': "",
+                  'resume': "",
+                  'scheduleDelete': "",
+                }
+              ])
+            });
+            commentBody.clear();
+          }
+        });
+      });
+    } else {
+      await FirebaseFirestore.instance
+          .collection('Hotel List')
+          .doc(cUser.data.hotelid)
+          .collection('tasks')
+          .doc(taskId)
+          .update({
+        'comment': FieldValue.arrayUnion([
+          {
+            'accepted': "",
+            'assignTask': "",
+            'assignTo': "",
+            'commentBody': commentBody.text,
+            'commentId': Uuid().v4(),
+            'description': '',
+            'esc': '',
+            'imageComment': [],
+            'sender': cUser.data.name,
+            'senderemail': auth.currentUser!.email,
+            'setDate': '',
+            'setTime': '',
+            'time':
+                DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+            'titleChange': "",
+            'newlocation': "",
+            'hold': "",
+            'resume': "",
+            'scheduleDelete': "",
+          }
+        ]),
+      });
+      commentBody.clear();
     }
-    await FirebaseFirestore.instance
-        .collection('Hotel List')
-        .doc(cUser.data.hotel)
-        .collection('tasks')
-        .doc(taskId)
-        .update({
-      "isFading": true,
-      "comment": FieldValue.arrayUnion([
-        {
-          'accepted': "",
-          'assignTask': "",
-          'assignTo': "",
-          'commentBody': commentBody.text,
-          'commentId': Uuid().v4(),
-          'description': "",
-          'esc': '',
-          'imageComment': [],
-          'sender': cUser.data.name,
-          'senderemail': auth.currentUser!.email,
-          'setDate': '',
-          'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-          'titleChange': "",
-          'newlocation': "",
-          'hold': "",
-          'resume': "",
-          'scheduleDelete': "",
-        }
-      ])
-    });
-    notifyListeners();
+    _isTyping = false;
+
+    _value = '';
+
     if (box!.get('sendNotification') == true &&
         deptTujuan == cUser.data.department) {
       Notif().sendNotif(deptSender, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", imageUrl);
+          "${cUser.data.name} : ${commentBody.text}", '');
       Notif().sendNotif(taskId, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", imageUrl);
+          "${cUser.data.name} : ${commentBody.text}", '');
       notifyListeners();
     } else if (box!.get('sendNotification') == true &&
         deptSender == cUser.data.department) {
       Notif().sendNotif(deptTujuan, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", imageUrl);
+          "${cUser.data.name} : ${commentBody.text}", '');
       Notif().sendNotif(taskId, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", imageUrl);
+          "${cUser.data.name} : ${commentBody.text}", '');
       notifyListeners();
     } else if (deptTujuan != cUser.data.department ||
         deptSender != cUser.data.department) {
       Notif().saveTopic(taskId);
       notifyListeners();
     }
-    _isTyping = false;
-    commentBody.clear();
-    _value = '';
-    _image = null;
-    _isImageLoad = false;
+
     if (scroll.hasClients) {
       final position = scroll.position.maxScrollExtent;
       scroll.animateTo(position,
@@ -167,6 +243,8 @@ class ChatRoomController with ChangeNotifier {
         notifyListeners();
       },
     );
+    loadimage(false);
+    print(_isImageLoad);
     notifyListeners();
   }
 
@@ -728,13 +806,13 @@ class ChatRoomController with ChangeNotifier {
       String creatorEmail) async {
     _isImageLoad = true;
     notifyListeners();
-    if (imageName != '') {
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image!);
-      imageUrl = await ref.getDownloadURL();
-    }
+    // if (imageName != '') {
+    //   String imageExtension = imageName.split('.').last;
+    //   final ref = FirebaseStorage.instance.ref(
+    //       "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
+    //   await ref.putFile(_image!);
+    //   imageUrl = await ref.getDownloadURL();
+    // }
     await FirebaseFirestore.instance
         .collection('Hotel List')
         .doc(cUser.data.hotel)
@@ -776,7 +854,7 @@ class ChatRoomController with ChangeNotifier {
           List listToken = await getToken['token'];
           listToken.forEach((element) {
             Notif().sendNotifToToken(element, "$title",
-                "${cUser.data.name}: ${commentBody.text}", imageUrl);
+                "${cUser.data.name}: ${commentBody.text}", '');
           });
         });
       });
@@ -791,14 +869,14 @@ class ChatRoomController with ChangeNotifier {
         token.forEach(
           (element) {
             Notif().sendNotifToToken(element, '$location - "$title"',
-                "${cUser.data.name}: ${commentBody.text}", imageUrl);
+                "${cUser.data.name}: ${commentBody.text}", '');
           },
         );
       }
     }
     _isTyping = false;
     _value = '';
-    _image = null;
+    _imageList.clear();
     _isImageLoad = false;
     if (scroll.hasClients) {
       final position = scroll.position.maxScrollExtent;
@@ -830,5 +908,12 @@ class ChatRoomController with ChangeNotifier {
           textColor: Colors.red.shade900,
           backgroundColor: Colors.white);
     }
+  }
+
+  int current = 0;
+  final CarouselController controller = CarouselController();
+  void currentIndex(int index) {
+    current = index;
+    notifyListeners();
   }
 }

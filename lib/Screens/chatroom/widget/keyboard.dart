@@ -73,7 +73,7 @@ Widget keyboardChat(
             builder: (context, value, child) => AnimatedSwitcher(
                   duration: Duration.zero,
                   switchOutCurve: Curves.easeOutSine,
-                  child: value.isTypping || value.images != null
+                  child: value.isTypping || value.imagesList.isNotEmpty
                       ? GestureDetector(
                           onTap: () {
                             if (deptTujuan.isEmpty) {
@@ -88,7 +88,6 @@ Widget keyboardChat(
                                       deptTujuan,
                                       reportCreator,
                                       creatorEmail);
-                              
                             } else {
                               Provider.of<ChatRoomController>(context,
                                       listen: false)

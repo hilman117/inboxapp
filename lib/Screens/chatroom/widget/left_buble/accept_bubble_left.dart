@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
 
 class AcceptedBubbleLeft extends StatelessWidget {
   final String isAccepted;
@@ -11,36 +12,43 @@ class AcceptedBubbleLeft extends StatelessWidget {
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
     return Container(
-        // height: Get.height * 0.1,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        margin: EdgeInsets.only(right: width * 0.2),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.green)),
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10)),
+            border: Border.all(color: Colors.green.shade100)),
         width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: Get.width * 0.70,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "$isAccepted ${AppLocalizations.of(context)!.hasAcceptThisRequest}",
-                    style: TextStyle(
-                        color: Colors.black87, fontSize: size * 0.012),
-                    textAlign: TextAlign.start,
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(
-                        fontSize: size * 0.01, color: Colors.grey, height: 1.5),
-                  ),
-                ],
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "$isAccepted ${AppLocalizations.of(context)!.hasAcceptThisRequest}",
+                  style:
+                      TextStyle(color: Colors.black87, fontSize: size * 0.012),
+                  textAlign: TextAlign.start,
+                ),
               ),
             ),
-            Icon(Icons.check_circle_rounded,
-                size: size * 0.03, color: Colors.green),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                    width: width * 0.07,
+                    height: height * 0.04,
+                    child: Image.asset("images/accepted.png")),
+                Text(
+                  time,
+                  style: TextStyle(
+                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+                ),
+              ],
+            ),
           ],
         ));
   }

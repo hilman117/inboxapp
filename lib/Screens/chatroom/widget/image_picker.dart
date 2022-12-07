@@ -51,7 +51,7 @@ Future imagePicker(BuildContext context, double height, double widht) {
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () {
                       Provider.of<ChatRoomController>(context, listen: false)
-                          .selectImage(ImageSource.camera);
+                          .selectFromCamera();
                       Navigator.pop(context);
                     },
                   ),

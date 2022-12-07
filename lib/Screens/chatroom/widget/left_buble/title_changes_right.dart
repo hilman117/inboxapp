@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
 import '../../../../service/theme.dart';
 
 class TitleChangesRight extends StatelessWidget {
@@ -13,37 +14,40 @@ class TitleChangesRight extends StatelessWidget {
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
     return Container(
-        // height: Get.height * 0.1,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        margin: EdgeInsets.only(right: width * 0.2),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10)),
             border: Border.all(color: mainColor.withOpacity(0.2))),
-        width: double.infinity,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(Icons.change_circle_rounded,
-                size: size * 0.03, color: mainColor),
-            Container(
-              width: Get.width * 0.70,
-              // color: Colors.blue.shade50,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "$changer has change the title from $titleChanges",
-                    style: TextStyle(
-                        color: Colors.black87, fontSize: size * 0.012),
-                    textAlign: TextAlign.end,
-                  ),
-                  Text(
-                    time,
-                    style: TextStyle(
-                        fontSize: size * 0.01, color: Colors.grey, height: 1.5),
-                  ),
-                ],
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "$changer has change the title from $titleChanges",
+                  style:
+                      TextStyle(color: Colors.black87, fontSize: size * 0.012),
+                  textAlign: TextAlign.start,
+                ),
               ),
-            )
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Icon(Icons.change_circle_rounded,
+                    size: size * 0.03, color: mainColor),
+                Text(
+                  time,
+                  style: TextStyle(
+                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+                ),
+              ],
+            ),
           ],
         )
         // Column(

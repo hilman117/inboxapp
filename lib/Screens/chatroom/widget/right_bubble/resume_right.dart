@@ -12,7 +12,7 @@ class Resume extends StatelessWidget {
     double size = Get.width + Get.height;
     return Container(
         margin: EdgeInsets.only(left: width * 0.2),
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
@@ -22,30 +22,28 @@ class Resume extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.play_arrow_rounded,
-              color: Colors.green,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.play_arrow_rounded,
+                  color: Colors.green,
+                ),
+                Text(
+                  time,
+                  style: TextStyle(
+                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+                ),
+              ],
             ),
             Expanded(
               child: Container(
                 alignment: Alignment.centerRight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      "$resume has resumed this request",
-                      style: TextStyle(
-                          color: Colors.black87, fontSize: size * 0.012),
-                      textAlign: TextAlign.end,
-                    ),
-                    Text(
-                      time,
-                      style: TextStyle(
-                          fontSize: size * 0.01,
-                          color: Colors.grey,
-                          height: 1.5),
-                    ),
-                  ],
+                child: Text(
+                  "$resume has resumed this request",
+                  style:
+                      TextStyle(color: Colors.black87, fontSize: size * 0.012),
+                  textAlign: TextAlign.end,
                 ),
               ),
             )

@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:post/Screens/chatroom/chatroom_controller.dart';
+import 'package:provider/provider.dart';
 
 import 'image_room2.dart';
 
@@ -67,7 +69,7 @@ class _PhotoGridState extends State<PhotoGrid> {
                       tag:
                           "tag${widget.imageUrls.length + Random().nextInt(1000)}",
                       imageList: widget.imageUrls,
-                      index: index,
+                      indx: index,
                     ),
                 transition: Transition.rightToLeft),
           );
@@ -80,7 +82,7 @@ class _PhotoGridState extends State<PhotoGrid> {
                       tag:
                           "tag${widget.imageUrls.length + Random().nextInt(1000)}",
                       imageList: widget.imageUrls,
-                      index: index,
+                      indx: index,
                     ),
                 transition: Transition.rightToLeft),
             child: Stack(
@@ -110,29 +112,32 @@ class _PhotoGridState extends State<PhotoGrid> {
         }
       } else {
         return GestureDetector(
-          child: Container(
-            child: Image.network(
-              imageUrl,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress != null) {
-                  return Lottie.asset("images/loadimage.json", width: 100);
-                } else {
-                  return child;
-                }
-              },
-              fit: BoxFit.cover,
+            child: Container(
+              child: Image.network(
+                imageUrl,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress != null) {
+                    return Lottie.asset("images/loadimage.json", width: 100);
+                  } else {
+                    return child;
+                  }
+                },
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          onTap: () => Get.to(
-              () => ImageRoom2(
-                    image: imageUrl,
-                    tag:
-                        "tag${widget.imageUrls.length + Random().nextInt(1000)}",
-                    imageList: widget.imageUrls,
-                    index: index,
-                  ),
-              transition: Transition.rightToLeft),
-        );
+            onTap: () {
+              Get.to(
+                  () => ImageRoom2(
+                        image: imageUrl,
+                        tag:
+                            "tag${widget.imageUrls.length + Random().nextInt(1000)}",
+                        imageList: widget.imageUrls,
+                        indx: index,
+                      ),
+                  transition: Transition.rightToLeft);
+              Provider.of<ChatRoomController>(context, listen: false)
+                  .currentIndex(index);
+            });
       }
     });
   }
