@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
 
 import '../../../../service/theme.dart';
 import '../multiple_photos.dart';
@@ -73,9 +74,16 @@ class MyMessage extends StatelessWidget {
                         image.isEmpty
                             ? SizedBox()
                             : SizedBox(
-                                height: 200,
-                                width: 200,
-                                child: MultiplePhoto(images: image))
+                                height: (image.length == 2)
+                                    ? height * 0.13
+                                    : (image.length == 1)
+                                        ? height * 0.25
+                                        : height * 0.26,
+                                width: width * 0.55,
+                                child: MultiplePhoto(
+                                    images: image,
+                                    moreThan4: width * 0.5,
+                                    isEqualorLessThan1: width * 1))
                       ],
                     ),
                   ),

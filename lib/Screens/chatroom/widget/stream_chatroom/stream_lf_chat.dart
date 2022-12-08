@@ -92,8 +92,7 @@ class StreamLfChat extends StatelessWidget {
                                       ['assignTo'],
                                   commentList: commentList,
                                   esc: snapshot.data!['comment'][index]['esc'],
-                                  image: snapshot.data!['comment'][index]
-                                      ['imageComment'],
+                                  image: [],
                                   isAccepted: snapshot.data!['comment'][index]
                                       ['accepted'],
                                   message: snapshot.data!['comment'][index]

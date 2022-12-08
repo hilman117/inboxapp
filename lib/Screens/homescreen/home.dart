@@ -10,6 +10,7 @@ import 'package:post/controller/c_user.dart';
 import 'package:post/models/tasks.dart';
 import 'package:provider/provider.dart';
 
+import '../../main.dart';
 import '../../models/user.dart';
 import '../../service/session_user.dart';
 import 'widget/add_button.dart';
@@ -40,6 +41,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    if (box!.get('sendNotification') == null) {
+      box!.putAll({'sendNotification': true});
+    }
     getUser();
     Provider.of<SettingProvider>(context, listen: false).getOnDutyValue();
     Provider.of<HomeController>(context, listen: false)

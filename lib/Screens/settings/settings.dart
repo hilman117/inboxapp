@@ -84,9 +84,7 @@ class Settings extends StatelessWidget {
                                     onChanged: (bool bool) {
                                       provider.sendNotif(bool);
                                     },
-                                    value: box!.get('sendNotification') == null
-                                        ? true
-                                        : box!.get('sendNotification'),
+                                    value: box!.get('sendNotification'),
                                   ))),
                       SettingMenu(
                           callback: () {},

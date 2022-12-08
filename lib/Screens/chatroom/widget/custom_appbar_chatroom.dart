@@ -18,6 +18,7 @@ class ChatRoomAppbar extends StatelessWidget {
   final String sender;
   final String positionSender;
   final String lokasi;
+  final String titleTask;
   final String sendTo;
   final String taskId;
   final String oldDate;
@@ -39,11 +40,15 @@ class ChatRoomAppbar extends StatelessWidget {
     required this.emailSender,
     required this.oldDate,
     required this.oldTime,
+    required this.titleTask,
   });
 
   @override
   Widget build(BuildContext context) {
     final applications = AppLocalizations.of(context);
+    final String title = Provider.of<PopUpMenuProvider>(context).title == ''
+        ? titleTask
+        : Provider.of<PopUpMenuProvider>(context).title;
     return Container(
         margin: EdgeInsets.only(top: Get.height * 0.04),
         height: Get.height * 0.2,
@@ -163,7 +168,7 @@ class ChatRoomAppbar extends StatelessWidget {
                           Container(
                             width: Get.width * 0.45,
                             child: Text(
-                              '${applications!.title}: ${Provider.of<PopUpMenuProvider>(context).title}',
+                              '${applications!.title}: $titleTask',
                               style: TextStyle(color: secondary, fontSize: 14),
                               overflow: TextOverflow.clip,
                             ),

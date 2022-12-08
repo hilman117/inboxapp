@@ -106,12 +106,9 @@ class _ChatroomState extends State<Chatroom> {
             widget.statusTask,
             widget.penerimaTask,
             widget.assign.isEmpty ? "" : widget.assign.last);
-        print(Provider.of<ChatRoomController>(context, listen: false).status);
       },
     );
     super.initState();
-    // cAccepted.setData(widget.statusTask);
-    // cAccepted.setSender(widget.penerimaTask);
   }
 
   @override
@@ -122,18 +119,18 @@ class _ChatroomState extends State<Chatroom> {
             child: Consumer<ChatRoomController>(
               builder: (context, value, child) {
                 return ChatRoomAppbar(
-                  imageProfileSender: widget.imageProfileSender,
-                  sender: widget.nameSender,
-                  positionSender: widget.positionSender,
-                  lokasi: Provider.of<PopUpMenuProvider>(context).location,
-                  assigned: widget.assign,
-                  sendTo: widget.sendTo,
-                  timeCreated: widget.time,
-                  taskId: widget.taskId,
-                  emailSender: widget.emailSender,
-                  oldDate: widget.setDate,
-                  oldTime: widget.setTime,
-                );
+                    imageProfileSender: widget.imageProfileSender,
+                    sender: widget.nameSender,
+                    positionSender: widget.positionSender,
+                    lokasi: Provider.of<PopUpMenuProvider>(context).location,
+                    assigned: widget.assign,
+                    sendTo: widget.sendTo,
+                    timeCreated: widget.time,
+                    taskId: widget.taskId,
+                    emailSender: widget.emailSender,
+                    oldDate: widget.setDate,
+                    oldTime: widget.setTime,
+                    titleTask: widget.tilteTask);
               },
             ),
             preferredSize: Size.fromHeight(height * 0.165)),

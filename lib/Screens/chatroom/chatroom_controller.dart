@@ -59,7 +59,7 @@ class ChatRoomController with ChangeNotifier {
 
   void scrollMaxExtend(ScrollController scroll) {
     if (scroll.hasClients) {
-      final position = scroll.position.maxScrollExtent;
+      final position = scroll.position.maxScrollExtent + 300;
       scroll.animateTo(position,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }
@@ -886,11 +886,8 @@ class ChatRoomController with ChangeNotifier {
     _value = '';
     _imageList.clear();
     _isImageLoad = false;
-    if (scroll.hasClients) {
-      final position = scroll.position.maxScrollExtent;
-      scroll.animateTo(position,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-    }
+    commentBody.clear();
+    scrollMaxExtend(scroll);
     notifyListeners();
   }
 

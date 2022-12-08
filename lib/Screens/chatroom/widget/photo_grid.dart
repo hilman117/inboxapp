@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
+import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:provider/provider.dart';
 
 import 'image_room2.dart';
 
 class PhotoGrid extends StatefulWidget {
   final int maxImages;
+  final double moreThan4;
+  final double isEqualorLessThan1;
   final List<dynamic> imageUrls;
   final Function(int) onImageClicked;
   final Function onExpandClicked;
@@ -19,7 +22,7 @@ class PhotoGrid extends StatefulWidget {
       required this.onImageClicked,
       required this.onExpandClicked,
       this.maxImages = 4,
-      Key? key})
+      Key? key,required this.moreThan4, required this.isEqualorLessThan1})
       : super(key: key);
 
   @override
@@ -34,7 +37,8 @@ class _PhotoGridState extends State<PhotoGrid> {
     return GridView(
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: widget.imageUrls.length <= 1 ? 200 : 100,
+        maxCrossAxisExtent:
+            (widget.imageUrls.length <= 1) ? widget.isEqualorLessThan1 : widget.moreThan4,
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
       ),

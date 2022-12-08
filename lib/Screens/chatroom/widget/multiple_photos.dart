@@ -12,8 +12,13 @@ var urls = <String>[
 
 class MultiplePhoto extends StatelessWidget {
   final List<dynamic> images;
-
-  const MultiplePhoto({super.key, required this.images});
+  final double moreThan4;
+  final double isEqualorLessThan1;
+  const MultiplePhoto(
+      {super.key,
+      required this.images,
+      required this.moreThan4,
+      required this.isEqualorLessThan1});
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -23,6 +28,8 @@ class MultiplePhoto extends StatelessWidget {
         onExpandClicked: () => print('Expand Image was clicked'),
         maxImages: 4,
         key: null,
+        moreThan4: moreThan4,
+        isEqualorLessThan1: isEqualorLessThan1,
       ),
     );
   }

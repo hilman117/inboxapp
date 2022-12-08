@@ -87,6 +87,7 @@ class StreamTasksChat extends StatelessWidget {
                     controller: scrollController,
                     itemCount: commentList.length,
                     itemBuilder: (context, index) {
+                      // print(imagestotal);
                       return Column(
                         children: [
                           snapshot.data!['comment'][index]['senderemail'] ==
