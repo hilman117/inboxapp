@@ -1,16 +1,12 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:post/Screens/dasboard/dashboard_provider.dart';
+import 'package:post/Screens/dasboard/dashboard_controller.dart';
+import 'package:post/service/notif.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import '../../../controller/c_new.dart';
 import '../../../controller/c_user.dart';
 import '../../../models/tasks.dart';
@@ -20,9 +16,10 @@ import 'card.dart';
 class ListOfRequest extends StatefulWidget {
   const ListOfRequest({
     Key? key,
-    required this.streamMine,
+    required this.streamMine, required this.controller,
   }) : super(key: key);
   final Stream<QuerySnapshot<Map<String, dynamic>>> streamMine;
+  final ScrollController controller;
 
   @override
   State<ListOfRequest> createState() => _ListOfRequestState();
@@ -63,46 +60,9 @@ class _ListOfRequestState extends State<ListOfRequest>
     );
   }
 
-  late File _image;
+  // late File _image;
   String imageName = '';
   String imageUrl = "";
-
-  void esc(String bodyMessage, String topic, String idTask, String location,
-      String title) async {
-    if (imageName != '') {
-      String imageExtension = imageName.split('.').last;
-      final ref = FirebaseStorage.instance.ref(
-          "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-      await ref.putFile(_image);
-      imageUrl = await ref.getDownloadURL();
-    }
-    await FirebaseFirestore.instance
-        .collection('Hotel List')
-        .doc(cUser.data.hotelid)
-        .collection('Others')
-        .doc(idTask)
-        .update({
-      "status": "ESC",
-      "receiver": "",
-      "comment": FieldValue.arrayUnion([
-        {
-          'commentId': Uuid().v4(),
-          'commentBody': "",
-          "assignTask": "",
-          'accepted': "",
-          'esc': "Escalation after 5 minutes",
-          'sender': "POST",
-          'description': "",
-          'senderemail': auth.currentUser!.email,
-          'imageComment': imageUrl,
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-        }
-      ])
-    });
-    // Notif().sendNotif(topic, '$location - "$title"', bodyMessage);
-    // cAccepted.setData("ESC");
-    // cAccepted.setSender(cUser.data.name!);
-  }
 
   String taskId = '';
   String topicEsc = '';
@@ -111,27 +71,8 @@ class _ListOfRequestState extends State<ListOfRequest>
   String status1 = '';
   DateTime? waktu;
   int jarakWaktu2 = 0;
-  Rx<ConnectivityResult> statusConnection = ConnectivityResult.none.obs;
-
-  late StreamSubscription<ConnectivityResult> subscription;
   @override
   void initState() {
-    subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      if (result == ConnectivityResult.mobile) {
-        print("I am connected to a mobile network.");
-        // I am connected to a mobile network.
-        statusConnection.value = ConnectivityResult.mobile;
-      }
-      if (result == ConnectivityResult.wifi) {
-        statusConnection.value = ConnectivityResult.wifi;
-        // I am connected to a wifi network.
-      } else {
-        statusConnection.value = ConnectivityResult.none;
-      }
-      // Got a new connectivity status!
-    });
     _controller = AnimationController(
         duration: const Duration(seconds: 2),
         vsync: this,
@@ -148,7 +89,6 @@ class _ListOfRequestState extends State<ListOfRequest>
   @override
   void dispose() {
     _controller.dispose();
-    subscription.cancel();
     super.dispose();
   }
 
@@ -218,65 +158,92 @@ class _ListOfRequestState extends State<ListOfRequest>
             list.sort((a, b) => b["time"].compareTo(a["time"]));
             setiniTotal(snapshot.data!.size);
             setincrement(increment + 1);
-            return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                padding: EdgeInsets.only(top: 5),
-                itemCount: list.length,
-                itemBuilder: (BuildContext context, int index) {
-                  Map<String, dynamic> data =
-                      list[index].data()! as Map<String, dynamic>;
-                  TaskModel taskModel = TaskModel.fromJson(data);
-                  // print(data);
-                  List assigned = data["assigned"];
-                  // print(assigned);
-                  if (Provider.of<HomeController>(context).textInput.isEmpty &&
-                          data['status'] == "New" ||
-                      assigned
-                          .toString()
-                          .toLowerCase()
-                          .contains(cUser.data.name!)) {
-                    return AnimatedBuilder(
-                        animation: _controller,
-                        builder: (BuildContext context, Widget? child) {
-                          return CardList(
-                              data: data,
-                              taskModel: taskModel,
-                              animationColor: bgColor.evaluate(
-                                  AlwaysStoppedAnimation(_controller.value)), listImage: data["image"]);
-                        });
-                  }
-                  if (data['location'].toString().toLowerCase().contains(
-                      Provider.of<HomeController>(context)
-                          .textInput
-                          .toLowerCase())) {
-                    return CardList(
-                        data: data,
-                        taskModel: taskModel,
-                        animationColor: bgColor.evaluate(
-                            AlwaysStoppedAnimation(_controller.value)), listImage: data["image"],);
-                  }
-                  if (data['title'].toString().toLowerCase().contains(
-                      Provider.of<HomeController>(context)
-                          .textInput
-                          .toLowerCase())) {
-                    return CardList(
-                        data: data,
-                        taskModel: taskModel,
-                        animationColor: bgColor.evaluate(
-                            AlwaysStoppedAnimation(_controller.value)), listImage: data["image"],);
-                  }
-                  if (data['sender'].toString().toLowerCase().contains(
-                      Provider.of<HomeController>(context)
-                          .textInput
-                          .toLowerCase())) {
-                    return CardList(
-                        data: data,
-                        taskModel: taskModel,
-                        animationColor: bgColor.evaluate(
-                            AlwaysStoppedAnimation(_controller.value)), listImage: data["image"]);
-                  }
-                  return Center();
-                });
+            return GlowingOverscrollIndicator(
+              color: Colors.white.withOpacity(0.0),
+              axisDirection: AxisDirection.down,
+              child: ListView.builder(
+                  controller: widget.controller,
+                  padding: EdgeInsets.only(top: 5),
+                  itemCount: list.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    Map<String, dynamic> data =
+                        list[index].data()! as Map<String, dynamic>;
+                    TaskModel taskModel = TaskModel.fromJson(data);
+                    Notif().saveTopic(data["id"]);
+                    // print(data);
+                    List assigned = data["assigned"];
+                    // print(assigned);
+                    if (Provider.of<HomeController>(context)
+                                .textInput
+                                .isEmpty &&
+                            data['status'] == "New" ||
+                        assigned
+                            .toString()
+                            .toLowerCase()
+                            .contains(cUser.data.name!)) {
+                      return AnimatedBuilder(
+                          animation: _controller,
+                          builder: (BuildContext context, Widget? child) {
+                            return CardList(
+                                data: data,
+                                taskModel: taskModel,
+                                animationColor: bgColor.evaluate(
+                                    AlwaysStoppedAnimation(_controller.value)),
+                                listImage: data["image"],
+                                list: list);
+                          });
+                    }
+                    if (data['location'].toString().toLowerCase().contains(
+                        Provider.of<HomeController>(context)
+                            .textInput
+                            .toLowerCase())) {
+                      return CardList(
+                          data: data,
+                          taskModel: taskModel,
+                          animationColor: bgColor.evaluate(
+                              AlwaysStoppedAnimation(_controller.value)),
+                          listImage: data["image"],
+                          list: list);
+                    }
+                    if (data['title'].toString().toLowerCase().contains(
+                        Provider.of<HomeController>(context)
+                            .textInput
+                            .toLowerCase())) {
+                      return CardList(
+                          data: data,
+                          taskModel: taskModel,
+                          animationColor: bgColor.evaluate(
+                              AlwaysStoppedAnimation(_controller.value)),
+                          listImage: data["image"],
+                          list: list);
+                    }
+                    if (data['sender'].toString().toLowerCase().contains(
+                        Provider.of<HomeController>(context)
+                            .textInput
+                            .toLowerCase())) {
+                      return CardList(
+                          data: data,
+                          taskModel: taskModel,
+                          animationColor: bgColor.evaluate(
+                              AlwaysStoppedAnimation(_controller.value)),
+                          listImage: data["image"],
+                          list: list);
+                    }
+                    if (data['assigned']
+                        .toString()
+                        .toLowerCase()
+                        .contains(cUser.data.name!.toLowerCase())) {
+                      return CardList(
+                          data: data,
+                          taskModel: taskModel,
+                          animationColor: bgColor.evaluate(
+                              AlwaysStoppedAnimation(_controller.value)),
+                          listImage: data["image"],
+                          list: list);
+                    }
+                    return Center();
+                  }),
+            );
           },
         )
         // }),

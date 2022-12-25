@@ -7,12 +7,13 @@ import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/dasboard/widget/animated/status.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/global_function.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'pop_up_menu/pop_up_menu.dart';
 
-class ChatRoomAppbar extends StatelessWidget {
+class TaskAppBar extends StatelessWidget {
   final String imageProfileSender;
   final String emailSender;
   final String sender;
@@ -26,7 +27,7 @@ class ChatRoomAppbar extends StatelessWidget {
   final DateTime timeCreated;
   // final String image;
   final List<dynamic> assigned;
-  const ChatRoomAppbar({
+  const TaskAppBar({
     super.key,
     required this.imageProfileSender,
     required this.sender,
@@ -123,28 +124,36 @@ class ChatRoomAppbar extends StatelessWidget {
                       SizedBox(
                         width: Get.width * 0.02,
                       ),
-                      Consumer<CreateRequestController>(
-                          builder: (context, value, child) => InkWell(
-                                borderRadius: BorderRadius.circular(50),
-                                radius: 20,
-                                onTap: Provider.of<ChatRoomController>(context,
-                                                listen: false)
-                                            .status !=
-                                        "Close"
-                                    ? () => showPopUpMenu(
-                                        context,
-                                        sendTo,
-                                        taskId,
-                                        emailSender,
-                                        oldDate,
-                                        oldTime,
-                                        lokasi)
-                                    : () {},
-                                child: Icon(
-                                  Icons.more_vert,
-                                  color: Colors.black54,
-                                ),
-                              ))
+                      Consumer<GlobalFunction>(
+                          builder: (context, value, child) =>
+                              value.hasInternetConnection == false
+                                  ? Icon(
+                                      Icons
+                                          .signal_wifi_statusbar_connected_no_internet_4,
+                                      color: Colors.red.shade400,
+                                    )
+                                  : InkWell(
+                                      borderRadius: BorderRadius.circular(50),
+                                      radius: 20,
+                                      onTap: Provider.of<ChatRoomController>(
+                                                      context,
+                                                      listen: false)
+                                                  .status !=
+                                              "Close"
+                                          ? () => showPopUpMenu(
+                                              context,
+                                              sendTo,
+                                              taskId,
+                                              emailSender,
+                                              oldDate,
+                                              oldTime,
+                                              lokasi)
+                                          : () {},
+                                      child: Icon(
+                                        Icons.more_vert,
+                                        color: Colors.black54,
+                                      ),
+                                    ))
                     ],
                   ),
                 ),
@@ -168,7 +177,7 @@ class ChatRoomAppbar extends StatelessWidget {
                           Container(
                             width: Get.width * 0.45,
                             child: Text(
-                              '${applications!.title}: $titleTask',
+                              '${applications!.title}: $title',
                               style: TextStyle(color: secondary, fontSize: 14),
                               overflow: TextOverflow.clip,
                             ),
@@ -247,7 +256,7 @@ class ChatRoomAppbar extends StatelessWidget {
                                       ? Container(
                                           width: Get.width * 0.40,
                                           child: Text(
-                                            "${val.datePicked} ${val.selectedTime}",
+                                            "${DateFormat("EEEE d").format(DateTime.parse(val.datePicked))}, ${val.selectedTime}",
                                             style: TextStyle(
                                                 color: Colors.red,
                                                 fontSize: 14),

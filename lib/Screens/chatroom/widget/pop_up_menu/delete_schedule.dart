@@ -3,6 +3,7 @@ import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.da
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -96,6 +97,8 @@ Future deleteSchedule(BuildContext context, String taskId, String emailSender,
                         Provider.of<CreateRequestController>(context,
                                 listen: false)
                             .changeTime(''); // Navigator.pop(context);
+                        Provider.of<HomeController>(context, listen: false)
+                            .cancelScheduleNotification(int.parse(taskId));
                         Navigator.pop(context);
                       },
                     ),

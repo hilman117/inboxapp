@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../global_function.dart';
 import '../chatroom_controller.dart';
 
 void closeDialog(context, String taskId, String location, String title,
@@ -73,11 +75,31 @@ void closeDialog(context, String taskId, String location, String title,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4))),
-                          onPressed: () {
-                            Provider.of<ChatRoomController>(context,
-                                    listen: false)
-                                .close(context, taskId, location, title, scroll,
-                                    closetext.text, email, deptTujuan);
+                          onPressed: () async {
+                            if (Provider.of<GlobalFunction>(context,
+                                        listen: false)
+                                    .hasInternetConnection ==
+                                true) {
+                              await Provider.of<ChatRoomController>(context,
+                                      listen: false)
+                                  .close(
+                                      context,
+                                      taskId,
+                                      location,
+                                      title,
+                                      scroll,
+                                      closetext.text,
+                                      email,
+                                      deptTujuan);
+                              Provider.of<HomeController>(context,
+                                      listen: false)
+                                  .cancelScheduleNotification(
+                                      int.parse(taskId));
+                            } else {
+                              Provider.of<GlobalFunction>(context,
+                                      listen: false)
+                                  .noInternet();
+                            }
                           },
                           child: Text(app.yes)),
                     ),

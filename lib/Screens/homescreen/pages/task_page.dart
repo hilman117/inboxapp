@@ -9,7 +9,8 @@ import '../../dasboard/widget/card.dart';
 import '../widget/custom_appbar.dart';
 
 class TaskPage extends StatelessWidget {
-  const TaskPage({super.key});
+  final ScrollController controller;
+  const TaskPage({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,19 @@ class TaskPage extends StatelessWidget {
               )
             ],
         // ignore: prefer_const_constructors
-        body: TabBarView(
-            clipBehavior: Clip.hardEdge,
-            children: [const MyPost(), Mine(), const Others(), const Close()]));
+        body: TabBarView(clipBehavior: Clip.hardEdge, children: [
+          MyPost(
+            controller: controller,
+          ),
+          Mine(
+            controller: controller,
+          ),
+          Others(
+            controller: controller,
+          ),
+          Close(
+            controller: controller,
+          )
+        ]));
   }
 }

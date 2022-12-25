@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
 import 'package:provider/provider.dart';
 
 import 'image_room2.dart';
@@ -32,8 +31,7 @@ class PhotoGrid extends StatefulWidget {
 class _PhotoGridState extends State<PhotoGrid> {
   @override
   Widget build(BuildContext context) {
-    String uniqueTag = "heroImage" + DateTime.now().toString();
-    var images = buildImages(uniqueTag);
+    var images = buildImages();
     return GridView(
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -46,7 +44,7 @@ class _PhotoGridState extends State<PhotoGrid> {
     );
   }
 
-  List<Widget> buildImages(String idTag) {
+  List<Widget> buildImages() {
     int numImages = widget.imageUrls.length;
     return List<Widget>.generate(min(numImages, widget.maxImages), (index) {
       String imageUrl = widget.imageUrls[index];

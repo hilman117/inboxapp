@@ -3,8 +3,9 @@ import 'package:post/Screens/dasboard/widget/list_of_request.dart';
 import 'package:post/Screens/dasboard/widget/stream.dart';
 
 class Mine extends StatefulWidget {
+  final ScrollController controller;
   const Mine({
-    Key? key,
+    Key? key, required this.controller,
   }) : super(key: key);
   @override
   _MineState createState() => _MineState();
@@ -14,7 +15,7 @@ class _MineState extends State<Mine> {
   StreamWidget stream = StreamWidget();
   @override
   Widget build(BuildContext context) {
-    return ListOfRequest(streamMine: stream.mine());
+    return ListOfRequest(streamMine: stream.mine(), controller: widget.controller,);
   }
 
 // class TextDate extends StatefulWidget {

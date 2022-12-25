@@ -1,38 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:post/models/lf_model.dart';
 import '../../../controller/c_user.dart';
-import '../../../models/tasks.dart';
 import '../../../service/theme.dart';
-import '../../chatroom/chatroom.dart';
 import '../../dasboard/widget/animated/animated_receiver.dart';
 import '../../dasboard/widget/animated/status.dart';
+import '../lf_chatroom.dart';
 
-Color themeColor = const Color(0xffF8CCA5);
-Color cardColor = const Color(0xff475D5B);
 final cUser = Get.put(CUser());
-final taskmodel = Get.put(TaskModel());
 double height = Get.height;
 double width = Get.width;
-// final cAccepted = Get.put(CAccepted())
 
 class LoasNfoundCard extends StatefulWidget {
   const LoasNfoundCard(
-      {super.key, required this.data, required this.animationColor});
+      {super.key, required this.animationColor, required this.lfModel});
 
-  final Map<String, dynamic> data;
   final Color? animationColor;
+  final LfModel? lfModel;
 
   @override
   State<LoasNfoundCard> createState() => _LoasNfoundCardState();
 }
-// StreamSubscription<ReceivedAction>? _actionStreamSubscription;
-// void listen() async {
-//   // You can choose to cancel any exiting subscriptions
-//   // await _actionStreamSubscription?.cancel();
-
-//   // assign the stream subscription
-
-// }
 
 class _LoasNfoundCardState extends State<LoasNfoundCard> {
   @override
@@ -55,9 +43,7 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                     offset: Offset(0.05, 0.05))
               ],
               borderRadius: BorderRadius.circular(16),
-              color: widget.data['status'] == "New"
-                  ? widget.animationColor
-                  : Colors.white,
+              color: Colors.white,
             ),
             child: Material(
               borderRadius: BorderRadius.circular(16),
@@ -66,26 +52,19 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {
                   Get.to(
-                      () => Chatroom(
-                            taskId: widget.data["id"],
-                            nameSender: widget.data["founder"],
-                            tilteTask: widget.data["nameItem"],
-                            descriptionTask: widget.data["description"],
-                            statusTask: widget.data["status"],
-                            penerimaTask: widget.data["receiveBy"],
-                            location: widget.data["location"],
-                            time: DateTime.now(),
+                      () => LfChatRoom(
+                            taskId: widget.lfModel!.id!,
                             hotelid: cUser.data.hotelid!,
-                            sendTo: "",
-                            setDate: "",
-                            fromWhere: "",
-                            emailSender: widget.data["emailSender"],
-                            jarakWaktu: 0,
-                            assign: [],
-                            imageProfileSender:
-                                widget.data["profileImageSender"],
-                            positionSender: widget.data["positionSender"],
-                            setTime: '',
+                            status: widget.lfModel!.status!,
+                            image: widget.lfModel!.image!,
+                            nameOfReporter: widget.lfModel!.founder!,
+                            locationItemFounded: widget.lfModel!.location!,
+                            nameOfItemFounded: widget.lfModel!.nameItem!,
+                            receiver: widget.lfModel!.receiver!,
+                            photoProfileSender:
+                                widget.lfModel!.profileImageSender!,
+                            positionReporter: widget.lfModel!.positionSender!,
+                            time: widget.lfModel!.time!, emailSender: widget.lfModel!.emailSender!
                           ),
                       transition: Transition.rightToLeft);
                 },
@@ -114,14 +93,14 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                                       alignment: Alignment.centerLeft,
                                       width: width * 0.6,
                                       child: Text(
-                                        widget.data["nameItem"],
+                                        widget.lfModel!.nameItem!,
                                         style: TextStyle(fontSize: 16),
                                         overflow: TextOverflow.clip,
                                       ),
                                     ),
                                     Spacer(),
                                     StatusWidget(
-                                        status: widget.data["status"],
+                                        status: widget.lfModel!.status!,
                                         isFading: false)
                                   ],
                                 ),
@@ -151,15 +130,15 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                                     Container(
                                       width: width * 0.40,
                                       child: Text(
-                                        widget.data["location"],
+                                        widget.lfModel!.location!,
                                         style: TextStyle(fontSize: 15),
                                         overflow: TextOverflow.clip,
                                       ),
                                     ),
                                     Spacer(),
                                     AnimatedReceiver(
-                                      receiver: widget.data['receiver'],
-                                      status: widget.data['status'],
+                                      receiver: widget.lfModel!.receiver!,
+                                      status: widget.lfModel!.status!,
                                       assigned: [],
                                       isFading: false,
                                     )
@@ -191,7 +170,7 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                                         Container(
                                           width: width * 0.60,
                                           child: Text(
-                                            widget.data["founder"],
+                                            widget.lfModel!.founder!,
                                             overflow: TextOverflow.clip,
                                             style: TextStyle(
                                                 fontSize: 13,
@@ -209,7 +188,7 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                         SizedBox(
                           height: height * 0.01,
                         ),
-                        if (widget.data["description"] != '')
+                        if (widget.lfModel!.description != '')
                           Row(
                             children: [
                               SizedBox(
@@ -218,7 +197,7 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                               Container(
                                 width: width * 0.60,
                                 child: Text(
-                                  widget.data["description"],
+                                  widget.lfModel!.description!,
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xffBDBDBD)),
                                   overflow: TextOverflow.ellipsis,

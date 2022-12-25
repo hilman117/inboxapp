@@ -7,13 +7,11 @@ import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/controller/c_user.dart';
-import 'package:post/models/tasks.dart';
+import 'package:post/core.dart';
+import 'package:post/global_function.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
-import '../../models/user.dart';
-import '../../service/session_user.dart';
-import 'widget/add_button.dart';
 import 'widget/navbar.dart';
 
 class Home extends StatefulWidget {
@@ -27,6 +25,8 @@ bool image = true;
 class _HomeState extends State<Home> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
+  late ScrollController controller;
+
   final cUser = Get.put(CUser());
   final taskModel = Get.put(TaskModel());
 
@@ -41,6 +41,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    controller = ScrollController();
     if (box!.get('sendNotification') == null) {
       box!.putAll({'sendNotification': true});
     }
@@ -48,7 +49,9 @@ class _HomeState extends State<Home> {
     Provider.of<SettingProvider>(context, listen: false).getOnDutyValue();
     Provider.of<HomeController>(context, listen: false)
         .dataForNotiifcationAction();
-    Provider.of<HomeController>(context, listen: false).actionStreamNotif();
+    Provider.of<GlobalFunction>(context, listen: false)
+        .checkInternetConnetction();
+    // Provider.of<HomeController>(context, listen: false).actionStreamNotif();
     Provider.of<CreateRequestController>(context, listen: false)
         .getTotalCreate();
   }
@@ -56,6 +59,7 @@ class _HomeState extends State<Home> {
   @override
   void dispose() {
     AwesomeNotifications().actionSink.close();
+    controller.dispose();
     super.dispose();
   }
 
@@ -65,17 +69,19 @@ class _HomeState extends State<Home> {
       length: 4,
       initialIndex: 1,
       child: Scaffold(
-          extendBody: true,
-          bottomNavigationBar: NavBar(),
-          floatingActionButton: Consumer<HomeController>(
-            builder: (context, value, child) =>
-                value.navIndex == 0 || value.navIndex == 2
-                    ? addButton(context, Get.height, Get.width)
-                    : SizedBox(),
-          ),
-          backgroundColor: Colors.white,
-          body: Provider.of<HomeController>(context)
-              .pages[context.read<HomeController>().navIndex]),
+        extendBody: true,
+        bottomNavigationBar: NavBar(),
+        backgroundColor: Colors.white,
+        body:
+            // ListView.builder(
+            //     controller: controller,
+            //     itemCount: 20,
+            //     itemBuilder: (context, index) => ListTile(
+            //           title: Text("test"),
+            //         ))
+            Provider.of<HomeController>(context)
+                .pages[context.read<HomeController>().navIndex],
+      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/feeds/widget/search.dart';
+import 'package:post/Screens/feeds/widget/search_feeds.dart';
 import 'package:post/Screens/profile/profile.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -96,7 +96,7 @@ class CustomAppbarFeeds extends StatelessWidget {
             SizedBox(
               width: Get.width * 0.02,
             ),
-            Search(),
+            SearchFeeds(),
             Container(
               margin: EdgeInsets.only(left: Get.width * 0.03),
               height: Get.height * 0.06,

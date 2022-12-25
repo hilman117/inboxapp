@@ -1,12 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/dasboard/widget/timer.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:provider/provider.dart';
 import '../../../controller/c_user.dart';
 import '../../../models/tasks.dart';
-import '../../chatroom/chatroom.dart';
+import '../../chatroom/chatroom_task.dart';
 import '../../chatroom/widget/imageRoom.dart';
 import 'animated/animated_receiver.dart';
 import 'animated/status.dart';
@@ -25,9 +27,11 @@ class CardList extends StatefulWidget {
       required this.data,
       required this.taskModel,
       required this.animationColor,
-      required this.listImage});
+      required this.listImage,
+      required this.list});
 
   final Map<String, dynamic> data;
+  final List<QueryDocumentSnapshot<Object?>> list;
   final TaskModel taskModel;
   final Color? animationColor;
   final List listImage;
@@ -48,6 +52,8 @@ class _CardListState extends State<CardList> {
   @override
   void initState() {
     super.initState();
+    Provider.of<HomeController>(context, listen: false)
+        .scheduleNotification(widget.list);
     // AwesomeNotifications().actionStream.listen((notif) {
     //   if (notif.channelKey == 'basic_channel' && Platform.isIOS) {
     //     AwesomeNotifications().getGlobalBadgeCounter().then(
@@ -82,14 +88,15 @@ class _CardListState extends State<CardList> {
     int runnningTime =
         DateTime.now().difference(widget.taskModel.time!).inMinutes;
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
+                  // blurRadius: ,
                   color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 0.7,
-                  offset: Offset(0.05, 0.05))
+                  offset: Offset(0, 0.5))
             ],
             borderRadius: BorderRadius.circular(16),
             color: widget.data['status'] == "New"
@@ -105,7 +112,7 @@ class _CardListState extends State<CardList> {
                 Provider.of<PopUpMenuProvider>(context, listen: false)
                     .changeTitle(widget.taskModel.title!);
                 Get.to(
-                    () => Chatroom(
+                    () => ChatRoomTask(
                           descriptionTask: widget.taskModel.description!,
                           hotelid: cUser.data.hotelid!,
                           location: widget.taskModel.location!,
@@ -254,7 +261,7 @@ class _CardListState extends State<CardList> {
                                   Container(
                                     width: width * 0.60,
                                     child: Text(
-                                      "Due ${widget.taskModel.setDate} ${widget.taskModel.setTime}",
+                                      "Due ${DateFormat("EEEE d").format(DateTime.parse(widget.taskModel.setDate!))}, ${widget.taskModel.setTime}",
                                       // taskModel.setDate!,
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(

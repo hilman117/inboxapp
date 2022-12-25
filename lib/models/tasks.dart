@@ -1,7 +1,6 @@
 class TaskModel {
   TaskModel(
-      {
-      this.receiver,
+      {this.receiver,
       this.unread,
       this.description,
       this.title,
@@ -21,7 +20,6 @@ class TaskModel {
       this.profileImageSender,
       this.positionSender,
       this.from});
-
 
   String? receiver;
   String? priority;
@@ -67,7 +65,6 @@ class TaskModel {
       from: json["from"]);
 
   Map<String, dynamic> toJson() => {
-        
         "receiver": receiver,
         "unread": unread,
         "emailSender": emailSender,

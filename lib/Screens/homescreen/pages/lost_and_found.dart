@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/lf/widget/lost_and_found_card.dart';
 import 'package:post/controller/c_user.dart';
+import 'package:post/models/lf_model.dart';
 
 import '../../../controller/c_new.dart';
 
@@ -145,53 +146,53 @@ class _LostAndFoundListState extends State<LostAndFoundList>
             list.sort((a, b) => b["time"].compareTo(a["time"]));
             setiniTotal(snapshot.data!.size);
             setincrement(increment + 1);
+
             return ListView.builder(
                 padding: EdgeInsets.only(top: 5),
                 itemCount: list.length,
                 itemBuilder: (BuildContext context, int index) {
                   Map<String, dynamic> data =
                       list[index].data()! as Map<String, dynamic>;
-
-                  print(data["founder"]);
+                  LfModel lfModel = LfModel.fromJson(data);
                   if (textInput.isEmpty && data['status'] == "New") {
                     return AnimatedBuilder(
                         animation: _controller,
                         builder: (BuildContext context, Widget? child) {
                           return LoasNfoundCard(
-                            data: data,
                             animationColor: bgColor.evaluate(
                                 AlwaysStoppedAnimation(_controller.value)),
+                            lfModel: lfModel
                           );
                         });
                   }
-                  if (data['location']
+                  if (lfModel.location
                       .toString()
                       .toLowerCase()
                       .contains(textInput.toLowerCase())) {
                     return LoasNfoundCard(
-                      data: data,
                       animationColor: bgColor
                           .evaluate(AlwaysStoppedAnimation(_controller.value)),
+                      lfModel: lfModel
                     );
                   }
-                  if (data['nameItem']
+                  if (lfModel.nameItem
                       .toString()
                       .toLowerCase()
                       .contains(textInput.toLowerCase())) {
                     return LoasNfoundCard(
-                      data: data,
                       animationColor: bgColor
                           .evaluate(AlwaysStoppedAnimation(_controller.value)),
+                      lfModel: lfModel
                     );
                   }
-                  if (data['founder']
+                  if (lfModel.founder
                       .toString()
                       .toLowerCase()
                       .contains(textInput.toLowerCase())) {
                     return LoasNfoundCard(
-                      data: data,
                       animationColor: bgColor
                           .evaluate(AlwaysStoppedAnimation(_controller.value)),
+                      lfModel: lfModel
                     );
                   }
                   return Center(

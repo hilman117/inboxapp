@@ -7,9 +7,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
-import '../../feeds/widget/search.dart';
 import '../../settings/settings.dart';
 import '../home_controller.dart';
+import 'search_home.dart';
 
 class CustomAppbarHome extends StatelessWidget {
   const CustomAppbarHome({required this.dept});
@@ -97,7 +97,7 @@ class CustomAppbarHome extends StatelessWidget {
             SizedBox(
               width: Get.width * 0.02,
             ),
-            Search(),
+            SearchHome(),
             GestureDetector(
               onTap: () {
                 Get.to(() => Settings(), transition: Transition.rightToLeft);
@@ -109,7 +109,7 @@ class CustomAppbarHome extends StatelessWidget {
                     Icons.settings,
                     color: Colors.black45,
                   )),
-            )
+            ),
           ],
         ),
         elevation: 0,

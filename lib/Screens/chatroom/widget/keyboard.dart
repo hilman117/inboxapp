@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/chatroom/widget/image_picker.dart';
+import 'package:post/global_function.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../service/theme.dart';
 
 Widget keyboardChat(
-  BuildContext context,
-  String taskId,
-  String location,
-  String title,
-  ScrollController scroll,
-  String deptSender,
-  String deptTujuan,
-  String reportCreator,
-  String creatorEmail,
+  {required BuildContext context,
+  required String taskId,
+  required String location,
+  required String title,
+  required ScrollController scroll,
+  required String deptSender,
+  required String deptTujuan,}
 ) {
   return SizedBox(
     height: Get.height * 0.05,
@@ -76,23 +75,18 @@ Widget keyboardChat(
                   child: value.isTypping || value.imagesList.isNotEmpty
                       ? GestureDetector(
                           onTap: () {
-                            if (deptTujuan.isEmpty) {
-                              Provider.of<ChatRoomController>(context,
-                                      listen: false)
-                                  .sendCommentForLostAndFound(
-                                      taskId,
-                                      location,
-                                      title,
-                                      scroll,
-                                      deptSender,
-                                      deptTujuan,
-                                      reportCreator,
-                                      creatorEmail);
-                            } else {
+                            if (Provider.of<GlobalFunction>(context,
+                                        listen: false)
+                                    .hasInternetConnection ==
+                                true) {
                               Provider.of<ChatRoomController>(context,
                                       listen: false)
                                   .sendComment(taskId, location, title, scroll,
                                       deptSender, deptTujuan);
+                            } else {
+                              Provider.of<GlobalFunction>(context,
+                                      listen: false)
+                                  .noInternet();
                             }
                           },
                           child: Container(

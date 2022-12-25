@@ -23,8 +23,8 @@ class ChatRoomController with ChangeNotifier {
   // File? _image;
   // File? get images => _image;
   // String imageUrl = "";
-  String imageName = '';
   TextEditingController descriptionController = TextEditingController();
+  String imageName = '';
   final ImagePicker _picker = ImagePicker();
   XFile? _fromCamera;
   XFile? get fromCamera => _fromCamera;
@@ -59,7 +59,7 @@ class ChatRoomController with ChangeNotifier {
 
   void scrollMaxExtend(ScrollController scroll) {
     if (scroll.hasClients) {
-      final position = scroll.position.maxScrollExtent + 300;
+      final position = scroll.position.minScrollExtent;
       scroll.animateTo(position,
           duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }
@@ -144,6 +144,7 @@ class ChatRoomController with ChangeNotifier {
                 .update({
               'comment': FieldValue.arrayUnion([
                 {
+                  "timeSent": DateTime.now(),
                   'accepted': "",
                   'assignTask': "",
                   'assignTo': "",
@@ -167,7 +168,6 @@ class ChatRoomController with ChangeNotifier {
                 }
               ])
             });
-            commentBody.clear();
           }
         });
       });
@@ -180,6 +180,7 @@ class ChatRoomController with ChangeNotifier {
           .update({
         'comment': FieldValue.arrayUnion([
           {
+            "timeSent": DateTime.now(),
             'accepted': "",
             'assignTask': "",
             'assignTo': "",
@@ -202,37 +203,44 @@ class ChatRoomController with ChangeNotifier {
           }
         ]),
       });
-      commentBody.clear();
     }
     _isTyping = false;
 
     _value = '';
-
     if (box!.get('sendNotification') == true &&
         deptTujuan == cUser.data.department) {
-      Notif().sendNotif(deptSender, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", '');
-      Notif().sendNotif(taskId, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", '');
+      Notif().sendNotif(
+        deptSender,
+        '$location - "$title"',
+        "${cUser.data.name} : ${commentBody.text}",
+      );
+      Notif().sendNotif(
+        taskId,
+        '$location - "$title"',
+        "${cUser.data.name} : ${commentBody.text}",
+      );
       notifyListeners();
-    } else if (box!.get('sendNotification') == true &&
+    }
+    if (box!.get('sendNotification') == true &&
         deptSender == cUser.data.department) {
-      Notif().sendNotif(deptTujuan, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", '');
-      Notif().sendNotif(taskId, '$location - "$title"',
-          "${cUser.data.name} : ${commentBody.text}", '');
+      Notif().sendNotif(
+        deptTujuan,
+        '$location - "$title"',
+        "${cUser.data.name} : ${commentBody.text}",
+      );
+      Notif().sendNotif(
+        taskId,
+        '$location - "$title"',
+        "${cUser.data.name} : ${commentBody.text}",
+      );
       notifyListeners();
-    } else if (deptTujuan != cUser.data.department ||
+    }
+    if (deptTujuan != cUser.data.department ||
         deptSender != cUser.data.department) {
       Notif().saveTopic(taskId);
       notifyListeners();
     }
-
-    if (scroll.hasClients) {
-      final position = scroll.position.maxScrollExtent;
-      scroll.animateTo(position,
-          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-    }
+    scrollMaxExtend(scroll);
     Future.delayed(
       Duration(seconds: 4),
       () async {
@@ -245,6 +253,7 @@ class ChatRoomController with ChangeNotifier {
         notifyListeners();
       },
     );
+    commentBody.clear();
     Future.delayed(
       Duration(milliseconds: 3000),
       () {
@@ -313,6 +322,7 @@ class ChatRoomController with ChangeNotifier {
       "emailReceiver": cUser.data.email,
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': cUser.data.name,
           'assignTask': "",
           'assignTo': "",
@@ -521,6 +531,7 @@ class ChatRoomController with ChangeNotifier {
       "assigned": FieldValue.arrayUnion(departmentsAndNamesSelected),
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': departmentsAndNamesSelected.join(', '),
@@ -580,10 +591,10 @@ class ChatRoomController with ChangeNotifier {
           print(
               "$element yagng i looping------------------------------------------------------------------------");
           Notif().sendNotif(
-              element.toLowerCase().removeAllWhitespace,
-              '$location - "$title"',
-              "${cUser.data.name} has assigned this request to $element",
-              '');
+            element.toLowerCase().removeAllWhitespace,
+            '$location - "$title"',
+            "${cUser.data.name} has assigned this request to $element",
+          );
         },
       );
     }
@@ -632,6 +643,7 @@ class ChatRoomController with ChangeNotifier {
       "receiver": cUser.data.name,
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': departmentsAndNamesSelected.join(', '),
@@ -676,10 +688,10 @@ class ChatRoomController with ChangeNotifier {
     }
     Navigator.pop(context);
     Notif().sendNotif(
-        taskId.toLowerCase().removeAllWhitespace,
-        '$location - "$title"',
-        "${cUser.data.name} has close this request \n$reason",
-        '');
+      taskId.toLowerCase().removeAllWhitespace,
+      '$location - "$title"',
+      "${cUser.data.name} has close this request \n$reason",
+    );
     var result =
         await FirebaseFirestore.instance.collection('users').doc(email).get();
     List token = result.data()!["token"];
@@ -710,6 +722,7 @@ class ChatRoomController with ChangeNotifier {
       "receiver": "${cUser.data.name}",
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': '',
           'assignTask': "",
           'assignTo': '',
@@ -748,15 +761,15 @@ class ChatRoomController with ChangeNotifier {
       Notif().saveTopic(taskId);
     }
     Notif().sendNotif(
-        taskId.toLowerCase().removeAllWhitespace,
-        '$location - "$title"',
-        "${cUser.data.name} has reopen this request",
-        '');
+      taskId.toLowerCase().removeAllWhitespace,
+      '$location - "$title"',
+      "${cUser.data.name} has reopen this request",
+    );
     Notif().sendNotif(
-        deptTujuan.toLowerCase().removeAllWhitespace,
-        '$location - "$title"',
-        "${cUser.data.name} has reopen this request",
-        '');
+      deptTujuan.toLowerCase().removeAllWhitespace,
+      '$location - "$title"',
+      "${cUser.data.name} has reopen this request",
+    );
     clearListAssign();
     scrollMaxExtend(scroll);
     notifyListeners();
@@ -803,93 +816,7 @@ class ChatRoomController with ChangeNotifier {
     notifyListeners();
   }
 
-  void sendCommentForLostAndFound(
-      String taskId,
-      String location,
-      String title,
-      ScrollController scroll,
-      String deptSender,
-      String deptTujuan,
-      String reportCreator,
-      String creatorEmail) async {
-    _isImageLoad = true;
-    notifyListeners();
-    // if (imageName != '') {
-    //   String imageExtension = imageName.split('.').last;
-    //   final ref = FirebaseStorage.instance.ref(
-    //       "${cUser.data.hotelid!}/${auth.currentUser!.uid + DateTime.now().toString()}.$imageExtension");
-    //   await ref.putFile(_image!);
-    //   imageUrl = await ref.getDownloadURL();
-    // }
-    await FirebaseFirestore.instance
-        .collection('Hotel List')
-        .doc(cUser.data.hotel)
-        .collection('lost and found')
-        .doc(taskId)
-        .update({
-      "comment": FieldValue.arrayUnion([
-        {
-          'commentId': Uuid().v4(),
-          'commentBody': "${commentBody.text}",
-          'esc': '',
-          'accepted': "",
-          'assignTask': "",
-          'assignTo': "",
-          'titleChange': "",
-          'sender': cUser.data.name,
-          'description': "",
-          'senderemail': auth.currentUser!.email,
-          'imageComment': [],
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-        }
-      ])
-    });
-    if (box!.get('sendNotification') == true ||
-        reportCreator == cUser.data.department) {
-      var result = await FirebaseFirestore.instance
-          .collection("Hotel List")
-          .doc(cUser.data.hotelid)
-          .get();
-      List<dynamic> dataAdmin = result.data()!["admin"];
-      dataAdmin.forEach((element) {
-        List list = element['housekeeping'];
-        // print(list);
-        list.forEach((element) async {
-          var getToken = await FirebaseFirestore.instance
-              .collection("users")
-              .doc(element)
-              .get();
-          List listToken = await getToken['token'];
-          listToken.forEach((element) {
-            Notif().sendNotifToToken(element, "$title",
-                "${cUser.data.name}: ${commentBody.text}", '');
-          });
-        });
-      });
-    } else if (box!.get('sendNotification') ||
-        reportCreator != cUser.data.name) {
-      var result = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(creatorEmail)
-          .get();
-      List token = await result.data()!["token"];
-      if (token.isNotEmpty) {
-        token.forEach(
-          (element) {
-            Notif().sendNotifToToken(element, '$location - "$title"',
-                "${cUser.data.name}: ${commentBody.text}", '');
-          },
-        );
-      }
-    }
-    _isTyping = false;
-    _value = '';
-    _imageList.clear();
-    _isImageLoad = false;
-    commentBody.clear();
-    scrollMaxExtend(scroll);
-    notifyListeners();
-  }
+  
 
   void saveNetworkImage(String url) async {
     print("----------------------");

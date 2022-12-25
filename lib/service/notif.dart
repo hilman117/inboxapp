@@ -32,6 +32,12 @@ class Notif {
               channelDescription: 'Notification channel for basic tests',
               defaultColor: Colors.orange,
               ledColor: Colors.white),
+          NotificationChannel(
+              channelKey: "scheduled_channel",
+              channelName: "scheduled notification",
+              channelDescription: "scheduled notification",
+              importance: NotificationImportance.High,
+              locked: true)
         ],
         debug: true);
   }
@@ -53,7 +59,8 @@ class Notif {
     });
   }
 
-  createNotificationForegroundWithImage(String title, String body, String image) {
+  createNotificationForegroundWithImage(
+      String title, String body, String image) {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
       largeIcon: image,
@@ -61,10 +68,11 @@ class Notif {
       channelKey: 'basic_channel',
       title: title,
       body: body,
-      notificationLayout: NotificationLayout.BigPicture,
+      notificationLayout: NotificationLayout.Default,
       bigPicture: image,
     ));
   }
+
   createNotificationForeground(String title, String body) {
     AwesomeNotifications().createNotification(
         content: NotificationContent(
@@ -76,34 +84,60 @@ class Notif {
     ));
   }
 
+  Future<void> scheduleNotification(
+      {required int scheduleId,
+      required String title,
+      required String location,
+      required int month,
+      required int day,
+      required int hour,
+      required int minute,
+      required String body}) async {
+    await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: scheduleId,
+          channelKey: "scheduled_channel",
+          title: 'Reminder for "$location" : "$title"',
+          body: body,
+          notificationLayout: NotificationLayout.Default,
+        ),
+        schedule: NotificationCalendar(
+            month: month,
+            day: day,
+            hour: hour,
+            minute: minute,
+            second: 0,
+            millisecond: 0,
+            repeats: true));
+  }
+
   //method when cacthing the message from fcm
   foreground() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
       if (notification != null && android != null) {
-        if(android.imageUrl != '' ) {
-        createNotificationForegroundWithImage(
-            notification.title ?? '',
-            notification.body ?? '',android.imageUrl ?? '');
+        if (android.imageUrl != '') {
+          createNotificationForegroundWithImage(notification.title ?? '',
+              notification.body ?? '', android.imageUrl ?? '');
         } else {
-           createNotificationForeground(
-            notification.title ?? '',
-            notification.body ?? '');
+          createNotificationForeground(
+              notification.title ?? '', notification.body ?? '');
         }
       }
     });
   }
 
-  void sendNotif(String topic, String title, String body, String image) async {
+  //void to send push notification
+  void sendNotif(String topic, String title, String body) async {
     var data = {
-      "notification": {"title": title, "body": body, "image": image},
+      "notification": {"title": title, "body": body},
       "data": {"score": "5x1", "time": "15:10"},
       "priority": "high",
       "to": "/topics/$topic"
     };
-    print("----------------------------");
-    print(data);
+    // print("----------------------------");
+    // print(data);
     var respon = await http.post(
         Uri.parse("https://fcm.googleapis.com/fcm/send"),
         headers: {
@@ -137,4 +171,5 @@ class Notif {
         body: jsonEncode(data));
     print(respon.body);
   }
+  
 }

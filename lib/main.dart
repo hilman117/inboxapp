@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
-import 'package:post/Screens/dasboard/dashboard_provider.dart';
+import 'package:post/Screens/dasboard/dashboard_controller.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/Screens/lf/lf_controller.dart';
 import 'package:post/Screens/profile/profiile_controller.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/Screens/sign_in/sign_in_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:post/global_function.dart';
 import 'package:post/service/session_user.dart';
 import 'package:provider/provider.dart';
 import 'Screens/chatroom/chatroom_controller.dart';
@@ -32,7 +33,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 // void callbackDispatcher() {
 //   Workmanager().executeTask((taskName, inputData) {
-//     print("Task Executing" + taskName);
+//     switch (taskName) {
+//       case "value":
+//         Notif().sendNotifToToken("Housekeeping", "Test schedule Notification",
+//             "ini adalah test mengirim schedule notification", "");
+//         break;
+//       default:
+//     }
 //     return Future.value(true);
 //   });
 // }
@@ -50,6 +57,7 @@ void main() async {
   Notif().requestPermission();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   Notif().foreground();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => SignInController()),
@@ -63,8 +71,10 @@ void main() async {
       ChangeNotifierProvider(create: (context) => PopUpMenuProvider()),
       ChangeNotifierProvider(create: (context) => ProfileController()),
       ChangeNotifierProvider(create: (context) => FeedsController()),
+      ChangeNotifierProvider(create: (context) => GlobalFunction()),
     ],
     builder: (context, child) => GetMaterialApp(
+      theme: ThemeData(fontFamily: "font/Poppins-Reguler"),
         // locale: Locale('zh'),
         localeResolutionCallback: (
           locale,

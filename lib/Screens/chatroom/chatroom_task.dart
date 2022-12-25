@@ -1,22 +1,19 @@
 // ignore_for_file: must_be_immutable
-
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
-import 'package:post/Screens/chatroom/widget/custom_appbar_chatroom.dart';
+import 'package:post/Screens/chatroom/widget/task_appbar.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/controller/c_user.dart';
 import 'package:provider/provider.dart';
-import 'widget/stream_chatroom/stream_lf_chat.dart';
-import 'widget/stream_chatroom/stream_tasks_chat.dart';
+import '../../global_function.dart';
+import 'widget/stream_tasks_chat.dart';
 
-class Chatroom extends StatefulWidget {
-  const Chatroom({
+class ChatRoomTask extends StatefulWidget {
+  const ChatRoomTask({
     required this.taskId,
     required this.nameSender,
     required this.tilteTask,
@@ -58,48 +55,26 @@ class Chatroom extends StatefulWidget {
   // final String image;
 
   @override
-  _ChatroomState createState() => _ChatroomState();
+  _ChatRoomTaskState createState() => _ChatRoomTaskState();
 }
 
-class _ChatroomState extends State<Chatroom> {
+class _ChatRoomTaskState extends State<ChatRoomTask> {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final scrollController = ScrollController();
   final cUser = Get.put(CUser());
-  bool isTyping = false;
-  String? taskTitle;
-  String? sendTo;
-  String? locationTask;
-  String? acceptedby;
-  String? scheduleTask;
-  String? descriptionTask;
-  String? statusTask;
-  String? timeTask;
-  String? imageTask;
-  String? senderImage;
-  String? receiver;
-  String? emailSender;
-  bool isUpdated = false;
-  bool isScheduled = false;
-
-  bool isSender = true;
-  bool isLoading = false;
-  late File image;
-  String imageName = '';
-  String imageUrl = "";
-  //  waktu =
-  // int jarakWaktu = DateTime.now().difference(widget.time).inMinutes;
 
   @override
   void initState() {
+    
     Future.delayed(
       Duration.zero,
       () {
         Provider.of<CreateRequestController>(context, listen: false)
-            .changeDate(widget.setDate);
+            .changeDate(widget.setDate.toString());
         Provider.of<CreateRequestController>(context, listen: false)
-            .changeTime(widget.setTime);
+            .changeTime(widget.setTime.toString());
         Provider.of<PopUpMenuProvider>(context, listen: false)
             .changelocation(widget.location);
         Provider.of<ChatRoomController>(context, listen: false).changeStatus(
@@ -108,6 +83,8 @@ class _ChatroomState extends State<Chatroom> {
             widget.assign.isEmpty ? "" : widget.assign.last);
       },
     );
+    Provider.of<GlobalFunction>(context, listen: false)
+        .checkInternetConnetction();
     super.initState();
   }
 
@@ -118,7 +95,7 @@ class _ChatroomState extends State<Chatroom> {
         appBar: PreferredSize(
             child: Consumer<ChatRoomController>(
               builder: (context, value, child) {
-                return ChatRoomAppbar(
+                return TaskAppBar(
                     imageProfileSender: widget.imageProfileSender,
                     sender: widget.nameSender,
                     positionSender: widget.positionSender,
@@ -134,8 +111,7 @@ class _ChatroomState extends State<Chatroom> {
               },
             ),
             preferredSize: Size.fromHeight(height * 0.165)),
-        body: widget.assign.isNotEmpty
-            ? StreamTasksChat(
+        body:StreamTasksChat(
                 taskId: widget.taskId,
                 assignLIst: widget.assign,
                 sendTo: widget.sendTo,
@@ -151,23 +127,6 @@ class _ChatroomState extends State<Chatroom> {
                 hotelid: widget.hotelid,
                 time: widget.time,
                 fromWhere: widget.fromWhere,
-                schedule: widget.setDate)
-            : StreamLfChat(
-                taskId: widget.taskId,
-                assignLIst: widget.assign,
-                sendTo: widget.sendTo,
-                imageProfileSender: widget.imageProfileSender,
-                positionSender: widget.positionSender,
-                emailSender: widget.emailSender,
-                location: widget.location,
-                nameSender: widget.nameSender,
-                tilteTask: widget.tilteTask,
-                descriptionTask: widget.descriptionTask,
-                statusTask: widget.statusTask,
-                penerimaTask: widget.penerimaTask,
-                hotelid: widget.hotelid,
-                time: widget.time,
-                fromWhere: widget.fromWhere,
-                schedule: widget.setDate));
+                schedule: widget.setDate.toString()));
   }
 }

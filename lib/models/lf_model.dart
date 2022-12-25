@@ -1,72 +1,56 @@
 class LfModel {
-  LfModel({
-    this.image,
-    this.imageProof,
-    this.statusReleased,
-    this.receiveBy,
-    this.receiver,
-    this.description,
-    this.nameItem,
-    this.location,
-    this.id,
-    // this.time,
-    this.reportreceiveDate,
-    this.reportClaimedDate,
-    this.reportReleasedDate,
-    this.status,
-    this.emailSender,
-    this.founder,
-  });
+  LfModel(
+      {this.image,
+      this.receiver,
+      this.description,
+      this.nameItem,
+      this.location,
+      this.id,
+      this.time,
+      this.status,
+      this.emailSender,
+      this.founder,
+      this.profileImageSender,
+      this.positionSender});
 
-  String? image;
-  String? imageProof;
-  String? statusReleased;
-  String? receiveBy;
+  List<String>? image;
   String? receiver;
   String? description;
   String? nameItem;
   String? founder;
   String? emailSender;
   String? location;
+  String? positionSender;
   String? id;
-  // DateTime? time;
-  String? reportreceiveDate;
-  String? reportClaimedDate;
-  String? reportReleasedDate;
+  String? profileImageSender;
+  DateTime? time;
   String? status;
 
   factory LfModel.fromJson(Map<String, dynamic> json) => LfModel(
-      image: json["image"],
-      imageProof: json["imageProof"],
-      statusReleased: json["statusReleased"],
-      receiveBy: json["receiveBy"],
+      image: List<String>.from(json["image"].map((x) => x)),
+      profileImageSender: json["profileImageSender"],
       receiver: json["receiver"],
       description: json["description"],
       emailSender: json["emailSender"],
       location: json["location"],
       id: json["id"],
-      // time: DateTime.parse(json["time"]),
-      reportreceiveDate: json["reportreceiveDate"],
-      reportClaimedDate: json["reportClaimedDate"],
-      reportReleasedDate: json["reportReleasedDate"],
+      positionSender: json["positionSender"],
+      time: DateTime.parse(json["time"]),
       status: json["status"],
       founder: json['founder'],
       nameItem: json['nameItem']);
 
   Map<String, dynamic> toJson() => {
-        "image": image,
-        "imageProof": imageProof,
-        "statusReleased": statusReleased,
-        "receiveBy": receiveBy,
+        "image":
+            image == null ? null : List<dynamic>.from(image!.map((x) => x)),
+        "profileImageSender": profileImageSender,
+        "positionSender": positionSender,
         "receiver": receiver,
         "emailSender": emailSender,
         "description": description,
         "location": location,
         "id": id,
-        // "time": time!.toIso8601String(),
-        "reportreceiveDate": reportreceiveDate,
-        "reportClaimedDate": reportClaimedDate,
-        "reportReleasedDate": reportReleasedDate,
+        "time": time!.toIso8601String(),
         "status": status,
         "founder": founder,
         "nameItem": nameItem,

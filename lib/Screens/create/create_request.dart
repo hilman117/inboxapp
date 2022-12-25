@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -10,7 +12,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
 import '../../controller/c_user.dart';
 import 'widget/box_description.dart';
 import 'widget/execute_buttons.dart';
@@ -28,7 +29,7 @@ class CreateRequest extends StatefulWidget {
 
 class _CreateRequestState extends State<CreateRequest> {
   final cUser = Get.put(CUser());
-  String _idTask = Uuid().v4();
+  var _idTask = 1 + Random().nextInt(2000);
 
   @override
   void initState() {
@@ -171,7 +172,7 @@ class _CreateRequestState extends State<CreateRequest> {
                                     cUser.data.department!,
                                     cUser.data.email!,
                                     value.selectedLocation.text,
-                                    _idTask);
+                                    _idTask.toString());
                               } else {
                                 provider.lfReport(
                                     context,
@@ -181,7 +182,8 @@ class _CreateRequestState extends State<CreateRequest> {
                                     cUser.data.name!,
                                     cUser.data.email!,
                                     value.selectedLocation.text,
-                                    value.descriptionController.text);
+                                    value.descriptionController.text,
+                                    _idTask.toString());
                               }
                             },
                           )

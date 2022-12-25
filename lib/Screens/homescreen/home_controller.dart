@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:post/Screens/chatroom/chatroom.dart';
+import 'package:intl/intl.dart';
 import 'package:post/Screens/example/general_widget.dart';
 import 'package:post/Screens/homescreen/pages/lost_and_found.dart';
 import 'package:post/Screens/homescreen/pages/task_page.dart';
@@ -12,13 +9,20 @@ import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
+import '../../service/notif.dart';
 import '../feeds/list_feeds.dart';
 
 class HomeController with ChangeNotifier {
   //changing pages in navigation bar
+
   int _navIndex = 0;
   int get navIndex => _navIndex;
-  final pages = [TaskPage(), Feeds(), LostAndFoundList()];
+  List<Widget> pages = [
+    TaskPage(controller: ScrollController()),
+    Feeds(),
+    LostAndFoundList()
+  ];
+
   changePage(int val) {
     _navIndex = val;
     notifyListeners();
@@ -138,34 +142,77 @@ class HomeController with ChangeNotifier {
     }).toList();
   }
 
-  actionStreamNotif() {
-    AwesomeNotifications().actionStream.listen((notif) {
-      if (notif.channelKey == 'basic_channel' && Platform.isIOS) {
-        AwesomeNotifications().getGlobalBadgeCounter().then(
-            (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
-      }
-      Get.to(
-          () => Chatroom(
-                descriptionTask: _descriptionTask,
-                hotelid: _hotelId,
-                location: location,
-                nameSender: _nameSender,
-                penerimaTask: _penerimaTask,
-                setDate: _schedule,
-                sendTo: _sendTo,
-                statusTask: _statusTask,
-                taskId: _taskId,
-                tilteTask: _titleTask,
-                time: _time,
-                fromWhere: _fromWhere,
-                emailSender: _emailSender,
-                jarakWaktu: 0,
-                assign: _assign,
-                imageProfileSender: _imageProfileSender,
-                positionSender: _positionSender, setTime: '',
-              ),
-          transition: Transition.rightToLeft);
-      notifyListeners();
+  // actionStreamNotif() {
+  //   AwesomeNotifications().actionStream.listen((notif) {
+  //     if (notif.channelKey == 'basic_channel' && Platform.isIOS) {
+  //       AwesomeNotifications().getGlobalBadgeCounter().then(
+  //           (value) => AwesomeNotifications().setGlobalBadgeCounter(value - 1));
+  //     }
+  //     Get.to(
+  //         () => ChatRoomTask(
+  //               descriptionTask: _descriptionTask,
+  //               hotelid: _hotelId,
+  //               location: location,
+  //               nameSender: _nameSender,
+  //               penerimaTask: _penerimaTask,
+  //               setDate: _schedule,
+  //               sendTo: _sendTo,
+  //               statusTask: _statusTask,
+  //               taskId: _taskId,
+  //               tilteTask: _titleTask,
+  //               time: _time,
+  //               fromWhere: _fromWhere,
+  //               emailSender: _emailSender,
+  //               jarakWaktu: 0,
+  //               assign: _assign,
+  //               imageProfileSender: _imageProfileSender,
+  //               positionSender: _positionSender,
+  //               setTime: '',
+  //             ),
+  //         transition: Transition.rightToLeft);
+  //     notifyListeners();
+  //   });
+  // }
+
+  scheduleNotification(List<QueryDocumentSnapshot<Object?>> data) {
+    List.generate(data.length, (index) {
+      List myDept = data[index]["assigned"];
+      int idSchedule = int.parse(data[index]["id"]);
+      Future<List<NotificationModel>> list =
+          AwesomeNotifications().listScheduledNotifications();
+      list.then((value) {
+        // print(value[index].content!.id);
+        print("task yg diberi schedule ${value.length}");
+        // print(idSchedule);
+        if (value.contains(idSchedule)) {
+        } else {
+          if (data[index]["setDate"] != '' ||
+              data[index]["setTime"] != '' &&
+                  myDept.last == cUser.data.department) {
+            var checkDate = data[index]["setDate"];
+            var checkTime = data[index]["setTime"];
+            var day = DateFormat("d").format(DateTime.parse(checkDate));
+            var month = DateFormat("M").format(DateTime.parse(checkDate));
+            final format = DateFormat.jm();
+            TimeOfDay t = TimeOfDay.fromDateTime(format.parse(checkTime));
+            // print(
+            //     "ini jadwal untuk setiap tanggal $day, bulan $month, jam ${t.hour}, menit ${t.minute}");
+            Notif().scheduleNotification(
+                title: data[index]["title"],
+                body: "Due to $day ${t.hour} ${t.minute}",
+                location: data[index]["location"],
+                scheduleId: idSchedule,
+                month: int.parse(month),
+                day: int.parse(day),
+                hour: t.hour,
+                minute: t.minute);
+          }
+        }
+      });
     });
+  }
+
+  cancelScheduleNotification(int idSchedule) async {
+    await AwesomeNotifications().cancelSchedule(idSchedule);
   }
 }

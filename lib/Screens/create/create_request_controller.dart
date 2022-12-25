@@ -139,6 +139,8 @@ class CreateRequestController with ChangeNotifier {
   String get newDate => _newDate;
   String _datePicked = '';
   String get datePicked => _datePicked;
+  DateTime? _setDate;
+  DateTime? get setDate => _setDate;
   dateTimPicker(BuildContext context) async {
     var resultDate = await showDatePicker(
         confirmText: "Set",
@@ -157,12 +159,14 @@ class CreateRequestController with ChangeNotifier {
       _newDate = '';
       notifyListeners();
     } else {
-      var setDate = DateTime(resultDate.year, resultDate.month, resultDate.day);
-      _datePicked = DateFormat('EEEE, d MMM').format(setDate);
-      _newDate = DateFormat('EEEE, d MMM').format(setDate);
+      _setDate = DateTime(resultDate.year, resultDate.month, resultDate.day);
+      _datePicked = DateFormat('EEEE, d MMM').format(_setDate!);
+      _newDate = DateFormat('EEEE, d MMM').format(_setDate!);
       changeDate(_datePicked);
       notifyListeners();
-      print(_datePicked);
+      // print(resultDate);
+      // print(setDate);
+      // print(DateFormat('M').format(_setDate!));
     }
   }
 
@@ -187,15 +191,17 @@ class CreateRequestController with ChangeNotifier {
 
   String _selectedTime = '';
   String get selectedTime => _selectedTime;
-  TimeOfDay currentTime = TimeOfDay.now();
+  TimeOfDay? currentTime;
   timePIcker(BuildContext context) async {
-    return showTimePicker(context: context, initialTime: currentTime)
+    return showTimePicker(context: context, initialTime: TimeOfDay.now())
         .then((value) {
       if (value != null) {
         currentTime = value;
-        _selectedTime = value.format(context).toString();
-        _newTime = value.format(context).toString();
+        _selectedTime = value.format(context);
+        _newTime = value.format(context);
         changeTime(_selectedTime);
+        print(currentTime!.hour);
+        print(currentTime!.minute);
         notifyListeners();
       } else {
         _selectedTime = _selectedTime;
@@ -346,8 +352,9 @@ class CreateRequestController with ChangeNotifier {
               "title": _selectedTitle,
               "sendTo": _selectedDept,
               "assigned": [_selectedDept],
-              'setDate': _datePicked,
-              'setTime': _selectedTime,
+              'setDate': _setDate != null ? _setDate.toString() : "",
+              'setTime':
+                  currentTime != null ? currentTime!.format(context) : "",
               "description": controller.text,
               "time": DateTime.now().toString(),
               "sender": senderName,
@@ -368,6 +375,7 @@ class CreateRequestController with ChangeNotifier {
                 .update({
               'comment': FieldValue.arrayUnion([
                 {
+                  "timeSent": DateTime.now(),
                   'accepted': "",
                   'assignTask': "",
                   'assignTo': "",
@@ -406,8 +414,8 @@ class CreateRequestController with ChangeNotifier {
           "title": _selectedTitle,
           "sendTo": _selectedDept,
           "assigned": [_selectedDept],
-          'setDate': _datePicked,
-          'setTime': _selectedTime,
+          'setDate': _setDate != null ? _setDate.toString() : "",
+          'setTime': currentTime != null ? currentTime!.format(context) : "",
           "description": controller.text,
           "time": DateTime.now().toString(),
           "sender": senderName,
@@ -428,6 +436,7 @@ class CreateRequestController with ChangeNotifier {
             .update({
           'comment': FieldValue.arrayUnion([
             {
+              "timeSent": DateTime.now(),
               'accepted': "",
               'assignTask': "",
               'assignTo': "",
@@ -457,10 +466,10 @@ class CreateRequestController with ChangeNotifier {
           .doc(cUser.data.email)
           .update({'createRequest': newTotal});
       Notif().sendNotif(
-          _selectedDept.removeAllWhitespace,
-          "$_selectedDept New Request",
-          '$senderName send a request: ${_selectedLocation.text} - "$_selectedTitle" ${controller.text}',
-          "");
+        _selectedDept.removeAllWhitespace,
+        "$_selectedDept New Request",
+        '$senderName send a request: ${_selectedLocation.text} - "$_selectedTitle" ${controller.text}',
+      );
       _isLoading = false;
       notifyListeners();
       Fluttertoast.showToast(
@@ -487,7 +496,8 @@ class CreateRequestController with ChangeNotifier {
       String senderName,
       String senderEmail,
       String location,
-      String description) async {
+      String description,
+      String idLfReport) async {
     final applcation = AppLocalizations.of(context);
     if (location.isEmpty) {
       Fluttertoast.showToast(
@@ -499,7 +509,7 @@ class CreateRequestController with ChangeNotifier {
           msg: applcation!.nameOfItemShouldBeFilled,
           backgroundColor: Colors.white,
           textColor: mainColor);
-    } else if (imageName.isEmpty) {
+    } else if (_imageList.isEmpty) {
       Fluttertoast.showToast(
           msg: applcation!.shouldAttachAnImage,
           backgroundColor: Colors.white,
@@ -507,69 +517,61 @@ class CreateRequestController with ChangeNotifier {
     } else {
       try {
         _isLoading = true;
-        _idTask = Uuid().v4();
         notifyListeners();
-        if (imageName != '') {
-          String imageExtension = imageName.split('.').last;
+        if (_imageList.isNotEmpty) {
           List.generate(_imageList.length, (index) async {
+            String imageExtension = imageName.split('.').last;
             final ref = FirebaseStorage.instance.ref(
                 "$hotelId/${userId + DateTime.now().toString()}.$imageExtension");
             await ref.putFile(File(_imageList[index]!.path));
-            String urlImage = await ref.getDownloadURL();
-            imageUrl.addAll([urlImage]);
+            await ref.getDownloadURL().then((value) async {
+              _imageUrl.add(value);
+              notifyListeners();
+              await FirebaseFirestore.instance
+                  .collection('Hotel List')
+                  .doc(hotelId)
+                  .collection('lost and found')
+                  .doc(idLfReport)
+                  .set({
+                "location": location,
+                "nameItem": nameItem.text,
+                "sendTo": "Housekeeping",
+                "receiver": "",
+                "description": controller.text,
+                "time": DateTime.now().toString(),
+                "founder": senderName,
+                "image": _imageUrl,
+                "status": "New",
+                "positionSender": cUser.data.position,
+                "profileImageSender": cUser.data.profileImage,
+                "id": idLfReport,
+                "emailSender": senderEmail,
+                "comment": [],
+              });
+              await FirebaseFirestore.instance
+                  .collection('Hotel List')
+                  .doc(hotelId)
+                  .collection('lost and found')
+                  .doc(idLfReport)
+                  .update({
+                'comment': FieldValue.arrayUnion([
+                  {
+                    "timeSent": DateTime.now(),
+                    'commentId': Uuid().v4(),
+                    'commentBody': controller.text,
+                    'accepted': "",
+                    'sender': senderName,
+                    'description': controller.text,
+                    'senderemail': senderEmail,
+                    'imageComment': _imageUrl,
+                    'time': DateTime.now().toString(),
+                  }
+                ])
+              });
+            });
           });
         }
-        await FirebaseFirestore.instance
-            .collection('Hotel List')
-            .doc(hotelId)
-            .collection('lost and found')
-            .doc(_idTask)
-            .set({
-          "location": location,
-          "nameItem": nameItem.text,
-          "sendTo": "Housekeeping",
-          "description": controller.text,
-          "time": DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-          "reportreceiveDate": "",
-          "reportClaimedDate": "",
-          "reportReleasedDate": "",
-          "founder": senderName,
-          "image": imageUrl,
-          "imageProof": "",
-          "status": "New",
-          "statusReleased": "Keep",
-          "receiveBy": "",
-          "receiver": "",
-          "positionSender": cUser.data.position,
-          "profileImageSender": cUser.data.profileImage,
-          "id": _idTask,
-          "emailSender": senderEmail,
-          "comment": [],
-        });
-        await FirebaseFirestore.instance
-            .collection('Hotel List')
-            .doc(hotelId)
-            .collection('lost and found')
-            .doc(_idTask)
-            .update({
-          'comment': FieldValue.arrayUnion([
-            {
-              'commentId': Uuid().v4(),
-              'commentBody': controller.text,
-              'accepted': "",
-              'esc': "",
-              'assignTask': "",
-              'assignTo': "",
-              'sender': senderName,
-              'description': controller.text,
-              'senderemail': senderEmail,
-              'imageComment': imageUrl,
-              'time':
-                  DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-            }
-          ])
-        });
-        Notif().saveTopic(_idTask);
+        Notif().saveTopic(idLfReport);
         var result = await FirebaseFirestore.instance
             .collection("Hotel List")
             .doc(cUser.data.hotelid)
@@ -589,7 +591,7 @@ class CreateRequestController with ChangeNotifier {
                   element,
                   "New Report",
                   '$senderName found: ${nameItem.text} - "${_selectedLocation.text}" ${controller.text}',
-                  imageUrl[0]);
+                  '');
               print(element);
             });
           });

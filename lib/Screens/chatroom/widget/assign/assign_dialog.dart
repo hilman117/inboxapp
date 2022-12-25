@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
+import 'package:post/global_function.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -175,7 +176,8 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                           fontStyle: FontStyle
                                                                               .italic),
                                                                       hintText:
-                                                                          AppLocalizations.of(context)!.search,
+                                                                          AppLocalizations.of(context)!
+                                                                              .search,
                                                                       contentPadding:
                                                                           EdgeInsets.only(
                                                                               bottom: 15)),
@@ -295,9 +297,13 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                         provider
                                                             .clearListAssign();
                                                       },
-                                                      child: Text(AppLocalizations.of(context)!.cancel)),
+                                                      child: Text(
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .cancel)),
                                                   Consumer<ChatRoomController>(
-                                                      builder: (context, value, child) =>
+                                                      builder: (context, value,
+                                                              child) =>
                                                           ElevatedButton(
                                                               style: ElevatedButton.styleFrom(
                                                                   elevation: 0,
@@ -327,18 +333,29 @@ Future assign(BuildContext context, String taskId, String emailSender,
                                                                           Colors
                                                                               .black);
                                                                 } else {
-                                                                  provider.assign(
-                                                                      context,
-                                                                      taskId,
-                                                                      emailSender,
-                                                                      location,
-                                                                      title,
-                                                                      scroll);
+                                                                  if (Provider.of<GlobalFunction>(
+                                                                              context,
+                                                                              listen: false)
+                                                                          .hasInternetConnection ==
+                                                                      true) {
+                                                                    provider.assign(
+                                                                        context,
+                                                                        taskId,
+                                                                        emailSender,
+                                                                        location,
+                                                                        title,
+                                                                        scroll);
+                                                                  } else {
+                                                                    Provider.of<GlobalFunction>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .noInternet();
+                                                                  }
                                                                 }
                                                               },
-                                                              child: Text(
-                                                                  AppLocalizations.of(context)!
-                                                                      .assign)))
+                                                              child:
+                                                                  Text(AppLocalizations.of(context)!.assign)))
                                                 ],
                                               ),
                                             ),
