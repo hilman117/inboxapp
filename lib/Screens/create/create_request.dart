@@ -39,6 +39,8 @@ class _CreateRequestState extends State<CreateRequest> {
       () {
         Provider.of<CreateRequestController>(context, listen: false)
             .clearData();
+        Provider.of<CreateRequestController>(context, listen: false)
+            .clearSchedule();
         // Provider.of<CreateRequestController>(context, listen: false)
         //     .restartVariable();
       },
@@ -86,6 +88,7 @@ class _CreateRequestState extends State<CreateRequest> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               child: Consumer<CreateRequestController>(
                 builder: (context, value, child) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     GeneralForm(
                         title: AppLocalizations.of(context)!.sendThisTo,

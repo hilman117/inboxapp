@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../../service/theme.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 
 Future imagePickerProfile(BuildContext context) {
   return showModalBottomSheet(
@@ -51,8 +51,7 @@ Future imagePickerProfile(BuildContext context) {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () {
-                      Provider.of<SettingProvider>(context,
-                              listen: false)
+                      Provider.of<SettingProvider>(context, listen: false)
                           .selectImage(ImageSource.camera);
                       Navigator.pop(context);
                     },
@@ -64,7 +63,7 @@ Future imagePickerProfile(BuildContext context) {
                   child: OutlinedButton.icon(
                     icon: Icon(Icons.image, color: mainColor),
                     label: Text(
-                       AppLocalizations.of(context)!.fromGalery,
+                      AppLocalizations.of(context)!.fromGalery,
                       style: TextStyle(color: mainColor),
                     ),
                     style: OutlinedButton.styleFrom(
@@ -73,8 +72,7 @@ Future imagePickerProfile(BuildContext context) {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () {
-                      Provider.of<SettingProvider>(context,
-                              listen: false)
+                      Provider.of<SettingProvider>(context, listen: false)
                           .selectImage(ImageSource.gallery);
                       Navigator.pop(context);
                     },

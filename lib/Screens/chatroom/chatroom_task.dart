@@ -4,13 +4,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
-import 'package:post/Screens/chatroom/widget/task_appbar.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
+
 import 'package:post/controller/c_user.dart';
 import 'package:provider/provider.dart';
 import '../../global_function.dart';
+import 'widget/action_area/action_area.dart';
 import 'widget/stream_tasks_chat.dart';
+import 'widget/chatroom_appbar/task_appbar.dart';
 
 class ChatRoomTask extends StatefulWidget {
   const ChatRoomTask({
@@ -67,7 +69,6 @@ class _ChatRoomTaskState extends State<ChatRoomTask> {
 
   @override
   void initState() {
-    
     Future.delayed(
       Duration.zero,
       () {
@@ -90,43 +91,54 @@ class _ChatRoomTaskState extends State<ChatRoomTask> {
 
   @override
   Widget build(BuildContext context) {
-    double height = Get.height;
     return Scaffold(
-        appBar: PreferredSize(
-            child: Consumer<ChatRoomController>(
-              builder: (context, value, child) {
-                return TaskAppBar(
-                    imageProfileSender: widget.imageProfileSender,
-                    sender: widget.nameSender,
-                    positionSender: widget.positionSender,
-                    lokasi: Provider.of<PopUpMenuProvider>(context).location,
-                    assigned: widget.assign,
-                    sendTo: widget.sendTo,
-                    timeCreated: widget.time,
-                    taskId: widget.taskId,
-                    emailSender: widget.emailSender,
-                    oldDate: widget.setDate,
-                    oldTime: widget.setTime,
-                    titleTask: widget.tilteTask);
-              },
-            ),
-            preferredSize: Size.fromHeight(height * 0.165)),
-        body:StreamTasksChat(
-                taskId: widget.taskId,
-                assignLIst: widget.assign,
-                sendTo: widget.sendTo,
-                imageProfileSender: widget.imageProfileSender,
-                positionSender: widget.positionSender,
-                emailSender: widget.emailSender,
-                location: widget.location,
-                nameSender: widget.nameSender,
-                tilteTask: widget.tilteTask,
-                descriptionTask: widget.descriptionTask,
-                statusTask: widget.statusTask,
-                penerimaTask: widget.penerimaTask,
-                hotelid: widget.hotelid,
-                time: widget.time,
-                fromWhere: widget.fromWhere,
-                schedule: widget.setDate.toString()));
+        body: SafeArea(
+      child: Column(
+        children: [
+          Consumer<ChatRoomController>(
+            builder: (context, value, child) {
+              return TaskAppBar(
+                  imageProfileSender: widget.imageProfileSender,
+                  sender: widget.nameSender,
+                  positionSender: widget.positionSender,
+                  lokasi: Provider.of<PopUpMenuProvider>(context).location,
+                  assigned: widget.assign,
+                  sendTo: widget.sendTo,
+                  timeCreated: widget.time,
+                  taskId: widget.taskId,
+                  emailSender: widget.emailSender,
+                  titleTask: widget.tilteTask);
+            },
+          ),
+          StreamTasksChat(
+              taskId: widget.taskId,
+              assignLIst: widget.assign,
+              sendTo: widget.sendTo,
+              imageProfileSender: widget.imageProfileSender,
+              positionSender: widget.positionSender,
+              emailSender: widget.emailSender,
+              location: widget.location,
+              nameSender: widget.nameSender,
+              tilteTask: widget.tilteTask,
+              descriptionTask: widget.descriptionTask,
+              statusTask: widget.statusTask,
+              penerimaTask: widget.penerimaTask,
+              hotelid: widget.hotelid,
+              time: widget.time,
+              fromWhere: widget.fromWhere,
+              schedule: widget.setDate.toString()),
+          ActionArea(
+              taskId: widget.taskId,
+              location: widget.location,
+              titleTask: widget.tilteTask,
+              emailSender: widget.emailSender,
+              sendTo: widget.sendTo,
+              fromWhere: widget.fromWhere,
+              scrollController: scrollController,
+              setDate: widget.setDate,
+              setTime: widget.setTime)
+        ],
+      ),
+    ));
   }
 }

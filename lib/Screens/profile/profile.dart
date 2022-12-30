@@ -10,7 +10,7 @@ import 'package:post/Screens/profile/widget/list_images_feeds.dart';
 import 'package:provider/provider.dart';
 
 import '../../service/theme.dart';
-import '../dasboard/widget/card.dart';
+import '../../common_widget/card.dart';
 import 'widget/profile_appbar.dart';
 import 'widget/seach_on_appbar.dart';
 

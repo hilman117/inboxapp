@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/common_widget/card.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,7 @@ class _ImageRoom2State extends State<ImageRoom2> {
         body: SafeArea(
           child: Container(
             width: width,
-            height: height,
+            // height: height,
             child: Column(
               children: [
                 CarouselSlider(
@@ -64,7 +64,7 @@ class _ImageRoom2State extends State<ImageRoom2> {
                     }),
                     options: CarouselOptions(
                         viewportFraction: 1,
-                        aspectRatio: 640 / 1200,
+                        aspectRatio: 640 / 1000,
                         initialPage: widget.indx,
                         enableInfiniteScroll: false,
                         reverse: false,
@@ -95,7 +95,7 @@ class _ImageRoom2State extends State<ImageRoom2> {
                               onTap: () => controller.animateToPage(entry.key),
                               child: Container(
                                 width: width * 0.02,
-                                height: height * 0.03,
+                                height: height * 0.02,
                                 margin: EdgeInsets.symmetric(
                                     vertical: 8.0, horizontal: 4.0),
                                 decoration: BoxDecoration(

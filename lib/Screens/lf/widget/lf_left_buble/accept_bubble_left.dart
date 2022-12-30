@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/common_widget/card.dart';
 
 class AcceptedBubbleLeft extends StatelessWidget {
   final String isAccepted;

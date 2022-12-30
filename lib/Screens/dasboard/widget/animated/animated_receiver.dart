@@ -56,7 +56,7 @@ class _AnimatedReceiverState extends State<AnimatedReceiver>
         animation: _controller,
         builder: (context, child) => Container(
               alignment: Alignment.centerRight,
-              width: Get.width * 0.40,
+              width: Get.width * 0.43,
               child: Container(
                 color: widget.isFading == true
                     ? bgColor(widget.status != 'Accepted'

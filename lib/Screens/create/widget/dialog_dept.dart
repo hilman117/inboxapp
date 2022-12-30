@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 import '../create_request_controller.dart';
 import 'tile_dept.dart';
 

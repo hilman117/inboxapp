@@ -85,5 +85,6 @@
     "logOutDialog": "您確定要退出嗎",
     "week": "一星期前",
     "weeks": "幾週前",
-    "requestStatus": "請求已發送"
+    "requestStatus": "請求已發送",
+    "resume": "恢復"
 }

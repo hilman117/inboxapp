@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import '../../service/theme.dart';
 import '../chatroom/widget/multiple_photos.dart';
-import '../dasboard/widget/card.dart';
+import '../../common_widget/card.dart';
 import '../dasboard/widget/timer.dart';
 import 'widget/custom_appbar_feeds.dart';
 

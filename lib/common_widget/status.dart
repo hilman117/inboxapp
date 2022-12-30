@@ -5,11 +5,14 @@ import 'package:provider/provider.dart';
 
 class StatusWidget extends StatefulWidget {
   final String status;
+  final double height;
+  final double fontSize;
   final bool isFading;
-  const StatusWidget({
-    required this.status,
-    required this.isFading,
-  });
+  const StatusWidget(
+      {required this.status,
+      required this.isFading,
+      required this.height,
+      required this.fontSize});
 
   @override
   State<StatusWidget> createState() => _StatusWidgetState();
@@ -47,8 +50,8 @@ class _StatusWidgetState extends State<StatusWidget>
                   : notTrue,
               child: Container(
                 alignment: Alignment.center,
-                // height: 23,
-                // width: 70,
+                height: widget.height,
+                // width: widget.width,
                 decoration: BoxDecoration(
                     color: (widget.status == 'New')
                         ? Colors.red.shade50
@@ -110,7 +113,7 @@ class _StatusWidgetState extends State<StatusWidget>
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: widget.fontSize,
                       color: (widget.status == 'New')
                           ? Colors.red.shade600
                           : (widget.status == 'Accepted')

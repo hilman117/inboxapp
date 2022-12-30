@@ -51,6 +51,8 @@ class _HomeState extends State<Home> {
         .dataForNotiifcationAction();
     Provider.of<GlobalFunction>(context, listen: false)
         .checkInternetConnetction();
+    Provider.of<GlobalFunction>(context, listen: false)
+        .getPhotoProfile(context);
     // Provider.of<HomeController>(context, listen: false).actionStreamNotif();
     Provider.of<CreateRequestController>(context, listen: false)
         .getTotalCreate();
@@ -68,19 +70,15 @@ class _HomeState extends State<Home> {
     return DefaultTabController(
       length: 4,
       initialIndex: 1,
-      child: Scaffold(
-        extendBody: true,
-        bottomNavigationBar: NavBar(),
-        backgroundColor: Colors.white,
-        body:
-            // ListView.builder(
-            //     controller: controller,
-            //     itemCount: 20,
-            //     itemBuilder: (context, index) => ListTile(
-            //           title: Text("test"),
-            //         ))
-            Provider.of<HomeController>(context)
-                .pages[context.read<HomeController>().navIndex],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Scaffold(
+          extendBody: true,
+          bottomNavigationBar: NavBar(),
+          backgroundColor: Colors.white,
+          body: Provider.of<HomeController>(context)
+              .pages[context.read<HomeController>().navIndex],
+        ),
       ),
     );
   }

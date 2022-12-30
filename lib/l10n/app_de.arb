@@ -85,5 +85,6 @@
     "logOutDialog": "Weet u zeker dat u wilt uitloggen",
     "week": "een week geleden",
     "weeks": "weken geleden",
-    "requestStatus": "Verzoek verzonden"
+    "requestStatus": "Verzoek verzonden",
+    "resume": "hervatten"
 }

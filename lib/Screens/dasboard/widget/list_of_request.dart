@@ -11,12 +11,13 @@ import '../../../controller/c_new.dart';
 import '../../../controller/c_user.dart';
 import '../../../models/tasks.dart';
 import '../../homescreen/home_controller.dart';
-import 'card.dart';
+import '../../../common_widget/card.dart';
 
 class ListOfRequest extends StatefulWidget {
   const ListOfRequest({
     Key? key,
-    required this.streamMine, required this.controller,
+    required this.streamMine,
+    required this.controller,
   }) : super(key: key);
   final Stream<QuerySnapshot<Map<String, dynamic>>> streamMine;
   final ScrollController controller;

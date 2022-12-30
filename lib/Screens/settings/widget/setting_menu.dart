@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:post/common_widget/card.dart';
 
 class SettingMenu extends StatelessWidget {
   final String menuName;
@@ -13,56 +13,27 @@ class SettingMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-    children: [
-      InkWell(
-        onTap: callback,
-        child: Container(
-          height: Get.height * 0.065,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  menuName,
-                  style: const TextStyle(color: Colors.grey),
-                  overflow: TextOverflow.clip,
-                ),
+    return InkWell(
+      onTap: callback,
+      child: Container(
+        height: MediaQuery.of(context).orientation == Orientation.landscape
+            ? height * 0.09
+            : height * 0.075,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: width * 0.6,
+              child: Text(
+                menuName,
+                style: const TextStyle(color: Colors.grey),
+                overflow: TextOverflow.clip,
               ),
-              widget
-            ],
-          ),
+            ),
+            widget
+          ],
         ),
       ),
-      Divider(),
-    ],
-  );
+    );
   }
-}
-
-Widget settingMenu(String menuName, Widget widget, VoidCallback callback) {
-  return Column(
-    children: [
-      InkWell(
-        onTap: callback,
-        child: Container(
-          height: Get.height * 0.065,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Text(
-                  menuName,
-                  style: const TextStyle(color: Colors.grey),
-                  overflow: TextOverflow.clip,
-                ),
-              ),
-              widget
-            ],
-          ),
-        ),
-      ),
-      Divider(),
-    ],
-  );
 }

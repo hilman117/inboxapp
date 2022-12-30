@@ -85,5 +85,6 @@
     "logOutDialog": "Êtes-vous sûr de vouloir vous déconnecter",
     "week": "il y a une semaine",
     "weeks": "il y a des semaines",
-    "requestStatus": "Demande envoyée"
+    "requestStatus": "Demande envoyée",
+    "resume": "continuer"
 }

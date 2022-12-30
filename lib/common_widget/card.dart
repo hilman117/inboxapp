@@ -2,16 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
-import 'package:post/Screens/dasboard/widget/timer.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
+import 'package:post/common_widget/status.dart';
 import 'package:provider/provider.dart';
-import '../../../controller/c_user.dart';
-import '../../../models/tasks.dart';
-import '../../chatroom/chatroom_task.dart';
-import '../../chatroom/widget/imageRoom.dart';
-import 'animated/animated_receiver.dart';
-import 'animated/status.dart';
+import '../controller/c_user.dart';
+import '../models/tasks.dart';
+import '../Screens/chatroom/chatroom_task.dart';
+import '../Screens/chatroom/widget/imageRoom.dart';
+import '../Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
+import '../Screens/dasboard/widget/timer.dart';
+import '../Screens/dasboard/widget/animated/animated_receiver.dart';
 
 Color themeColor = const Color(0xffF8CCA5);
 Color cardColor = const Color(0xff475D5B);
@@ -85,10 +85,12 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     int runnningTime =
         DateTime.now().difference(widget.taskModel.time!).inMinutes;
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -136,7 +138,7 @@ class _CardListState extends State<CardList> {
               },
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -145,38 +147,53 @@ class _CardListState extends State<CardList> {
                         Expanded(
                           child: Container(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Image.asset(
-                                  "images/${widget.taskModel.sendTo}.png",
-                                  fit: BoxFit.cover,
-                                  width: width * 0.060,
-                                ),
-                                SizedBox(
-                                  width: width * 0.016,
-                                ),
-                                Consumer<HomeController>(
-                                  builder: (context, value, child) => Container(
-                                    alignment: Alignment.centerLeft,
-                                    width: width * 0.6,
-                                    child: Text(
-                                      widget.taskModel.title!,
-                                      style: TextStyle(fontSize: 16),
-                                      overflow: TextOverflow.clip,
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      "images/${widget.taskModel.sendTo}.png",
+                                      fit: BoxFit.cover,
+                                      width:
+                                          MediaQuery.of(context).orientation ==
+                                                  Orientation.landscape
+                                              ? size.width * 0.030
+                                              : size.width * 0.060,
                                     ),
-                                  ),
+                                    SizedBox(
+                                      width: width * 0.016,
+                                    ),
+                                    Consumer<HomeController>(
+                                      builder: (context, value, child) =>
+                                          Container(
+                                        alignment: Alignment.centerLeft,
+                                        width: width * 0.6,
+                                        child: Text(
+                                          widget.taskModel.title!,
+                                          style: TextStyle(fontSize: 16),
+                                          overflow: TextOverflow.clip,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Spacer(),
                                 StatusWidget(
-                                    status: runnningTime >= 5 &&
-                                            widget.data['status'] == "New"
-                                        ? "ESC"
-                                        : widget.taskModel.status!,
-                                    isFading: widget.data["isFading"])
+                                  status: runnningTime >= 5 &&
+                                          widget.data['status'] == "New"
+                                      ? "ESC"
+                                      : widget.taskModel.status!,
+                                  isFading: widget.data["isFading"],
+                                  height: MediaQuery.of(context).orientation ==
+                                          Orientation.landscape
+                                      ? size.height * 0.06
+                                      : size.height * 0.033,
+                                  fontSize: 13,
+                                )
                               ],
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     SizedBox(height: height * 0.004),
@@ -186,36 +203,40 @@ class _CardListState extends State<CardList> {
                           child: Container(
                             // height: 17,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                widget.listImage.isNotEmpty
-                                    ? InkWell(
-                                        onTap: () => Get.to(() => ImageRoom(
-                                              image: widget.data['image'],
-                                              id: '',
-                                            )),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 2),
-                                          child: Icon(Icons.attach_file,
-                                              color: Color(0xff007dff),
-                                              size: 16),
-                                        ),
-                                      )
-                                    : SizedBox(),
-                                SizedBox(
-                                  width: widget.listImage.isEmpty
-                                      ? width * 0.075
-                                      : width * 0.035,
+                                Row(
+                                  children: [
+                                    widget.listImage.isNotEmpty
+                                        ? InkWell(
+                                            onTap: () => Get.to(() => ImageRoom(
+                                                  image: widget.data['image'],
+                                                  id: '',
+                                                )),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 2),
+                                              child: Icon(Icons.attach_file,
+                                                  color: Color(0xff007dff),
+                                                  size: 16),
+                                            ),
+                                          )
+                                        : SizedBox(),
+                                    SizedBox(
+                                      width: widget.listImage.isEmpty
+                                          ? width * 0.075
+                                          : width * 0.035,
+                                    ),
+                                    Container(
+                                      width: width * 0.40,
+                                      child: Text(
+                                        widget.taskModel.location!,
+                                        style: TextStyle(fontSize: 14),
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  width: width * 0.40,
-                                  child: Text(
-                                    widget.taskModel.location!,
-                                    style: TextStyle(fontSize: 15),
-                                    overflow: TextOverflow.clip,
-                                  ),
-                                ),
-                                Spacer(),
                                 runnningTime >= 5 &&
                                         widget.data['status'] == "New"
                                     ? Container(
@@ -238,8 +259,8 @@ class _CardListState extends State<CardList> {
                     SizedBox(
                       height: widget.taskModel.setDate! != '' ||
                               widget.taskModel.setTime! != ''
-                          ? 3
-                          : height * 0.002,
+                          ? 2
+                          : height * 0.001,
                     ),
                     if (widget.taskModel.setDate! != '' ||
                         widget.taskModel.setTime! != '')
@@ -261,7 +282,7 @@ class _CardListState extends State<CardList> {
                                   Container(
                                     width: width * 0.60,
                                     child: Text(
-                                      "Due ${DateFormat("EEEE d").format(DateTime.parse(widget.taskModel.setDate!))}, ${widget.taskModel.setTime}",
+                                      "Due ${DateFormat("EE d").format(DateTime.parse(widget.taskModel.setDate!))}, ${widget.taskModel.setTime}",
                                       // taskModel.setDate!,
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
@@ -292,29 +313,35 @@ class _CardListState extends State<CardList> {
                         ],
                       ),
                     SizedBox(
-                      height: 3,
+                      height: 0,
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 3),
+                      padding: const EdgeInsets.only(top: 2),
                       child: Row(
                         children: [
                           Expanded(
                             child: Container(
                               // height: 17,
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SizedBox(
-                                    width: width * 0.077,
-                                  ),
-                                  Container(
-                                    width: width * 0.60,
-                                    child: Text(
-                                      widget.taskModel.sender!,
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          color: Color(0xffBDBDBD)),
-                                    ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: width * 0.077,
+                                      ),
+                                      Container(
+                                        width: width * 0.60,
+                                        child: Text(
+                                          widget.taskModel.sender!,
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              color: Color(0xffBDBDBD)),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   Spacer(),
                                   Container(
@@ -339,7 +366,7 @@ class _CardListState extends State<CardList> {
                       ),
                     ),
                     SizedBox(
-                      height: height * 0.01,
+                      height: height * 0.005,
                     ),
                     if (widget.taskModel.description! != '')
                       Row(

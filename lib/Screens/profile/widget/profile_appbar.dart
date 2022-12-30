@@ -4,7 +4,7 @@ import 'package:post/Screens/feeds/feeds_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 import '../../settings/setting_provider.dart';
 import '../../settings/widget/dialog_change_photo.dart';
 

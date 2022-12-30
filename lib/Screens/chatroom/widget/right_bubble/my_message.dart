@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:intl/intl.dart';
+import 'package:post/common_widget/card.dart';
 
 import '../../../../service/theme.dart';
 import '../multiple_photos.dart';
@@ -10,13 +11,13 @@ class MyMessage extends StatelessWidget {
   final String senderMsgName;
   final String time;
   final String message;
-  // final String description;
+  final String description;
   final List<dynamic> image;
   const MyMessage(
       {required this.commentList,
       required this.time,
       required this.message,
-      // required this.description,
+      required this.description,
       required this.image,
       required this.senderMsgName});
 
@@ -28,10 +29,21 @@ class MyMessage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: Get.width * 0.1,
-            child: Text(
-              time,
-              style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
+            width: Get.width * 0.15,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  DateFormat('MMM, d').format(DateTime.parse(time)),
+                  style:
+                      TextStyle(fontSize: 9, color: Colors.grey, height: 1.5),
+                ),
+                Text(
+                  DateFormat('hh:mm').format(DateTime.parse(time)),
+                  style:
+                      TextStyle(fontSize: 12, color: Colors.grey, height: 1.5),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -63,6 +75,12 @@ class MyMessage extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.009,
                         ),
+                        description.isNotEmpty
+                            ? SelectableText(
+                                description,
+                                style: TextStyle(color: Colors.black87),
+                              )
+                            : SizedBox(),
                         message.isNotEmpty
                             ? SelectableText(
                                 message,
@@ -70,7 +88,7 @@ class MyMessage extends StatelessWidget {
                               )
                             : SizedBox(),
                         SizedBox(
-                            height: image.isEmpty ? 0 : Get.height * 0.015),
+                            height: image.isEmpty ? 0 : Get.height * 0.005),
                         image.isEmpty
                             ? SizedBox()
                             : SizedBox(
@@ -78,7 +96,7 @@ class MyMessage extends StatelessWidget {
                                     ? height * 0.13
                                     : (image.length == 1)
                                         ? height * 0.25
-                                        : height * 0.26,
+                                        : height * 0.30,
                                 width: width * 0.55,
                                 child: MultiplePhoto(
                                     images: image,

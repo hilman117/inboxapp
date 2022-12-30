@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/common_widget/card.dart';
 import 'package:post/service/notif.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -41,6 +40,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -53,8 +53,8 @@ class PopUpMenuProvider with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
-          'titleChange': "$_title to ${listTitle[index]}",
+          'time': DateTime.now(),
+          'titleChange': '"$_title" to "${listTitle[index]}"',
           'newlocation': "",
           'hold': "",
           'resume': "",
@@ -105,6 +105,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -117,10 +118,10 @@ class PopUpMenuProvider with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation':
-              "${cUser.data.name} has changed location from $oldLocation to $newLocation",
+              '${cUser.data.name} has changed location from "$oldLocation" to "$newLocation"',
           'hold': "",
           'resume': "",
           'scheduleDelete': "",
@@ -166,6 +167,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -177,9 +179,9 @@ class PopUpMenuProvider with ChangeNotifier {
           'sender': cUser.data.name,
           'senderemail': auth.currentUser!.email,
           'setDate':
-              '${cUser.data.name} has changed the date from $oldDate to ${provider.datePicked}',
+              '${cUser.data.name} has changed the date from "$oldDate" to "${provider.datePicked}"',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -228,6 +230,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -240,8 +243,8 @@ class PopUpMenuProvider with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime':
-              '${cUser.data.name} has changed the date from $oldTime to ${provider.selectedTime}',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+              '${cUser.data.name} has changed the date from "$oldTime" to "${provider.selectedTime}"',
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -287,6 +290,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -299,7 +303,7 @@ class PopUpMenuProvider with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -341,6 +345,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -353,7 +358,7 @@ class PopUpMenuProvider with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "${cUser.data.name}",
@@ -396,6 +401,7 @@ class PopUpMenuProvider with ChangeNotifier {
         .update({
       "comment": FieldValue.arrayUnion([
         {
+          "timeSent": DateTime.now(),
           'accepted': "",
           'assignTask': "",
           'assignTo': "",
@@ -408,7 +414,7 @@ class PopUpMenuProvider with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",

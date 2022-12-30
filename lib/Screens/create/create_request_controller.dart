@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/common_widget/card.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../service/notif.dart';
@@ -60,6 +60,7 @@ class CreateRequestController with ChangeNotifier {
   void clearData() {
     _selectedDept = 'Choose Department';
     _selectedTitle = 'Input Title';
+
     _imageUrl.clear();
     notifyListeners();
     print(_imageUrl.toString());
@@ -160,7 +161,7 @@ class CreateRequestController with ChangeNotifier {
       notifyListeners();
     } else {
       _setDate = DateTime(resultDate.year, resultDate.month, resultDate.day);
-      _datePicked = DateFormat('EEEE, d MMM').format(_setDate!);
+      _datePicked = _setDate.toString();
       _newDate = DateFormat('EEEE, d MMM').format(_setDate!);
       changeDate(_datePicked);
       notifyListeners();
@@ -217,6 +218,8 @@ class CreateRequestController with ChangeNotifier {
   }
 
   void clearSchedule() {
+    _setDate = null;
+    currentTime = null;
     _datePicked = '';
     _selectedTime = '';
     _newDate = '';
@@ -381,16 +384,15 @@ class CreateRequestController with ChangeNotifier {
                   'assignTo': "",
                   'commentBody': controller.text,
                   'commentId': Uuid().v4(),
-                  'description': controller.text,
+                  'description':
+                      "New request has created for \nLocation: $location \nTitle: $_selectedTitle",
                   'esc': '',
                   'imageComment': _imageUrl,
                   'sender': cUser.data.name,
                   'senderemail': auth.currentUser!.email,
                   'setDate': '',
                   'setTime': '',
-                  'time': DateFormat('MMM d, h:mm a')
-                      .format(DateTime.now())
-                      .toString(),
+                  'time': DateTime.now(),
                   'titleChange': "",
                   'newlocation': "",
                   'hold': "",
@@ -399,6 +401,7 @@ class CreateRequestController with ChangeNotifier {
                 }
               ])
             });
+            controller.clear();
           });
         });
       } else {
@@ -442,15 +445,15 @@ class CreateRequestController with ChangeNotifier {
               'assignTo': "",
               'commentBody': controller.text,
               'commentId': Uuid().v4(),
-              'description': controller.text,
+              'description':
+                  "New request has created for \nLocation: $location \nTitle: $_selectedTitle",
               'esc': '',
               'imageComment': _imageUrl,
               'sender': cUser.data.name,
               'senderemail': auth.currentUser!.email,
               'setDate': '',
               'setTime': '',
-              'time':
-                  DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+              'time': DateTime.now(),
               'titleChange': "",
               'newlocation': "",
               'hold': "",
@@ -459,6 +462,7 @@ class CreateRequestController with ChangeNotifier {
             }
           ])
         });
+        controller.clear();
       }
       addNewRequestTotal(context, 1);
       await FirebaseFirestore.instance
@@ -561,7 +565,7 @@ class CreateRequestController with ChangeNotifier {
                     'commentBody': controller.text,
                     'accepted': "",
                     'sender': senderName,
-                    'description': controller.text,
+                    'description': "",
                     'senderemail': senderEmail,
                     'imageComment': _imageUrl,
                     'time': DateTime.now().toString(),

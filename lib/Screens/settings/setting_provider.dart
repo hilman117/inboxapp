@@ -10,7 +10,7 @@ import 'package:post/Screens/sign_in/signin.dart';
 import 'package:post/Screens/sign_up/signup.dart';
 
 import '../../main.dart';
-import '../dasboard/widget/card.dart';
+import '../../common_widget/card.dart';
 
 class SettingProvider with ChangeNotifier {
   bool _isLoading = false;
@@ -31,9 +31,9 @@ class SettingProvider with ChangeNotifier {
     XFile? image = await _picker.pickImage(source: source, imageQuality: 30);
     _image = File(image!.path);
     imageName = image.name;
-    _isLoading = true;
-    notifyListeners();
     if (imageName != '') {
+      _isLoading = true;
+      notifyListeners();
       String imageExtension = imageName.split('.').last;
       final ref = FirebaseStorage.instance.ref(
           "${cUser.data.hotelid}/${cUser.data.uid! + DateTime.now().toString()}.$imageExtension");

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/common_widget/card.dart';
 import 'package:post/service/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

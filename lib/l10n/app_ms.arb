@@ -85,5 +85,6 @@
     "logOutDialog": "Adakah anda pasti mahu log keluar?",
     "week": "seminggu yang lalu",
     "weeks": "weeks ago",
-    "requestStatus": "Permintaan dihantar"
+    "requestStatus": "Permintaan dihantar",
+    "resume": "Resume"
 }

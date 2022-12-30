@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:post/common_widget/card.dart';
 import 'package:post/Screens/homescreen/home_controller.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,7 @@ Future deleteSchedule(BuildContext context, String taskId, String emailSender,
           builder: (context, value, child) => AlertDialog(
                 contentPadding: EdgeInsets.all(20),
                 content: Container(
-                  height: height * 0.18,
+                  height: height * 0.20,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,7 +43,10 @@ Future deleteSchedule(BuildContext context, String taskId, String emailSender,
                             SizedBox(
                               width: width * 0.05,
                             ),
-                            Text(value.datePicked),
+                            Text(value.datePicked == ''
+                                ? ''
+                                : DateFormat('EE, d MMM')
+                                    .format(DateTime.parse(value.datePicked))),
                           ],
                         ),
                       ),

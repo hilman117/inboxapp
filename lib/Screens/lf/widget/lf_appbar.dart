@@ -4,8 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:post/Screens/chatroom/chatroom_controller.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
-import 'package:post/Screens/dasboard/widget/animated/status.dart';
+import 'package:post/common_widget/status.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:post/common_widget/card.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -101,7 +102,12 @@ class LfAppBar extends StatelessWidget {
                       Spacer(),
                       SizedBox(
                           height: Get.height * 0.03,
-                          child: StatusWidget(status: status, isFading: false)),
+                          child: StatusWidget(
+                            status: status,
+                            isFading: false,
+                            height: height * 0.05,
+                            fontSize: 12,
+                          )),
                       SizedBox(
                         width: Get.width * 0.02,
                       ),

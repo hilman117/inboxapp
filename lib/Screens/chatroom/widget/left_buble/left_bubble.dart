@@ -1,17 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'accept_bubble_left.dart';
-import 'add_schedule_right.dart';
+import 'add_schedule_left.dart';
 import 'assign_bubble_left.dart';
 import 'bubble_edit_location_right.dart';
 import 'delete_schedule_bubble.dart';
-import 'hold_right.dart';
+import 'hold_left.dart';
 import 'left_message.dart';
-import 'resume_right.dart';
-import 'title_changes_right.dart';
+import 'resume_left.dart';
+import 'title_changes_left.dart';
 
 class LeftBubble extends StatelessWidget {
   final List<dynamic> commentList;
-  final String time;
+  final Timestamp time;
   final String setDate;
   final String setTime;
   final String deleteSchedule;
@@ -20,7 +21,7 @@ class LeftBubble extends StatelessWidget {
   final String hold;
   final String senderMsgName;
   final String message;
-  // String description,
+  final String description;
   final String isAccepted;
   final String esc;
   final String titleChanging;
@@ -44,7 +45,8 @@ class LeftBubble extends StatelessWidget {
       required this.deleteSchedule,
       required this.editLocation,
       required this.resume,
-      required this.hold});
+      required this.hold,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -68,16 +70,22 @@ class LeftBubble extends StatelessWidget {
                                     ? SizedBox()
                                     : (deleteSchedule != '')
                                         ? SizedBox()
-                                        : (message.isEmpty && image.isEmpty)
+                                        : (message.isEmpty &&
+                                                image.isEmpty &&
+                                                description.isEmpty)
                                             ? SizedBox()
                                             : LeftMessage(
                                                 commentList: commentList,
-                                                time: time,
+                                                time: time.toDate().toString(),
                                                 message: message,
                                                 image: image,
-                                                senderMsgName: senderMsgName),
+                                                senderMsgName: senderMsgName,
+                                                description: description,
+                                              ),
         //bubble ketike kita hold task
-        hold == '' ? SizedBox() : HoldBubble(hold: hold, time: time),
+        hold == ''
+            ? SizedBox()
+            : HoldBubble(hold: hold, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -105,7 +113,9 @@ class LeftBubble extends StatelessWidget {
               ? 0
               : 5,
         ),
-        resume == '' ? SizedBox() : Resume(resume: resume, time: time),
+        resume == ''
+            ? SizedBox()
+            : Resume(resume: resume, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -135,7 +145,8 @@ class LeftBubble extends StatelessWidget {
         ),
         setTime.isEmpty
             ? SizedBox()
-            : AddSchedule(addSchedule: setDate + setTime, time: time),
+            : AddScheduleleft(
+                addSchedule: setDate + setTime, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -165,7 +176,8 @@ class LeftBubble extends StatelessWidget {
         ),
         deleteSchedule == ''
             ? SizedBox()
-            : DeleteScheduleBubble(deleteSchedule: deleteSchedule, time: time),
+            : DeleteScheduleBubble(
+                deleteSchedule: deleteSchedule, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -195,7 +207,8 @@ class LeftBubble extends StatelessWidget {
         ),
         editLocation == ''
             ? SizedBox()
-            : EditLoactionBubble(newLocation: editLocation, time: time),
+            : EditLoactionBubble(
+                newLocation: editLocation, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -225,7 +238,8 @@ class LeftBubble extends StatelessWidget {
         ),
         (isAccepted == '')
             ? SizedBox()
-            : AcceptedBubbleLeft(time: time, isAccepted: isAccepted),
+            : AcceptedBubbleLeft(
+                time: time.toDate().toString(), isAccepted: isAccepted),
         SizedBox(
           height: isAccepted.isEmpty ||
                   assignTo.isNotEmpty ||
@@ -256,7 +270,9 @@ class LeftBubble extends StatelessWidget {
         assignTo == ''
             ? SizedBox()
             : AssignBubbleLeft(
-                assignSender: assignSender, time: time, assignTo: assignTo),
+                assignSender: assignSender,
+                time: time.toDate().toString(),
+                assignTo: assignTo),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isEmpty ||
@@ -286,9 +302,9 @@ class LeftBubble extends StatelessWidget {
         ),
         titleChanging == ''
             ? SizedBox()
-            : TitleChangesRight(
+            : TitleChangeLeft(
                 titleChanges: titleChanging,
-                time: time,
+                time: time.toDate().toString(),
                 changer: senderMsgName),
         SizedBox(
           height: isAccepted.isNotEmpty ||

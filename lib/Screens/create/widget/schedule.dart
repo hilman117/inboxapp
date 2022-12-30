@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -63,7 +64,9 @@ class SchedulePicker extends StatelessWidget {
                                         : AppLocalizations.of(context)!.date,
                                     style: TextStyle(color: Colors.black38),
                                   )
-                                : Text(value.datePicked,
+                                : Text(
+                                    DateFormat('EE, MMM d, hh:mm').format(
+                                        DateTime.parse(value.datePicked)),
                                     style: const TextStyle(color: Colors.red)),
                             value.isLfReport
                                 ? SizedBox()

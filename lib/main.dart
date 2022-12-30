@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
@@ -21,6 +22,7 @@ import 'Screens/feeds/feeds_controller.dart';
 import 'Screens/homescreen/home.dart';
 import 'Screens/sign_in/signin.dart';
 import 'models/setting_model/setting_model.dart';
+
 import 'service/notif.dart';
 import 'controller/c_user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -47,6 +49,12 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Box? box;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp
+  ]);
   // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
   await Hive.initFlutter();
   Hive.registerAdapter(SettingModelAdapter());
@@ -74,7 +82,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => GlobalFunction()),
     ],
     builder: (context, child) => GetMaterialApp(
-      theme: ThemeData(fontFamily: "font/Poppins-Reguler"),
+        theme: ThemeData(fontFamily: "font/Poppins-Reguler"),
         // locale: Locale('zh'),
         localeResolutionCallback: (
           locale,
@@ -99,33 +107,35 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final cUser = Get.put(CUser());
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, userSnapshot) {
-          if (userSnapshot.data == null) {
-            print('user is not signed in yet');
-            return ChangeNotifierProvider<SignInController>(
-                create: (context) => SignInController(),
-                builder: (context, child) => SignIn());
-          } else if (userSnapshot.hasData) {
-            print('user is already signed in');
-            return Home();
-          } else if (userSnapshot.hasError) {
-            return Scaffold(
-              body: Center(
-                child: Image.asset("images/error.png"),
-              ),
-            );
-          } else if (userSnapshot.connectionState == ConnectionState.waiting) {
+    return OrientationBuilder(
+      builder: (context, orientation) => StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (ctx, userSnapshot) {
+            if (userSnapshot.data == null) {
+              print('user is not signed in yet');
+              return ChangeNotifierProvider<SignInController>(
+                  create: (context) => SignInController(),
+                  builder: (context, child) => SignIn());
+            } else if (userSnapshot.hasData &&
+                cUser.data.profileImage != null) {
+              print('user is already signed in');
+              return Home();
+            } else if (userSnapshot.hasError) {
+              return Scaffold(
+                body: Center(
+                  child: Image.asset("images/error.png"),
+                ),
+              );
+            } else if (userSnapshot.connectionState ==
+                ConnectionState.waiting) {
+              return Scaffold(body: Center(child: CircularProgressIndicator()));
+            }
             return Scaffold(body: Center(child: CircularProgressIndicator()));
-          }
-          return Scaffold(
-            body: Center(
-              child: Image.asset("images/error.png"),
-            ),
-          );
-        });
+          }),
+    );
   }
 }

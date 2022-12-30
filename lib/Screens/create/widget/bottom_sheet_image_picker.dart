@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 import '../create_request_controller.dart';
 
 Future imagePicker(BuildContext context) {

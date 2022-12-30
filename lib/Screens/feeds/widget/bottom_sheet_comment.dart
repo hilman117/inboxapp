@@ -5,7 +5,6 @@ ScrollController scroll = ScrollController();
 
 void bottomSheetComment(BuildContext context) async {
   showModalBottomSheet(
-      useSafeArea: true,
       isScrollControlled: true,
       elevation: 0,
       shape: RoundedRectangleBorder(

@@ -4,7 +4,7 @@ import 'package:post/models/lf_model.dart';
 import '../../../controller/c_user.dart';
 import '../../../service/theme.dart';
 import '../../dasboard/widget/animated/animated_receiver.dart';
-import '../../dasboard/widget/animated/status.dart';
+import '../../../common_widget/status.dart';
 import '../lf_chatroom.dart';
 
 final cUser = Get.put(CUser());
@@ -53,19 +53,19 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                 onTap: () {
                   Get.to(
                       () => LfChatRoom(
-                            taskId: widget.lfModel!.id!,
-                            hotelid: cUser.data.hotelid!,
-                            status: widget.lfModel!.status!,
-                            image: widget.lfModel!.image!,
-                            nameOfReporter: widget.lfModel!.founder!,
-                            locationItemFounded: widget.lfModel!.location!,
-                            nameOfItemFounded: widget.lfModel!.nameItem!,
-                            receiver: widget.lfModel!.receiver!,
-                            photoProfileSender:
-                                widget.lfModel!.profileImageSender!,
-                            positionReporter: widget.lfModel!.positionSender!,
-                            time: widget.lfModel!.time!, emailSender: widget.lfModel!.emailSender!
-                          ),
+                          taskId: widget.lfModel!.id!,
+                          hotelid: cUser.data.hotelid!,
+                          status: widget.lfModel!.status!,
+                          image: widget.lfModel!.image!,
+                          nameOfReporter: widget.lfModel!.founder!,
+                          locationItemFounded: widget.lfModel!.location!,
+                          nameOfItemFounded: widget.lfModel!.nameItem!,
+                          receiver: widget.lfModel!.receiver!,
+                          photoProfileSender:
+                              widget.lfModel!.profileImageSender!,
+                          positionReporter: widget.lfModel!.positionSender!,
+                          time: widget.lfModel!.time!,
+                          emailSender: widget.lfModel!.emailSender!),
                       transition: Transition.rightToLeft);
                 },
                 child: Padding(
@@ -100,8 +100,11 @@ class _LoasNfoundCardState extends State<LoasNfoundCard> {
                                     ),
                                     Spacer(),
                                     StatusWidget(
-                                        status: widget.lfModel!.status!,
-                                        isFading: false)
+                                      status: widget.lfModel!.status!,
+                                      isFading: false,
+                                      height: height * 0.04,
+                                      fontSize: 13,
+                                    )
                                   ],
                                 ),
                               ),

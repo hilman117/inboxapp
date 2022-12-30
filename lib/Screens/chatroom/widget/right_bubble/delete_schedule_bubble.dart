@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:post/Screens/dasboard/widget/card.dart';
+import 'package:intl/intl.dart';
+import 'package:post/common_widget/card.dart';
 
 class DeleteScheduleBubble extends StatelessWidget {
   final String deleteSchedule;
@@ -12,7 +13,6 @@ class DeleteScheduleBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
     return Container(
-        alignment: Alignment.centerRight,
         margin: EdgeInsets.only(left: width * 0.2),
         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
@@ -20,36 +20,38 @@ class DeleteScheduleBubble extends StatelessWidget {
                 bottomLeft: Radius.circular(10),
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10)),
-            border: Border.all(color: Colors.grey.shade300)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            border: Border.all(color: Colors.red.shade100)),
+        width: width * 1,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(
-                  Icons.free_cancellation,
-                  color: Colors.grey,
+                Container(
+                  width: width * 0.63,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "$deleteSchedule has removed the schedule",
+                    style: TextStyle(
+                        color: Colors.black87, fontSize: size * 0.012),
+                    textAlign: TextAlign.start,
+                  ),
                 ),
-                Text(
-                  time,
-                  style: TextStyle(
-                      fontSize: size * 0.01, color: Colors.grey, height: 1.5),
-                ),
+                Container(
+                    width: width * 0.07,
+                    height: height * 0.04,
+                    child: Icon(
+                      Icons.free_cancellation_outlined,
+                      color: Colors.red,
+                    )),
               ],
             ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.centerRight,
-                // color: Colors.blue.shade50,
-                child: Text(
-                  "$deleteSchedule has removed the schedule",
-                  style:
-                      TextStyle(color: Colors.black87, fontSize: size * 0.012),
-                  textAlign: TextAlign.end,
-                ),
-              ),
-            )
+            Text(
+              DateFormat('EE d, HH:mm').format(DateTime.parse(time)),
+              style: TextStyle(
+                  fontSize: size * 0.01, color: Colors.grey, height: 1.5),
+            ),
           ],
         ));
   }

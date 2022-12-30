@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:post/Screens/chatroom/widget/right_bubble/accepted_bubble.dart';
 
@@ -12,7 +13,7 @@ import 'title_changes_right.dart';
 
 class RightBubble extends StatelessWidget {
   final List<dynamic> commentList;
-  final String time;
+  final Timestamp time;
   final String setDate;
   final String setTime;
   final String deleteSchedule;
@@ -21,7 +22,7 @@ class RightBubble extends StatelessWidget {
   final String hold;
   final String senderMsgName;
   final String message;
-  // String description,
+  final String description;
   final String isAccepted;
   final String esc;
   final String titleChanging;
@@ -45,7 +46,8 @@ class RightBubble extends StatelessWidget {
       required this.deleteSchedule,
       required this.editLocation,
       required this.resume,
-      required this.hold});
+      required this.hold,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +72,18 @@ class RightBubble extends StatelessWidget {
                                     ? SizedBox()
                                     : (deleteSchedule != '')
                                         ? SizedBox()
-                                        : (message.isEmpty && image.isEmpty)
+                                        : (message.isEmpty &&
+                                                image.isEmpty &&
+                                                description.isEmpty)
                                             ? SizedBox()
                                             : MyMessage(
                                                 commentList: commentList,
-                                                time: time,
+                                                time: time.toDate().toString(),
                                                 message: message,
                                                 image: image,
-                                                senderMsgName: senderMsgName),
+                                                senderMsgName: senderMsgName,
+                                                description: description,
+                                              ),
         //bubble ketike kita hold task
         SizedBox(
           height: isAccepted.isNotEmpty ||
@@ -92,7 +98,9 @@ class RightBubble extends StatelessWidget {
               ? 0
               : 5,
         ),
-        hold == '' ? SizedBox() : HoldBubble(hold: hold, time: time),
+        hold == ''
+            ? SizedBox()
+            : HoldBubble(hold: hold, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -120,7 +128,9 @@ class RightBubble extends StatelessWidget {
               ? 0
               : 5,
         ),
-        resume == '' ? SizedBox() : Resume(resume: resume, time: time),
+        resume == ''
+            ? SizedBox()
+            : Resume(resume: resume, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -150,7 +160,8 @@ class RightBubble extends StatelessWidget {
         ),
         setTime.isEmpty
             ? SizedBox()
-            : AddSchedule(addSchedule: setDate + setTime, time: time),
+            : AddSchedule(
+                addSchedule: setDate + setTime, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -180,7 +191,8 @@ class RightBubble extends StatelessWidget {
         ),
         deleteSchedule == ''
             ? SizedBox()
-            : DeleteScheduleBubble(deleteSchedule: deleteSchedule, time: time),
+            : DeleteScheduleBubble(
+                deleteSchedule: deleteSchedule, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -210,7 +222,8 @@ class RightBubble extends StatelessWidget {
         ),
         editLocation == ''
             ? SizedBox()
-            : EditLoactionBubble(newLocation: editLocation, time: time),
+            : EditLoactionBubble(
+                newLocation: editLocation, time: time.toDate().toString()),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isNotEmpty ||
@@ -240,7 +253,8 @@ class RightBubble extends StatelessWidget {
         ),
         (isAccepted == '')
             ? SizedBox()
-            : AcceptedBubbleRight(time: time, isAccepted: isAccepted),
+            : AcceptedBubbleRight(
+                time: time.toDate().toString(), isAccepted: isAccepted),
         SizedBox(
           height: isAccepted.isEmpty ||
                   assignTo.isNotEmpty ||
@@ -271,7 +285,9 @@ class RightBubble extends StatelessWidget {
         assignTo == ''
             ? SizedBox()
             : AssignBubnleRight(
-                assignSender: assignSender, time: time, assignTo: assignTo),
+                assignSender: assignSender,
+                time: time.toDate().toString(),
+                assignTo: assignTo),
         SizedBox(
           height: isAccepted.isNotEmpty ||
                   assignTo.isEmpty ||
@@ -303,7 +319,7 @@ class RightBubble extends StatelessWidget {
             ? SizedBox()
             : TitleChangesRight(
                 titleChanges: titleChanging,
-                time: time,
+                time: time.toDate().toString(),
                 changer: senderMsgName),
         SizedBox(
           height: isAccepted.isNotEmpty ||

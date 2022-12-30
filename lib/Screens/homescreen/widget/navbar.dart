@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import '../../create/create_request_controller.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});

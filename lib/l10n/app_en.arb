@@ -85,5 +85,6 @@
     "logOutDialog": "Are you sure want to log out",
     "week": "a week ago",
     "weeks": "weeks ago",
-    "requestStatus": "Request sent"
+    "requestStatus": "Request sent",
+    "resume": "Resume"
 }

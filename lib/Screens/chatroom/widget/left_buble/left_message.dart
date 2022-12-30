@@ -2,8 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
-import '../../../dasboard/widget/card.dart';
+import '../../../../common_widget/card.dart';
 import '../multiple_photos.dart';
 
 class LeftMessage extends StatelessWidget {
@@ -11,13 +12,13 @@ class LeftMessage extends StatelessWidget {
   final String senderMsgName;
   final String time;
   final String message;
-  // final String description;
+  final String description;
   final List<dynamic> image;
   const LeftMessage(
       {required this.commentList,
       required this.time,
       required this.message,
-      // required this.description,
+      required this.description,
       required this.image,
       required this.senderMsgName});
   @override
@@ -57,6 +58,13 @@ class LeftMessage extends StatelessWidget {
                         SizedBox(
                           height: Get.height * 0.009,
                         ),
+                        description.isNotEmpty
+                            ? Text(
+                                description,
+                                style: TextStyle(color: Colors.black87),
+                                overflow: TextOverflow.clip,
+                              )
+                            : SizedBox(),
                         message.isNotEmpty
                             ? Text(
                                 message,
@@ -73,7 +81,7 @@ class LeftMessage extends StatelessWidget {
                                     ? height * 0.13
                                     : (image.length == 1)
                                         ? height * 0.25
-                                        : height * 0.26,
+                                        : height * 0.30,
                                 width: width * 0.55,
                                 child: MultiplePhoto(
                                   images: image,
@@ -88,10 +96,21 @@ class LeftMessage extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: Get.width * 0.1,
-            child: Text(
-              time,
-              style: TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
+            width: Get.width * 0.15,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  DateFormat('MMM, d').format(DateTime.parse(time)),
+                  style:
+                      TextStyle(fontSize: 9, color: Colors.grey, height: 1.5),
+                ),
+                Text(
+                  DateFormat('hh:mm').format(DateTime.parse(time)),
+                  style:
+                      TextStyle(fontSize: 12, color: Colors.grey, height: 1.5),
+                ),
+              ],
             ),
           ),
         ],

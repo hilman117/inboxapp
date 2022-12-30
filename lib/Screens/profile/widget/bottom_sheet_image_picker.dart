@@ -5,7 +5,7 @@ import 'package:post/Screens/feeds/feeds_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../service/theme.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 
 Future imagePickerFeeds(BuildContext context) {
   return showModalBottomSheet(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../chatroom/widget/multiple_photos.dart';
-import '../../../dasboard/widget/card.dart';
+import '../../../../common_widget/card.dart';
 
 class LfLeftMessage extends StatelessWidget {
   final List<dynamic> commentList;

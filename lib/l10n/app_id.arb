@@ -85,5 +85,6 @@
     "logOutDialog": "Apakah Kamu yakin mau keluar",
     "week": "seminggu yang lalu",
     "weeks": "beberapa mggu yang lalu",
-    "requestStatus": "Permitaan terkirim"
+    "requestStatus": "Permitaan terkirim",
+     "resume": "Dilanjutkan"
 }

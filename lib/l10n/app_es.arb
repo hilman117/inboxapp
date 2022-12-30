@@ -85,5 +85,6 @@
     "logOutDialog": "¿Estás seguro de que quieres cerrar sesión?",
     "week": "Hace una semana",
     "weeks": "hace semanas",
-    "requestStatus": "Solicitud enviada"
+    "requestStatus": "Solicitud enviada",
+    "resume": "reanudar"
 }

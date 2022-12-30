@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../create/create_request_controller.dart';
 import '../../../create/widget/dialog_title.dart';
-import '../../../dasboard/widget/card.dart';
+import '../../../../common_widget/card.dart';
 import 'delete_schedule.dart';
 import 'dialog_edit_schedule.dart';
 
@@ -23,7 +23,7 @@ void showPopUpMenu(BuildContext context, String selectedDept, String tasksId,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
       context: context,
-      position: RelativeRect.fromLTRB(size * 0.02, size * 0.02, 0, size * 0.02),
+      position: RelativeRect.fromLTRB(size * 0.2, size * 0.4, 1, size * 0.0),
       items: [
         if (provider.datePicked != '' || provider.selectedTime != '')
           PopupMenuItem(

@@ -10,7 +10,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../main.dart';
 import '../../service/notif.dart';
-import '../dasboard/widget/card.dart';
+import '../../common_widget/card.dart';
 
 class ReportLFController with ChangeNotifier {
   String _receiveByFounder = '';

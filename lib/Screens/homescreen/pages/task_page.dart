@@ -5,7 +5,7 @@ import '../../dasboard/close.dart';
 import '../../dasboard/mine.dart';
 import '../../dasboard/my_post.dart';
 import '../../dasboard/others.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 import '../widget/custom_appbar.dart';
 
 class TaskPage extends StatelessWidget {

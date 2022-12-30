@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:post/Screens/lf/lf_controller.dart';
 import 'package:provider/provider.dart';
-import '../../dasboard/widget/card.dart';
+import '../../../common_widget/card.dart';
 import '../../sign_up/signup.dart';
 import '../../chatroom/chatroom_controller.dart';
 import 'lf_keyboard.dart';

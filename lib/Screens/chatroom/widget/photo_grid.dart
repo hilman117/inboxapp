@@ -21,7 +21,9 @@ class PhotoGrid extends StatefulWidget {
       required this.onImageClicked,
       required this.onExpandClicked,
       this.maxImages = 4,
-      Key? key,required this.moreThan4, required this.isEqualorLessThan1})
+      Key? key,
+      required this.moreThan4,
+      required this.isEqualorLessThan1})
       : super(key: key);
 
   @override
@@ -33,10 +35,12 @@ class _PhotoGridState extends State<PhotoGrid> {
   Widget build(BuildContext context) {
     var images = buildImages();
     return GridView(
+      padding: EdgeInsets.all(0),
       physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent:
-            (widget.imageUrls.length <= 1) ? widget.isEqualorLessThan1 : widget.moreThan4,
+        maxCrossAxisExtent: (widget.imageUrls.length <= 1)
+            ? widget.isEqualorLessThan1
+            : widget.moreThan4,
         crossAxisSpacing: 2,
         mainAxisSpacing: 2,
       ),

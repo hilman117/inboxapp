@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../chatroom/widget/left_buble/left_message.dart';
+
 import 'accept_bubble_left.dart';
+import 'left_message.dart';
 
 class LfLeftBubble extends StatelessWidget {
   final List<dynamic> commentList;
@@ -27,29 +28,23 @@ class LfLeftBubble extends StatelessWidget {
       children: [
         (isAccepted != '')
             ? SizedBox()
-                : (message.isEmpty && image.isEmpty)
-                    ? SizedBox()
-                    : LeftMessage(
-                        commentList: commentList,
-                        time: time,
-                        message: message,
-                        image: image,
-                        senderMsgName: senderMsgName),
+            : (message.isEmpty && image.isEmpty)
+                ? SizedBox()
+                : LfLeftMessage(
+                    commentList: commentList,
+                    time: time,
+                    message: message,
+                    image: image,
+                    senderMsgName: senderMsgName),
         //bubble ketika kita menerima task...
         SizedBox(
-          height:
-              isAccepted.isEmpty || message.isNotEmpty
-                  ? 0
-                  : 5,
+          height: isAccepted.isEmpty || message.isNotEmpty ? 0 : 5,
         ),
         (isAccepted == '')
             ? SizedBox()
             : AcceptedBubbleLeft(time: time, isAccepted: isAccepted),
         SizedBox(
-          height:
-              isAccepted.isEmpty || message.isNotEmpty
-                  ? 0
-                  : 5,
+          height: isAccepted.isEmpty || message.isNotEmpty ? 0 : 5,
         ),
       ],
     );

@@ -34,7 +34,7 @@ class CreateTaskAppBar extends StatelessWidget {
                               color: value.isCreateRequest
                                   ? secondary
                                   : Colors.grey,
-                              fontSize: 14),
+                              fontSize: 12),
                         ),
                       ],
                     ),
@@ -54,13 +54,16 @@ class CreateTaskAppBar extends StatelessWidget {
                             provider.checkBoxLf();
                           },
                         ),
-                        Text(
-                          "Lost And Found Report",
-                          style: TextStyle(
-                              color: value.isCreateRequest
-                                  ? Colors.grey
-                                  : secondary,
-                              fontSize: 14),
+                        SizedBox(
+                          // width: width * 0.5,
+                          child: Text(
+                            "Lost And Found Report",
+                            style: TextStyle(
+                                color: value.isCreateRequest
+                                    ? Colors.grey
+                                    : secondary,
+                                fontSize: 12),
+                          ),
                         ),
                       ],
                     ),

@@ -10,7 +10,7 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
+
 import 'package:uuid/uuid.dart';
 import '../../controller/c_user.dart';
 import '../../main.dart';
@@ -157,9 +157,7 @@ class ChatRoomController with ChangeNotifier {
                   'senderemail': auth.currentUser!.email,
                   'setDate': '',
                   'setTime': '',
-                  'time': DateFormat('MMM d, h:mm a')
-                      .format(DateTime.now())
-                      .toString(),
+                  'time': DateTime.now(),
                   'titleChange': "",
                   'newlocation': "",
                   'hold': "",
@@ -168,6 +166,8 @@ class ChatRoomController with ChangeNotifier {
                 }
               ])
             });
+            _isImageLoad = false;
+            notifyListeners();
           }
         });
       });
@@ -193,8 +193,7 @@ class ChatRoomController with ChangeNotifier {
             'senderemail': auth.currentUser!.email,
             'setDate': '',
             'setTime': '',
-            'time':
-                DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+            'time': DateTime.now(),
             'titleChange': "",
             'newlocation': "",
             'hold': "",
@@ -219,6 +218,8 @@ class ChatRoomController with ChangeNotifier {
         '$location - "$title"',
         "${cUser.data.name} : ${commentBody.text}",
       );
+      commentBody.clear();
+
       notifyListeners();
     }
     if (box!.get('sendNotification') == true &&
@@ -233,6 +234,8 @@ class ChatRoomController with ChangeNotifier {
         '$location - "$title"',
         "${cUser.data.name} : ${commentBody.text}",
       );
+      commentBody.clear();
+
       notifyListeners();
     }
     if (deptTujuan != cUser.data.department ||
@@ -253,15 +256,14 @@ class ChatRoomController with ChangeNotifier {
         notifyListeners();
       },
     );
-    commentBody.clear();
-    Future.delayed(
-      Duration(milliseconds: 3000),
-      () {
-        _isImageLoad = false;
-        notifyListeners();
-      },
-    );
-    print(_isImageLoad);
+    // Future.delayed(
+    //   Duration(milliseconds: 3000),
+    //   () {
+    //     _isImageLoad = false;
+    //     notifyListeners();
+    //   },
+    // );
+    // print(_isImageLoad);
     notifyListeners();
   }
 
@@ -335,7 +337,7 @@ class ChatRoomController with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -544,7 +546,7 @@ class ChatRoomController with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -656,7 +658,7 @@ class ChatRoomController with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -735,7 +737,7 @@ class ChatRoomController with ChangeNotifier {
           'senderemail': auth.currentUser!.email,
           'setDate': '',
           'setTime': '',
-          'time': DateFormat('MMM d, h:mm a').format(DateTime.now()).toString(),
+          'time': DateTime.now(),
           'titleChange': "",
           'newlocation': "",
           'hold': "",
@@ -815,8 +817,6 @@ class ChatRoomController with ChangeNotifier {
     });
     notifyListeners();
   }
-
-  
 
   void saveNetworkImage(String url) async {
     print("----------------------");

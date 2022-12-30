@@ -85,5 +85,6 @@
     "logOutDialog": "Sei sicuro di voler uscire?",
     "week": "una settimana fa",
     "weeks": "settimane fa",
-    "requestStatus": "Richiesta inviata"
+    "requestStatus": "Richiesta inviata",
+    "resume": "riprendere"
 }
