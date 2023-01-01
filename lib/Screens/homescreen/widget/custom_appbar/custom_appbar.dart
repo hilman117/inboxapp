@@ -7,9 +7,9 @@ import 'package:post/common_widget/photo_profile.dart';
 import 'package:post/service/theme.dart';
 import 'package:provider/provider.dart';
 
-import '../../settings/settings.dart';
-import '../home_controller.dart';
-import 'search_home.dart';
+import '../../../settings/settings.dart';
+import '../../home_controller.dart';
+import 'widget/search_home.dart';
 
 class CustomAppbarHome extends StatelessWidget {
   const CustomAppbarHome({required this.dept});
@@ -47,32 +47,34 @@ class CustomAppbarHome extends StatelessWidget {
           statusBarBrightness: Brightness.light,
         ),
         title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Consumer<HomeController>(
-              builder: (context, value, child) => Consumer<SettingProvider>(
-                  builder: (context, value, child) => Stack(
-                        children: [
-                          PhotoProfile(
-                              lebar: MediaQuery.of(context).orientation ==
-                                      Orientation.landscape
-                                  ? size.width * 0.06
-                                  : size.width * 0.10,
-                              tinggi: MediaQuery.of(context).orientation ==
-                                      Orientation.landscape
-                                  ? size.height * 0.11
-                                  : size.height * 0.055),
-                          Positioned(
-                            bottom: 4,
-                            right: 2,
-                            child: CircleAvatar(
-                                radius: 4,
-                                backgroundColor: value.getValue == true
-                                    ? Color(0xff05B714)
-                                    : Colors.red.shade500),
-                          )
-                        ],
-                      )),
-            ),
+            Consumer<SettingProvider>(
+                builder: (context, val, child) => Stack(
+                      children: [
+                        PhotoProfile(
+                          lebar: MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                              ? size.width * 0.06
+                              : size.width * 0.10,
+                          tinggi: MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                              ? size.height * 0.11
+                              : size.height * 0.055,
+                          radius: 20,
+                          urlImage: val.imageUrl,
+                        ),
+                        Positioned(
+                          bottom: 4,
+                          right: 2,
+                          child: CircleAvatar(
+                              radius: 4,
+                              backgroundColor: val.getValue == true
+                                  ? Color(0xff05B714)
+                                  : Colors.red.shade500),
+                        )
+                      ],
+                    )),
             SizedBox(
               width: Get.width * 0.02,
             ),

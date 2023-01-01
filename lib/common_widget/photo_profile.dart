@@ -3,39 +3,44 @@ import 'package:lottie/lottie.dart';
 import 'package:post/Screens/settings/setting_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'card.dart';
-
 class PhotoProfile extends StatelessWidget {
+  final String urlImage;
   final double lebar;
   final double tinggi;
-  const PhotoProfile({super.key, required this.lebar, required this.tinggi});
+  final double radius;
+  const PhotoProfile(
+      {super.key,
+      required this.lebar,
+      required this.tinggi,
+      required this.radius,
+      required this.urlImage});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingProvider>(
-        builder: (context, value, child) => ClipRRect(
+        builder: (context, value, child) => CircleAvatar(
+            backgroundColor: Colors.grey,
+            radius: radius,
+            child: ClipRRect(
+              clipBehavior: Clip.hardEdge,
               borderRadius: BorderRadius.circular(50),
-              child: Container(
-                  width: lebar,
-                  height: tinggi,
-                  decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.circular(50),
-                      shape: BoxShape.circle),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(300),
-                    child: value.imageUrl != ''
-                        ? Image.network(
-                            value.imageUrl,
+              child: urlImage != ''
+                  ? LayoutBuilder(
+                      builder: (p0, p1) => Image.network(
+                            urlImage,
                             fit: BoxFit.cover,
-                            // width: width * 0.2,
+                            width: p1.maxWidth * 1,
+                            height: p1.maxHeight * 1,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) {
                                 return child;
                               } else {
                                 return Container(
+                                  width: p1.maxWidth * 1,
+                                  height: p1.maxHeight * 1,
                                   color: Colors.grey,
                                   child: Lottie.asset("images/loadimage.json",
-                                      width: width * 0.2),
+                                      width: p1.maxWidth * 1),
                                 );
                               }
                             },
@@ -47,13 +52,15 @@ class PhotoProfile extends StatelessWidget {
                                 // width: width * 0.2,
                               );
                             },
-                          )
-                        : Image.asset(
-                            'images/nophoto.png',
-                            fit: BoxFit.cover,
-                            // width: width * 0.2,
-                          ),
-                  )),
-            ));
+                          ))
+                  : LayoutBuilder(builder: (p0, p1) {
+                      return Image.asset(
+                        'images/nophoto.png',
+                        fit: BoxFit.cover,
+                        width: p1.maxWidth * 1,
+                        height: p1.maxHeight * 1,
+                      );
+                    }),
+            )));
   }
 }

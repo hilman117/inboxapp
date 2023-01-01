@@ -45,12 +45,13 @@ class _StatusWidgetState extends State<StatusWidget>
   Widget build(BuildContext context) {
     return Consumer<ChatRoomController>(
         builder: (context, value, child) => FadeTransition(
-              opacity: widget.isFading == true || widget.status == 'ESC'
-                  ? _animation
-                  : notTrue,
-              child: Container(
+            opacity: widget.isFading == true || widget.status == 'ESC'
+                ? _animation
+                : notTrue,
+            child: LayoutBuilder(
+              builder: (p0, p1) => Container(
                 alignment: Alignment.center,
-                height: widget.height,
+                height: p1.maxHeight * widget.height,
                 // width: widget.width,
                 decoration: BoxDecoration(
                     color: (widget.status == 'New')
@@ -68,7 +69,7 @@ class _StatusWidgetState extends State<StatusWidget>
                                             : (widget.status == 'Assigned')
                                                 ? Colors.blue.shade50
                                                 : Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(6),
                     border: Border.all(
                         color: (widget.status == 'New')
                             ? Colors.red.shade600.withOpacity(0.5)
@@ -90,8 +91,7 @@ class _StatusWidgetState extends State<StatusWidget>
                                                     : Colors.blue.shade200,
                         width: 1.8)),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                  padding: const EdgeInsets.symmetric(vertical: 2),
                   child: Text(
                     (widget.status == 'New')
                         ? AppLocalizations.of(context)!.newStatus
@@ -136,6 +136,6 @@ class _StatusWidgetState extends State<StatusWidget>
                   ),
                 ),
               ),
-            ));
+            )));
   }
 }

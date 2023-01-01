@@ -6,7 +6,7 @@ import '../../dasboard/mine.dart';
 import '../../dasboard/my_post.dart';
 import '../../dasboard/others.dart';
 import '../../../common_widget/card.dart';
-import '../widget/custom_appbar.dart';
+import '../widget/custom_appbar/custom_appbar.dart';
 
 class TaskPage extends StatelessWidget {
   final ScrollController controller;

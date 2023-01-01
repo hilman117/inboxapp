@@ -14,9 +14,10 @@ class SearchHome extends StatelessWidget {
     final controller = Provider.of<HomeController>(context, listen: false);
     return Expanded(
       child: Container(
+        alignment: Alignment.center,
         // width: width * 0.65,
         height: MediaQuery.of(context).orientation == Orientation.landscape
-            ? height * 0.09
+            ? height * 0.07
             : height * 0.04,
         decoration: BoxDecoration(
             color: mainColor.withOpacity(0.1),

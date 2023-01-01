@@ -26,7 +26,10 @@ class ComponentSenderAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final applications = AppLocalizations.of(context);
-
+    double padding = MediaQuery.of(context).padding.top;
+    double fullHeight = MediaQuery.of(context).size.height;
+    double fullWidth = MediaQuery.of(context).size.width;
+    double bodyHeight = fullHeight - padding;
     return Container(
         alignment: Alignment.topCenter,
         margin: EdgeInsets.symmetric(horizontal: width * 0.02),
@@ -86,13 +89,22 @@ class ComponentSenderAppBar extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  SizedBox(
-                      height: height * 0.033,
+                  Container(
+                      alignment: Alignment.center,
+                      // color: Colors.orange,
+                      width: MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                          ? fullWidth * 0.13
+                          : fullWidth * 0.2,
+                      height: MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                          ? bodyHeight * 0.06
+                          : bodyHeight * 0.03,
                       child: StatusWidget(
                         status: value.status,
                         isFading: false,
-                        height: height * 0.013,
-                        fontSize: 10,
+                        height: 1,
+                        fontSize: 11,
                       )),
                   (value.status != 'Assigned')
                       ? Container(

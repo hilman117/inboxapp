@@ -22,14 +22,17 @@ class ProfileUser extends StatelessWidget {
             Stack(
               children: [
                 PhotoProfile(
-                    lebar: MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? size.width * 0.08
-                        : size.width * 0.15,
-                    tinggi: MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? size.height * 0.14
-                        : size.height * 0.08),
+                  lebar: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? size.width * 0.08
+                      : size.width * 0.15,
+                  tinggi: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? size.height * 0.14
+                      : size.height * 0.08,
+                  radius: 30,
+                  urlImage: value.imageUrl,
+                ),
                 Positioned(
                     left: width * 0.087,
                     top: height * 0.05,

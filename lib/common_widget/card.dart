@@ -85,7 +85,10 @@ class _CardListState extends State<CardList> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    double padding = MediaQuery.of(context).padding.top;
+    double fullHeight = MediaQuery.of(context).size.height;
+    double fullWidth = MediaQuery.of(context).size.width;
+    double bodyHeight = fullHeight - padding;
 
     int runnningTime =
         DateTime.now().difference(widget.taskModel.time!).inMinutes;
@@ -158,8 +161,8 @@ class _CardListState extends State<CardList> {
                                       width:
                                           MediaQuery.of(context).orientation ==
                                                   Orientation.landscape
-                                              ? size.width * 0.030
-                                              : size.width * 0.060,
+                                              ? fullWidth * 0.030
+                                              : fullWidth * 0.060,
                                     ),
                                     SizedBox(
                                       width: width * 0.016,
@@ -168,7 +171,7 @@ class _CardListState extends State<CardList> {
                                       builder: (context, value, child) =>
                                           Container(
                                         alignment: Alignment.centerLeft,
-                                        width: width * 0.6,
+                                        width: fullWidth * 0.6,
                                         child: Text(
                                           widget.taskModel.title!,
                                           style: TextStyle(fontSize: 16),
@@ -178,17 +181,29 @@ class _CardListState extends State<CardList> {
                                     ),
                                   ],
                                 ),
-                                StatusWidget(
-                                  status: runnningTime >= 5 &&
-                                          widget.data['status'] == "New"
-                                      ? "ESC"
-                                      : widget.taskModel.status!,
-                                  isFading: widget.data["isFading"],
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).orientation ==
+                                          Orientation.landscape
+                                      ? fullWidth * 0.14
+                                      : fullWidth * 0.19,
                                   height: MediaQuery.of(context).orientation ==
                                           Orientation.landscape
-                                      ? size.height * 0.06
-                                      : size.height * 0.033,
-                                  fontSize: 13,
+                                      ? bodyHeight * 0.06
+                                      : bodyHeight * 0.033,
+                                  child: StatusWidget(
+                                    status: runnningTime >= 5 &&
+                                            widget.data['status'] == "New"
+                                        ? "ESC"
+                                        : widget.taskModel.status!,
+                                    isFading: widget.data["isFading"],
+                                    height:
+                                        MediaQuery.of(context).orientation ==
+                                                Orientation.landscape
+                                            ? 1
+                                            : 1,
+                                    fontSize: 13,
+                                  ),
                                 )
                               ],
                             ),

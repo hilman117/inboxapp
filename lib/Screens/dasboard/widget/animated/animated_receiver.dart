@@ -70,7 +70,7 @@ class _AnimatedReceiverState extends State<AnimatedReceiver>
                       : (widget.receiver == '')
                           ? ''
                           : "${AppLocalizations.of(context)!.by} ${widget.receiver}",
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 11),
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.end,
                 ),
