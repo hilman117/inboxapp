@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 import 'package:post/common_widget/card.dart';
 
 class AcceptedBubbleLeft extends StatelessWidget {
@@ -46,7 +47,8 @@ class AcceptedBubbleLeft extends StatelessWidget {
                       color: Colors.green,
                     )),
                 Text(
-                  time,
+                  DateFormat('MMM dd, HH:mm')
+                      .format(DateTime.parse(time).toLocal()),
                   style: TextStyle(
                       fontSize: size * 0.01, color: Colors.grey, height: 1.5),
                 ),

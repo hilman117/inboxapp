@@ -8,8 +8,10 @@ class ExecuteButton {
   Color themeColor = const Color(0xffF8CCA5);
   Color cardColor = const Color(0xff475D5B);
   Widget sendButton(BuildContext context, double widht, VoidCallback callback) {
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return SizedBox(
-      height: Get.height * 0.055,
+      height: landscape ? Get.height * 0.1 : Get.height * 0.055,
       width: Get.width,
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -24,9 +26,11 @@ class ExecuteButton {
   }
 
   Widget imageButton(BuildContext context) {
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return SizedBox(
       width: Get.width * 0.40,
-      height: Get.height * 0.048,
+      height: landscape ? Get.height * 0.09 : Get.height * 0.048,
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
               elevation: 0,

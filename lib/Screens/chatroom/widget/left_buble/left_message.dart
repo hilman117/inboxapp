@@ -25,6 +25,7 @@ class LeftMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     Color finalCOlor =
         Colors.primaries[Random().nextInt(Colors.primaries.length)].shade900;
+    Locale countryCode = Localizations.localeOf(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -98,17 +99,20 @@ class LeftMessage extends StatelessWidget {
           SizedBox(
             width: Get.width * 0.15,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  DateFormat('MMM, d').format(DateTime.parse(time)),
-                  style:
-                      TextStyle(fontSize: 9, color: Colors.grey, height: 1.5),
+                  DateFormat("MMM, dd").format(DateTime.parse(time).toLocal()),
+                  style: TextStyle(fontSize: 10, color: Colors.grey),
                 ),
                 Text(
-                  DateFormat('hh:mm').format(DateTime.parse(time)),
+                  countryCode == Locale("en")
+                      ? DateFormat("hh:mm a")
+                          .format(DateTime.parse(time).toLocal())
+                      : DateFormat("HH:mm")
+                          .format(DateTime.parse(time).toLocal()),
                   style:
-                      TextStyle(fontSize: 12, color: Colors.grey, height: 1.5),
+                      TextStyle(fontSize: 10, color: Colors.grey, height: 1.5),
                 ),
               ],
             ),

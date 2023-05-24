@@ -53,6 +53,8 @@ class _CreateRequestState extends State<CreateRequest> {
     double height = Get.height;
     final provider =
         Provider.of<CreateRequestController>(context, listen: false);
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -70,7 +72,7 @@ class _CreateRequestState extends State<CreateRequest> {
               ],
             ),
             alignment: Alignment.center,
-            height: height * 0.05,
+            height: landscape ? height * 0.09 : height * 0.05,
             width: widht,
             child: CreateTaskAppBar()),
         centerTitle: true,
@@ -153,7 +155,7 @@ class _CreateRequestState extends State<CreateRequest> {
                             child: value.imagesList.isEmpty
                                 ? Container(
                                     alignment: Alignment.centerLeft,
-                                    height: height * 0.1,
+                                    // height: height * 0.1,
                                     child: ExecuteButton().imageButton(context))
                                 : ListImages(),
                           ),

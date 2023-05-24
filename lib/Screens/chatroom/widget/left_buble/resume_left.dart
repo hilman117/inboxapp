@@ -11,6 +11,7 @@ class Resume extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
+    Locale countryCode = Localizations.localeOf(context);
     return Container(
       width: double.infinity,
       alignment: Alignment.centerLeft,
@@ -42,7 +43,11 @@ class Resume extends StatelessWidget {
                     width: width * 0.63,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "$resume resume this request",
+                      countryCode == Locale("en")
+                          ? DateFormat('MMM, dd hh:mm a')
+                              .format(DateTime.parse(time).toLocal())
+                          : DateFormat('MMM, dd HH:mm')
+                              .format(DateTime.parse(time).toLocal()),
                       style: TextStyle(
                           color: Colors.black87, fontSize: size * 0.012),
                       textAlign: TextAlign.start,

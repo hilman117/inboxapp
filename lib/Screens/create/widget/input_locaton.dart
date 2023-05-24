@@ -12,13 +12,15 @@ class InputLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return InkWell(
       onTap: callback,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         alignment: Alignment.center,
         width: double.infinity,
-        height: Get.height * 0.09,
+        height: landscape ? Get.height * 0.16 : Get.height * 0.09,
         decoration: BoxDecoration(
           color: Colors.white,
         ),

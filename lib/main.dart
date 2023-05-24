@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:post/Screens/chatroom/widget/pop_up_menu/pop_up_menu_provider.dart';
 import 'package:post/Screens/create/create_request_controller.dart';
 import 'package:post/Screens/dasboard/dashboard_controller.dart';
@@ -22,7 +23,7 @@ import 'Screens/feeds/feeds_controller.dart';
 import 'Screens/homescreen/home.dart';
 import 'Screens/sign_in/signin.dart';
 import 'models/setting_model/setting_model.dart';
-
+import 'package:intl/intl_standalone.dart';
 import 'service/notif.dart';
 import 'controller/c_user.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -33,19 +34,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Background message handler is work!");
 }
 
-// void callbackDispatcher() {
-//   Workmanager().executeTask((taskName, inputData) {
-//     switch (taskName) {
-//       case "value":
-//         Notif().sendNotifToToken("Housekeeping", "Test schedule Notification",
-//             "ini adalah test mengirim schedule notification", "");
-//         break;
-//       default:
-//     }
-//     return Future.value(true);
-//   });
-// }
-
 Box? box;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +43,7 @@ void main() async {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp
   ]);
+  Intl.systemLocale = await findSystemLocale();
   // Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
   await Hive.initFlutter();
   Hive.registerAdapter(SettingModelAdapter());

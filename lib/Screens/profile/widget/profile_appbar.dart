@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../../common_widget/card.dart';
 import '../../settings/setting_provider.dart';
-import '../../settings/widget/dialog_change_photo.dart';
+import '../../settings/widget/image_picker_profile.dart';
 
 class ProfileAppbar extends StatelessWidget {
   const ProfileAppbar({super.key});

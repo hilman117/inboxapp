@@ -24,6 +24,8 @@ class GeneralForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Consumer<CreateRequestController>(
@@ -49,7 +51,7 @@ class GeneralForm extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 width: double.infinity,
-                height: Get.height * 0.07,
+                // height: Get.height * 0.07,
                 decoration: BoxDecoration(color: Colors.white),
                 child: Row(
                   children: [
@@ -62,7 +64,9 @@ class GeneralForm extends StatelessWidget {
                               : callback,
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 10),
-                            height: Get.height * 0.06,
+                            height: landscape
+                                ? Get.height * 0.1
+                                : Get.height * 0.06,
                             decoration: BoxDecoration(
                                 border: Border.all(color: Colors.grey.shade300),
                                 borderRadius:

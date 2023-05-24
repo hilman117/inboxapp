@@ -14,6 +14,7 @@ class AssignBubbleLeft extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double size = Get.width + Get.height;
+    Locale countryCode = Localizations.localeOf(context);
     return Container(
       width: double.infinity,
       alignment: Alignment.centerLeft,
@@ -54,7 +55,11 @@ class AssignBubbleLeft extends StatelessWidget {
                 ],
               ),
               Text(
-                DateFormat('EE d, HH:mm').format(DateTime.parse(time)),
+                countryCode == Locale("en")
+                    ? DateFormat('MMM, dd hh:mm a')
+                        .format(DateTime.parse(time).toLocal())
+                    : DateFormat('MMM, dd HH:mm')
+                        .format(DateTime.parse(time).toLocal()),
                 style: TextStyle(
                     fontSize: size * 0.01, color: Colors.grey, height: 1.5),
               ),

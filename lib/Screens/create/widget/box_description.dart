@@ -9,6 +9,8 @@ class BoxDescription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -18,7 +20,7 @@ class BoxDescription extends StatelessWidget {
               style: const TextStyle(color: Colors.black, fontSize: 15)),
           SizedBox(height: Get.height * 0.01),
           Container(
-            height: Get.height * 0.13,
+            height: landscape ? Get.height * 0.3 : Get.height * 0.13,
             width: double.infinity,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),

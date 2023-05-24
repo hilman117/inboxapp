@@ -7,15 +7,13 @@
     "register" : "Register your poperty by contact support@post.com",
     "onDuty" : "On Duty",
     "offDuty" : "Off Duty",
-    "hotelName": "{}",
-    "userName": "{}",
     "myPost": "My Post",
-    "departementUser" : "{}",
+
     "others" : "Others",
     "closed": "Closed",
     "request": "Request",
     "lostAndFound": "Lost And Found",
-    "userPosition" : "{}",
+
     "doYouWantToAcceptNotificationWhenYourRequestAreAccepted" : "Do you want to accept notification when your request are accepted?",
     "doYouWantToAcceptNotificationWhenYourRequestAreClose" : "Do you want to accept notification when your request are close",
     "doYouWantToSendNotificationWhenYouUpdateChat" : "Do you want to send notification when you update a chat?",

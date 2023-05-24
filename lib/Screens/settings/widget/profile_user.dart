@@ -4,7 +4,7 @@ import 'package:post/common_widget/photo_profile.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common_widget/card.dart';
-import 'dialog_change_photo.dart';
+import 'image_picker_profile.dart';
 
 class ProfileUser extends StatelessWidget {
   const ProfileUser({super.key});

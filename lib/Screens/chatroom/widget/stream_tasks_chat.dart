@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../common_widget/card.dart';
 import '../../sign_up/signup.dart';
+
 import 'left_buble/left_bubble.dart';
 
 import 'right_bubble/right_bubble.dart';
@@ -70,6 +71,7 @@ class StreamTasksChat extends StatelessWidget {
                 var commentList = (snapshot.data!.data()
                     as Map<String, dynamic>)['comment'] as List;
                 commentList.sort((a, b) => b['time'].compareTo(a['time']));
+
                 return ScrollConfiguration(
                   behavior: ScrollBehavior(),
                   child: GlowingOverscrollIndicator(
@@ -83,60 +85,51 @@ class StreamTasksChat extends StatelessWidget {
                       itemCount: commentList.length,
                       itemBuilder: (context, index) {
                         // print(imagestotal);
-                        return Column(
-                          children: [
-                            commentList[index]['senderemail'] ==
-                                    auth.currentUser!.email
-                                ? RightBubble(
-                                    assignSender: commentList[index]
-                                        ['assignTask'],
-                                    assignTo: commentList[index]['assignTo'],
-                                    commentList: commentList,
-                                    esc: commentList[index]['esc'],
-                                    image: commentList[index]['imageComment'],
-                                    isAccepted: commentList[index]['accepted'],
-                                    message: commentList[index]['commentBody'],
-                                    senderMsgName: commentList[index]['sender'],
-                                    time: commentList[index]['time'],
-                                    titleChanging: commentList[index]
-                                        ['titleChange'],
-                                    setTime: commentList[index]['setTime'],
-                                    deleteSchedule: commentList[index]
-                                        ['scheduleDelete'],
-                                    editLocation: commentList[index]
-                                        ['newlocation'],
-                                    hold: commentList[index]['hold'],
-                                    resume: commentList[index]['resume'],
-                                    setDate: commentList[index]['setDate'],
-                                    description: commentList[index]
-                                        ['description'],
-                                  )
-                                : LeftBubble(
-                                    assignSender: commentList[index]
-                                        ['assignTask'],
-                                    assignTo: commentList[index]['assignTo'],
-                                    commentList: commentList,
-                                    esc: commentList[index]['esc'],
-                                    image: commentList[index]['imageComment'],
-                                    isAccepted: commentList[index]['accepted'],
-                                    message: commentList[index]['commentBody'],
-                                    senderMsgName: commentList[index]['sender'],
-                                    time: commentList[index]['time'],
-                                    titleChanging: commentList[index]
-                                        ['titleChange'],
-                                    setTime: commentList[index]['setTime'],
-                                    deleteSchedule: commentList[index]
-                                        ['scheduleDelete'],
-                                    editLocation: commentList[index]
-                                        ['newlocation'],
-                                    hold: commentList[index]['hold'],
-                                    resume: commentList[index]['resume'],
-                                    setDate: commentList[index]['setDate'],
-                                    description: commentList[index]
-                                        ['description'],
-                                  ),
-                          ],
-                        );
+
+                        return commentList[index]['senderemail'] ==
+                                auth.currentUser!.email
+                            ? RightBubble(
+                                assignSender: commentList[index]['assignTask'],
+                                assignTo: commentList[index]['assignTo'],
+                                commentList: commentList,
+                                esc: commentList[index]['esc'],
+                                image: commentList[index]['imageComment'],
+                                isAccepted: commentList[index]['accepted'],
+                                message: commentList[index]['commentBody'],
+                                senderMsgName: commentList[index]['sender'],
+                                time: commentList[index]['time'],
+                                titleChanging: commentList[index]
+                                    ['titleChange'],
+                                setTime: commentList[index]['setTime'],
+                                deleteSchedule: commentList[index]
+                                    ['scheduleDelete'],
+                                editLocation: commentList[index]['newlocation'],
+                                hold: commentList[index]['hold'],
+                                resume: commentList[index]['resume'],
+                                setDate: commentList[index]['setDate'],
+                                description: commentList[index]['description'],
+                              )
+                            : LeftBubble(
+                                assignSender: commentList[index]['assignTask'],
+                                assignTo: commentList[index]['assignTo'],
+                                commentList: commentList,
+                                esc: commentList[index]['esc'],
+                                image: commentList[index]['imageComment'],
+                                isAccepted: commentList[index]['accepted'],
+                                message: commentList[index]['commentBody'],
+                                senderMsgName: commentList[index]['sender'],
+                                time: commentList[index]['time'],
+                                titleChanging: commentList[index]
+                                    ['titleChange'],
+                                setTime: commentList[index]['setTime'],
+                                deleteSchedule: commentList[index]
+                                    ['scheduleDelete'],
+                                editLocation: commentList[index]['newlocation'],
+                                hold: commentList[index]['hold'],
+                                resume: commentList[index]['resume'],
+                                setDate: commentList[index]['setDate'],
+                                description: commentList[index]['description'],
+                              );
                       },
                     ),
                   ),

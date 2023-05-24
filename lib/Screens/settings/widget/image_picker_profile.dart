@@ -9,6 +9,7 @@ import '../../../service/theme.dart';
 import '../../../common_widget/card.dart';
 
 Future imagePickerProfile(BuildContext context) {
+  final landscape = MediaQuery.of(context).orientation == Orientation.landscape;
   return showModalBottomSheet(
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
@@ -20,7 +21,7 @@ Future imagePickerProfile(BuildContext context) {
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             ),
-            height: Get.height * 0.2,
+            height: landscape ? Get.height * 0.4 : Get.height * 0.2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -37,7 +38,7 @@ Future imagePickerProfile(BuildContext context) {
                   ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.055,
+                  height: landscape ? Get.height * 0.1 : Get.height * 0.055,
                   width: Get.width * 0.7,
                   child: OutlinedButton.icon(
                     icon: Icon(Icons.camera, color: mainColor),
@@ -58,7 +59,7 @@ Future imagePickerProfile(BuildContext context) {
                   ),
                 ),
                 SizedBox(
-                  height: Get.height * 0.055,
+                  height: landscape ? Get.height * 0.1 : Get.height * 0.055,
                   width: Get.width * 0.7,
                   child: OutlinedButton.icon(
                     icon: Icon(Icons.image, color: mainColor),

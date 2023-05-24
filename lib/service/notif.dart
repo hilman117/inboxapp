@@ -160,7 +160,7 @@ class Notif {
       "priority": "high",
       "to": token
     };
-    print("----------------------------");
+    // print("----------------------------");
     print(data);
     var respon = await http.post(
         Uri.parse("https://fcm.googleapis.com/fcm/send"),
@@ -171,5 +171,4 @@ class Notif {
         body: jsonEncode(data));
     print(respon.body);
   }
-  
 }

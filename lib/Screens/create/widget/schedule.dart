@@ -12,6 +12,8 @@ class SchedulePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = Get.width;
     double height = Get.height;
+    final landscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Consumer<CreateRequestController>(
         builder: (context, value, child) => SizedBox(
               width: width,
@@ -53,7 +55,8 @@ class SchedulePicker extends StatelessWidget {
                             border: Border.all(color: Colors.grey.shade300),
                             borderRadius: BorderRadius.circular(12)),
                         width: Get.width,
-                        height: Get.height * 0.06,
+                        height:
+                            landscape ? Get.height * 0.1 : Get.height * 0.06,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -90,7 +93,8 @@ class SchedulePicker extends StatelessWidget {
                             border: Border.all(color: Colors.grey.shade300),
                             borderRadius: BorderRadius.circular(12)),
                         width: Get.width,
-                        height: Get.height * 0.06,
+                        height:
+                            landscape ? Get.height * 0.1 : Get.height * 0.06,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
